@@ -1,6 +1,2 @@
-*.dll
-*.pdb
-*.exe
-*.obj
 bin
 obj
