@@ -2,5 +2,5 @@
 *.pdb
 *.exe
 *.obj
-*/bin
-*/obj
+bin
+obj
