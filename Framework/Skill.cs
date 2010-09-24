@@ -24,5 +24,6 @@ namespace CharPad.Framework
         Stealth,
         Streetwise,
         Thievery,
+        Wildcard,
     }
 }
