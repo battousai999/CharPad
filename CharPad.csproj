@@ -67,6 +67,7 @@
     <Compile Include="Framework\ArmorType.cs" />
     <Compile Include="Framework\AttributeBonus.cs" />
     <Compile Include="Framework\AttributeType.cs" />
+    <Compile Include="Framework\BasicAdjustment.cs" />
     <Compile Include="Framework\ClassDefinition.cs" />
     <Compile Include="Framework\DefenseBonus.cs" />
     <Compile Include="Framework\DefenseType.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Framework\RaceDefinition.cs" />
     <Compile Include="Framework\Skill.cs" />
     <Compile Include="Framework\SkillBonus.cs" />
+    <Compile Include="Framework\SkillValue.cs" />
     <Compile Include="Framework\WeaponCategory.cs" />
     <Compile Include="Framework\WeaponType.cs" />
     <Compile Include="MainWindow.xaml.cs">
