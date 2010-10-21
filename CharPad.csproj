@@ -63,6 +63,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\CreatureSize.cs" />
+    <Compile Include="Framework\DefenseValue.cs" />
     <Compile Include="Framework\ArmorSubtype.cs" />
     <Compile Include="Framework\ArmorType.cs" />
     <Compile Include="Framework\AttributeBonus.cs" />
@@ -71,6 +73,8 @@
     <Compile Include="Framework\ClassDefinition.cs" />
     <Compile Include="Framework\DefenseBonus.cs" />
     <Compile Include="Framework\DefenseType.cs" />
+    <Compile Include="Framework\HitPointsValue.cs" />
+    <Compile Include="Framework\InitiativeValue.cs" />
     <Compile Include="Framework\Player.cs" />
     <Compile Include="Framework\PlayerClass.cs" />
     <Compile Include="Framework\PlayerRace.cs" />
@@ -78,6 +82,7 @@
     <Compile Include="Framework\Skill.cs" />
     <Compile Include="Framework\SkillBonus.cs" />
     <Compile Include="Framework\SkillValue.cs" />
+    <Compile Include="Framework\SurgeValue.cs" />
     <Compile Include="Framework\WeaponCategory.cs" />
     <Compile Include="Framework\WeaponType.cs" />
     <Compile Include="MainWindow.xaml.cs">

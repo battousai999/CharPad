@@ -8,9 +8,11 @@ namespace CharPad.Framework
 {
     public class Player : INotifyPropertyChanged
     {
-        private string name;
+        private string characterName;
+        private string playerName;
         private PlayerClass _class;
         private PlayerRace race;
+        private bool isMale;
         private int level;
         private int str;
         private int con;
@@ -18,8 +20,8 @@ namespace CharPad.Framework
         private int _int;
         private int wis;
         private int cha;
-        private int hitPoints;
-        private int surgeValue;
+        private HitPointsValue hitPoints;
+        private SurgeValue surgeValue;
         private int surgesPerDay;
         private SkillValue acrobatics;
         private SkillValue arcana;
@@ -38,19 +40,26 @@ namespace CharPad.Framework
         private SkillValue stealth;
         private SkillValue streetwise;
         private SkillValue thievery;
+        private InitiativeValue initiative;
+        private DefenseValue acDefense;
+        private DefenseValue fortDefense;
+        private DefenseValue reflexDefense;
+        private DefenseValue willDefense;
 
-        public string Name { get { return name; } set { name = value; Notify("Name"); } }
+        public string CharacterName { get { return characterName; } set { characterName = value; Notify("CharacterName"); } }
+        public string PlayerName { get { return playerName; } set { playerName = value; Notify("PlayerName"); } }
         public PlayerClass Class { get { return _class; } set { _class = value; Notify("Class"); } }
         public PlayerRace Race { get { return race; } set { race = value; Notify("Race"); } }
+        public bool IsMale { get { return isMale; } set { isMale = value; Notify("IsMale"); } }
         public int Level { get { return level; } set { level = value; Notify("Level"); } }
-        public int Str { get { return str; } set { str = value; Notify("Str"); } }
-        public int Con { get { return con; } set { con = value; Notify("Con"); } }
-        public int Dex { get { return dex; } set { dex = value; Notify("Dex"); } }
-        public int Int { get { return _int; } set { _int = value; Notify("Int"); } }
-        public int Wis { get { return wis; } set { wis = value; Notify("Wis"); } }
-        public int Cha { get { return cha; } set { cha = value; Notify("Cha"); } }
-        public int HitPoints { get { return hitPoints; } set { hitPoints = value; Notify("HitPoints"); } }
-        public int SurgeValue { get { return surgeValue; } set { surgeValue = value; Notify("SurgeValue"); } }
+        public int Str { get { return str; } set { str = value; Notify("Str"); Notify("StrModifier"); } }
+        public int Con { get { return con; } set { con = value; Notify("Con"); Notify("ConModifier"); } }
+        public int Dex { get { return dex; } set { dex = value; Notify("Dex"); Notify("DexModifier"); } }
+        public int Int { get { return _int; } set { _int = value; Notify("Int"); Notify("IntModifier"); } }
+        public int Wis { get { return wis; } set { wis = value; Notify("Wis"); Notify("WisModifier"); } }
+        public int Cha { get { return cha; } set { cha = value; Notify("Cha"); Notify("ChaModifier"); } }
+        public HitPointsValue HitPoints { get { return hitPoints; } }
+        public SurgeValue SurgeValue { get { return surgeValue; } }
         public int SurgesPerDay { get { return surgesPerDay; } set { surgesPerDay = value; Notify("SurgesPerDay"); } }
         public SkillValue Acrobatics { get { return acrobatics; } }
         public SkillValue Arcana { get { return arcana; } }
@@ -69,10 +78,17 @@ namespace CharPad.Framework
         public SkillValue Stealth { get { return stealth; } }
         public SkillValue Streetwise { get { return streetwise; } }
         public SkillValue Thievery { get { return thievery; } }
+        public InitiativeValue Initiative { get { return initiative; } }
+        public DefenseValue AcDefense { get { return acDefense; } }
+        public DefenseValue FortDefense { get { return fortDefense; } }
+        public DefenseValue ReflexDefense { get { return reflexDefense; } }
+        public DefenseValue WillDefense { get { return willDefense; } }
 
         public Player()
         {
-            this.name = "";
+            this.characterName = "";
+            this.hitPoints = new HitPointsValue(this);
+            this.surgeValue = new SurgeValue(this);
             this.acrobatics = new SkillValue(this, Skill.Acrobatics, false);
             this.arcana = new SkillValue(this, Skill.Arcana, false);
             this.athletics = new SkillValue(this, Skill.Athletics, false);
@@ -90,6 +106,18 @@ namespace CharPad.Framework
             this.stealth = new SkillValue(this, Skill.Stealth, false);
             this.streetwise = new SkillValue(this, Skill.Streetwise, false);
             this.thievery = new SkillValue(this, Skill.Thievery, false);
+            this.initiative = new InitiativeValue(this);
+            this.acDefense = new DefenseValue(this);
+            this.fortDefense = new DefenseValue(this);
+            this.reflexDefense = new DefenseValue(this);
+            this.willDefense = new DefenseValue(this);
+
+            hitPoints.PropertyChanged += new PropertyChangedEventHandler(hitPoints_PropertyChanged);
+        }
+
+        void hitPoints_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("BloodiedValue");
         }
 
         public static int GetAttributeModifier(int attributeValue)
@@ -109,8 +137,7 @@ namespace CharPad.Framework
         public int WisModifier { get { return GetAttributeModifier(wis); } }
         public int ChaModifier { get { return GetAttributeModifier(cha); } }
 
-        public int BloodiedValue { get { return (hitPoints / 2); } }
-        public int BasicSurgeValue { get { return (hitPoints / 4); } }
+        public int BloodiedValue { get { return (hitPoints.Value / 2); } }
 
         #region INotifyPropertyChanged Members
 

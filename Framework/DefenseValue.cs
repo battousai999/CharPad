@@ -6,15 +6,9 @@ using System.ComponentModel;
 
 namespace CharPad.Framework
 {
-    public class PlayerRace : INotifyPropertyChanged
+    public class DefenseValue : INotifyPropertyChanged
     {
-        private string name;
-        private CreatureSize size;
-
-        public string Name { get { return name; } set { name = value; Notify("Name"); } }
-        public CreatureSize Size { get { return size; } set { size = value; Notify("Size"); } }
-
-        #region INotifyPropertyChanged Members
+        private Player player;
 
         private void Notify(string propertyName)
         {
@@ -23,7 +17,5 @@ namespace CharPad.Framework
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
     }
 }

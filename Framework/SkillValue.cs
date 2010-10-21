@@ -19,6 +19,28 @@ namespace CharPad.Framework
             this.skill = skill;
             this.isTrained = isTrained;
             this.miscAdjustments = new List<BasicAdjustment>();
+
+            player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
+        }
+
+        private void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // TODO: Add check for change in armor
+            if (IsAttributeProperty(e.PropertyName) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Level") == 0))
+            {
+                Notify("Value");
+            }
+        }
+
+        private bool IsAttributeProperty(string propertyName)
+        {
+            return ((StringComparer.CurrentCultureIgnoreCase.Compare(propertyName, "StrModifier") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(propertyName, "ConModifier") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(propertyName, "DexModifier") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(propertyName, "IntModifier") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(propertyName, "WisModifier") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(propertyName, "ChaModifier") == 0));
         }
 
         public Skill Skill { get { return skill; } }
