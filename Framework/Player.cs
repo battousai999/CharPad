@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace CharPad.Framework
 {
@@ -45,13 +46,15 @@ namespace CharPad.Framework
         private DefenseValue fortDefense;
         private DefenseValue reflexDefense;
         private DefenseValue willDefense;
+        private SpeedValue speed;
+        private ObservableCollectionEx<RaceFeatureValue> raceFeatures;
 
         public string CharacterName { get { return characterName; } set { characterName = value; Notify("CharacterName"); } }
         public string PlayerName { get { return playerName; } set { playerName = value; Notify("PlayerName"); } }
         public PlayerClass Class { get { return _class; } set { _class = value; Notify("Class"); } }
         public PlayerRace Race { get { return race; } set { race = value; Notify("Race"); } }
         public bool IsMale { get { return isMale; } set { isMale = value; Notify("IsMale"); } }
-        public int Level { get { return level; } set { level = value; Notify("Level"); } }
+        public int Level { get { return level; } set { level = value; Notify("Level"); Notify("LevelBonus"); } }
         public int Str { get { return str; } set { str = value; Notify("Str"); Notify("StrModifier"); } }
         public int Con { get { return con; } set { con = value; Notify("Con"); Notify("ConModifier"); } }
         public int Dex { get { return dex; } set { dex = value; Notify("Dex"); Notify("DexModifier"); } }
@@ -83,6 +86,8 @@ namespace CharPad.Framework
         public DefenseValue FortDefense { get { return fortDefense; } }
         public DefenseValue ReflexDefense { get { return reflexDefense; } }
         public DefenseValue WillDefense { get { return willDefense; } }
+        public SpeedValue Speed { get { return speed; } }
+        public ObservableCollectionEx<RaceFeatureValue> RaceFeatures { get { return raceFeatures; } }
 
         public Player()
         {
@@ -107,12 +112,32 @@ namespace CharPad.Framework
             this.streetwise = new SkillValue(this, Skill.Streetwise, false);
             this.thievery = new SkillValue(this, Skill.Thievery, false);
             this.initiative = new InitiativeValue(this);
-            this.acDefense = new DefenseValue(this);
-            this.fortDefense = new DefenseValue(this);
-            this.reflexDefense = new DefenseValue(this);
-            this.willDefense = new DefenseValue(this);
+            this.acDefense = new DefenseValue(this, DefenseType.AC);
+            this.fortDefense = new DefenseValue(this, DefenseType.Fortitude);
+            this.reflexDefense = new DefenseValue(this, DefenseType.Reflex);
+            this.willDefense = new DefenseValue(this, DefenseType.Will);
+            this.speed = new SpeedValue(this);
+            this.raceFeatures = new ObservableCollectionEx<RaceFeatureValue>();
 
             hitPoints.PropertyChanged += new PropertyChangedEventHandler(hitPoints_PropertyChanged);
+            insight.PropertyChanged += new PropertyChangedEventHandler(insight_PropertyChanged);
+            perception.PropertyChanged += new PropertyChangedEventHandler(perception_PropertyChanged);
+            raceFeatures.ContainedElementChanged += new PropertyChangedEventHandler(raceFeatures_ContainedElementChanged);
+        }
+
+        void raceFeatures_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("RaceFeatures");
+        }
+
+        void perception_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("PassivePerception");
+        }
+
+        void insight_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("PassiveInsight");
         }
 
         void hitPoints_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -138,6 +163,9 @@ namespace CharPad.Framework
         public int ChaModifier { get { return GetAttributeModifier(cha); } }
 
         public int BloodiedValue { get { return (hitPoints.Value / 2); } }
+
+        public int PassiveInsight { get { return insight.Value + 10; } }
+        public int PassivePerception { get { return perception.Value + 10; } }
 
         #region INotifyPropertyChanged Members
 

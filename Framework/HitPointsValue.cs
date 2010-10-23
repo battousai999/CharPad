@@ -9,23 +9,25 @@ namespace CharPad.Framework
     public class HitPointsValue : INotifyPropertyChanged
     {
         private Player player;
-        private List<BasicAdjustment> miscAdjustments;
+        private BasicAdjustmentList miscAdjustments;
 
         public HitPointsValue(Player player)
         {
             this.player = player;
+            this.miscAdjustments = new BasicAdjustmentList();
 
             player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
+            miscAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(miscAdjustments_ContainedElementChanged);
         }
 
         public Player Player { get { return player; } }
-        public List<BasicAdjustment> MiscAdjustments { get { return miscAdjustments; } }
+        public BasicAdjustmentList MiscAdjustments { get { return miscAdjustments; } }
 
         public int Value
         {
             get
             {
-                return player.Class.BaseHealth + player.Con + miscAdjustments.Sum(x => x.Modifier);
+                return player.Class.BaseHealth + player.Con + miscAdjustments.TotalAdjustment;
             }
         }
 
@@ -36,6 +38,11 @@ namespace CharPad.Framework
             {
                 Notify("Value");
             }
+        }
+
+        private void miscAdjustments_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("Value");
         }
 
         #region INotifyPropertyChanged Members

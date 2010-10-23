@@ -11,23 +11,24 @@ namespace CharPad.Framework
         private Skill skill;
         private Player player;
         private bool isTrained;
-        private List<BasicAdjustment> miscAdjustments;
+        private BasicAdjustmentList miscAdjustments;
 
         public SkillValue(Player player, Skill skill, bool isTrained)
         {
             this.player = player;
             this.skill = skill;
             this.isTrained = isTrained;
-            this.miscAdjustments = new List<BasicAdjustment>();
+            this.miscAdjustments = new BasicAdjustmentList();
 
             player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
+            miscAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(miscAdjustments_ContainedElementChanged);
         }
 
         private void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // TODO: Add check for change in armor
             if (IsAttributeProperty(e.PropertyName) ||
-                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Level") == 0))
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "LevelBonus") == 0))
             {
                 Notify("Value");
             }
@@ -46,11 +47,16 @@ namespace CharPad.Framework
         public Skill Skill { get { return skill; } }
         public Player Player { get { return player; } }
         public bool IsTrained { get { return isTrained; } set { isTrained = value; Notify("Value"); Notify("IsTrained"); } }
-        public List<BasicAdjustment> MiscAdjustments { get { return miscAdjustments; } }
+        public BasicAdjustmentList MiscAdjustments { get { return miscAdjustments; } }
 
         public void AddMiscAdjustment(BasicAdjustment adjustment)
         {
             miscAdjustments.Add(adjustment);
+            Notify("Value");
+        }
+
+        private void miscAdjustments_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
+        {
             Notify("Value");
         }
 
@@ -59,7 +65,7 @@ namespace CharPad.Framework
             get
             {
                 return player.LevelBonus + GetAttributeBonus() + (isTrained ? 5 : 0) + GetArmorAdjustment() +
-                    miscAdjustments.Sum(x => x.Modifier);
+                    miscAdjustments.TotalAdjustment;
             }
         }
 

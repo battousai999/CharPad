@@ -9,13 +9,15 @@ namespace CharPad.Framework
     public class SurgeValue : INotifyPropertyChanged
     {
         private Player player;
-        private List<BasicAdjustment> miscAdjustments;
+        private BasicAdjustmentList miscAdjustments;
 
         public SurgeValue(Player player)
         {
             this.player = player;
+            this.miscAdjustments = new BasicAdjustmentList();
 
             player.HitPoints.PropertyChanged += new PropertyChangedEventHandler(HitPoints_PropertyChanged);
+            miscAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(miscAdjustments_ContainedElementChanged);
         }
 
         private void HitPoints_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -25,14 +27,19 @@ namespace CharPad.Framework
         }
 
         public Player Player { get { return player; } }
-        public List<BasicAdjustment> MiscAdjustments { get { return miscAdjustments; } }
+        public BasicAdjustmentList MiscAdjustments { get { return miscAdjustments; } }
 
         public int Value
         {
             get
             {
-                return (player.HitPoints.Value / 4) + miscAdjustments.Sum(x => x.Modifier);
+                return (player.HitPoints.Value / 4) + miscAdjustments.TotalAdjustment;
             }
+        }
+
+        private void miscAdjustments_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("Value");
         }
 
         #region INotifyPropertyChanged Members

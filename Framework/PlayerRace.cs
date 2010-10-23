@@ -10,9 +10,11 @@ namespace CharPad.Framework
     {
         private string name;
         private CreatureSize size;
+        private int baseSpeed;
 
         public string Name { get { return name; } set { name = value; Notify("Name"); } }
         public CreatureSize Size { get { return size; } set { size = value; Notify("Size"); } }
+        public int BaseSpeed { get { return baseSpeed; } set { baseSpeed = value; Notify("BaseSpeed"); } }
 
         #region INotifyPropertyChanged Members
 

@@ -6,27 +6,19 @@ using System.ComponentModel;
 
 namespace CharPad.Framework
 {
-    public class InitiativeValue : INotifyPropertyChanged
+    public class SpeedValue : INotifyPropertyChanged
     {
         private Player player;
         private BasicAdjustmentList miscAdjustments;
 
-        public InitiativeValue(Player player)
+        public SpeedValue(Player player)
         {
             this.player = player;
             this.miscAdjustments = new BasicAdjustmentList();
 
             player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
+            player.Race.PropertyChanged += new PropertyChangedEventHandler(Race_PropertyChanged);
             miscAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(miscAdjustments_ContainedElementChanged);
-        }
-
-        private void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if ((StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "LevelBonus") == 0) ||
-                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "DexModifier") == 0))
-            {
-                Notify("Value");
-            }
         }
 
         public Player Player { get { return player; } }
@@ -36,8 +28,25 @@ namespace CharPad.Framework
         {
             get
             {
-                return player.LevelBonus + player.DexModifier + miscAdjustments.TotalAdjustment;
+                return player.Race.BaseSpeed + GetArmorAdjustment() + miscAdjustments.TotalAdjustment;
             }
+        }
+
+        private int GetArmorAdjustment()
+        {
+            // TODO: Determine armor adjustment...
+            return 0;
+        }
+
+        private void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // TODO: Check for armor change...
+        }
+
+        private void Race_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "BaseSpeed") == 0)
+                Notify("Value");
         }
 
         private void miscAdjustments_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
