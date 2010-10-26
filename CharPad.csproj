@@ -63,6 +63,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Armor.cs" />
     <Compile Include="Framework\BasicAdjustmentList.cs" />
     <Compile Include="Framework\CreatureSize.cs" />
     <Compile Include="Framework\DefenseValue.cs" />
@@ -75,13 +76,17 @@
     <Compile Include="Framework\DefenseBonus.cs" />
     <Compile Include="Framework\DefenseType.cs" />
     <Compile Include="Framework\HitPointsValue.cs" />
+    <Compile Include="Framework\IInventoryItem.cs" />
     <Compile Include="Framework\InitiativeValue.cs" />
+    <Compile Include="Framework\InventoryItem.cs" />
     <Compile Include="Framework\ObservableCollectionEx.cs" />
     <Compile Include="Framework\Player.cs" />
     <Compile Include="Framework\PlayerClass.cs" />
     <Compile Include="Framework\PlayerRace.cs" />
     <Compile Include="Framework\RaceDefinition.cs" />
-    <Compile Include="Framework\RaceFeatureValue.cs" />
+    <Compile Include="Framework\FeatureValue.cs" />
+    <Compile Include="Framework\ResistanceValue.cs" />
+    <Compile Include="Framework\Shield.cs" />
     <Compile Include="Framework\Skill.cs" />
     <Compile Include="Framework\SkillBonus.cs" />
     <Compile Include="Framework\SkillValue.cs" />

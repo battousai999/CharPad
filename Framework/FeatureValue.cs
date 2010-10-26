@@ -6,18 +6,18 @@ using System.ComponentModel;
 
 namespace CharPad.Framework
 {
-    public class RaceFeatureValue : INotifyPropertyChanged
+    public class FeatureValue : INotifyPropertyChanged
     {
         private string name;
         private string shortDescription;
         private string longDescription;
 
-        public RaceFeatureValue(string name, string description)
+        public FeatureValue(string name, string description)
             : this(name, description, null)
         {
         }
 
-        public RaceFeatureValue(string name, string shortDescription, string longDescription)
+        public FeatureValue(string name, string shortDescription, string longDescription)
         {
             this.name = name;
             this.shortDescription = shortDescription;

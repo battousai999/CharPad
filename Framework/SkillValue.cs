@@ -26,9 +26,10 @@ namespace CharPad.Framework
 
         private void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // TODO: Add check for change in armor
             if (IsAttributeProperty(e.PropertyName) ||
-                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "LevelBonus") == 0))
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "LevelBonus") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Armor") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Shield") == 0))
             {
                 Notify("Value");
             }
@@ -110,7 +111,7 @@ namespace CharPad.Framework
                 case Skill.Endurance:
                 case Skill.Stealth:
                 case Skill.Thievery:
-                    return 0; // TODO: Determine armor penalty...
+                    return (player.Armor == null ? 0 : player.Armor.SkillModifier) + (player.Shield == null ? 0 : player.Shield.SkillModifier);
                 default:
                     return 0;
             }

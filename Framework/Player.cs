@@ -14,6 +14,7 @@ namespace CharPad.Framework
         private PlayerClass _class;
         private PlayerRace race;
         private bool isMale;
+        private string deity;
         private int level;
         private int str;
         private int con;
@@ -47,13 +48,21 @@ namespace CharPad.Framework
         private DefenseValue reflexDefense;
         private DefenseValue willDefense;
         private SpeedValue speed;
-        private ObservableCollectionEx<RaceFeatureValue> raceFeatures;
+        private ObservableCollectionEx<FeatureValue> raceFeatures;
+        private ObservableCollectionEx<FeatureValue> classFeatures;
+        private ObservableCollectionEx<FeatureValue> paragonFeatures;
+        private ObservableCollectionEx<FeatureValue> destinyFeatures;
+        private ObservableCollectionEx<FeatureValue> feats;
+        private ObservableCollectionEx<ResistanceValue> resistances;
+        private Armor armor;
+        private Shield shield;
 
         public string CharacterName { get { return characterName; } set { characterName = value; Notify("CharacterName"); } }
         public string PlayerName { get { return playerName; } set { playerName = value; Notify("PlayerName"); } }
         public PlayerClass Class { get { return _class; } set { _class = value; Notify("Class"); } }
         public PlayerRace Race { get { return race; } set { race = value; Notify("Race"); } }
         public bool IsMale { get { return isMale; } set { isMale = value; Notify("IsMale"); } }
+        public string Deity { get { return deity; } set { deity = value; Notify("Deity"); } }
         public int Level { get { return level; } set { level = value; Notify("Level"); Notify("LevelBonus"); } }
         public int Str { get { return str; } set { str = value; Notify("Str"); Notify("StrModifier"); } }
         public int Con { get { return con; } set { con = value; Notify("Con"); Notify("ConModifier"); } }
@@ -87,11 +96,90 @@ namespace CharPad.Framework
         public DefenseValue ReflexDefense { get { return reflexDefense; } }
         public DefenseValue WillDefense { get { return willDefense; } }
         public SpeedValue Speed { get { return speed; } }
-        public ObservableCollectionEx<RaceFeatureValue> RaceFeatures { get { return raceFeatures; } }
+        public ObservableCollectionEx<FeatureValue> RaceFeatures { get { return raceFeatures; } }
+        public ObservableCollectionEx<FeatureValue> ClassFeatures { get { return classFeatures; } }
+        public ObservableCollectionEx<FeatureValue> ParagonFeatures { get { return paragonFeatures; } }
+        public ObservableCollectionEx<FeatureValue> DestinyFeatures { get { return destinyFeatures; } }
+        public ObservableCollectionEx<FeatureValue> Feats { get { return feats; } }
+        public ObservableCollectionEx<ResistanceValue> Resistances { get { return resistances; } }
+
+        public Armor Armor 
+        { 
+            get { return armor; }             
+            set 
+            { 
+                armor.PropertyChanged -= new PropertyChangedEventHandler(armor_PropertyChanged);
+
+                armor = value; 
+                
+                Notify("Armor");
+                Notify("AcDefense");
+                Notify("Speed");
+                Notify("Acrobatics");
+                Notify("Athletics");
+                Notify("Endurance");
+                Notify("Stealth");
+                Notify("Thievery");
+
+                armor.PropertyChanged += new PropertyChangedEventHandler(armor_PropertyChanged);
+            } 
+        }
+
+        private void armor_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("Armor");
+            Notify("AcDefense");
+            Notify("Speed");
+            Notify("Acrobatics");
+            Notify("Athletics");
+            Notify("Endurance");
+            Notify("Stealth");
+            Notify("Thievery");
+        }
+
+        public Shield Shield
+        {
+            get { return shield; }
+            set
+            {
+                // TODO: Check for off-hand weapon
+
+                shield.PropertyChanged -= new PropertyChangedEventHandler(shield_PropertyChanged);
+
+                shield = value;
+
+                Notify("Shield");
+                Notify("AcDefense");
+                Notify("ReflexDefense");
+                Notify("Speed");
+                Notify("Acrobatics");
+                Notify("Athletics");
+                Notify("Endurance");
+                Notify("Stealth");
+                Notify("Thievery");
+
+                shield.PropertyChanged += new PropertyChangedEventHandler(shield_PropertyChanged);
+            }
+        }
+
+        private void shield_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("Shield");
+            Notify("AcDefense");
+            Notify("ReflexDefense");
+            Notify("Speed");
+            Notify("Acrobatics");
+            Notify("Athletics");
+            Notify("Endurance");
+            Notify("Stealth");
+            Notify("Thievery");
+        }
 
         public Player()
         {
             this.characterName = "";
+            this.playerName = "";
+            this.deity = "";
             this.hitPoints = new HitPointsValue(this);
             this.surgeValue = new SurgeValue(this);
             this.acrobatics = new SkillValue(this, Skill.Acrobatics, false);
@@ -117,12 +205,47 @@ namespace CharPad.Framework
             this.reflexDefense = new DefenseValue(this, DefenseType.Reflex);
             this.willDefense = new DefenseValue(this, DefenseType.Will);
             this.speed = new SpeedValue(this);
-            this.raceFeatures = new ObservableCollectionEx<RaceFeatureValue>();
+            this.raceFeatures = new ObservableCollectionEx<FeatureValue>();
+            this.classFeatures = new ObservableCollectionEx<FeatureValue>();
+            this.paragonFeatures = new ObservableCollectionEx<FeatureValue>();
+            this.destinyFeatures = new ObservableCollectionEx<FeatureValue>();
+            this.feats = new ObservableCollectionEx<FeatureValue>();
+            this.resistances = new ObservableCollectionEx<ResistanceValue>();
 
             hitPoints.PropertyChanged += new PropertyChangedEventHandler(hitPoints_PropertyChanged);
             insight.PropertyChanged += new PropertyChangedEventHandler(insight_PropertyChanged);
             perception.PropertyChanged += new PropertyChangedEventHandler(perception_PropertyChanged);
             raceFeatures.ContainedElementChanged += new PropertyChangedEventHandler(raceFeatures_ContainedElementChanged);
+            classFeatures.ContainedElementChanged += new PropertyChangedEventHandler(classFeatures_ContainedElementChanged);
+            paragonFeatures.ContainedElementChanged += new PropertyChangedEventHandler(paragonFeatures_ContainedElementChanged);
+            destinyFeatures.ContainedElementChanged += new PropertyChangedEventHandler(destinyFeatures_ContainedElementChanged);
+            feats.ContainedElementChanged += new PropertyChangedEventHandler(feats_ContainedElementChanged);
+            resistances.ContainedElementChanged += new PropertyChangedEventHandler(resistances_ContainedElementChanged);
+        }
+
+        void resistances_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("Resistances");
+        }
+
+        void feats_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("Feats");
+        }
+
+        void destinyFeatures_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("DestinyFeatures");
+        }
+
+        void paragonFeatures_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("ParagonFeatures");
+        }
+
+        void classFeatures_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("ClassFeatures");
         }
 
         void raceFeatures_ContainedElementChanged(object sender, PropertyChangedEventArgs e)

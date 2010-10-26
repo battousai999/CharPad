@@ -34,13 +34,13 @@ namespace CharPad.Framework
 
         private int GetArmorAdjustment()
         {
-            // TODO: Determine armor adjustment...
-            return 0;
+            return (player.Armor == null ? 0 : player.Armor.SpeedModifier);
         }
 
         private void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // TODO: Check for armor change...
+            if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Armor") == 0)
+                Notify("Value");
         }
 
         private void Race_PropertyChanged(object sender, PropertyChangedEventArgs e)

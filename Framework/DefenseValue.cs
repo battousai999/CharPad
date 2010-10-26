@@ -52,16 +52,22 @@ namespace CharPad.Framework
 
         private int GetArmorBonus()
         {
-            // TODO: Determine armor bonus...
-            return 0;
+            if (defenseType == DefenseType.AC)
+                return (player.Armor == null ? 0 : player.Armor.TotalBonus) + (player.Shield == null ? 0 : player.Shield.TotalBonus);
+            else if (defenseType == DefenseType.Reflex)
+                return (player.Shield == null ? 0 : player.Shield.TotalBonus);
+            else
+                return 0;
         }
 
         private void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // TODO: Check for armor change...
-
-            if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "LevelBonus") == 0)
+            if ((StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "LevelBonus") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Armor") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Shield") == 0))
+            {
                 Notify("Value");
+            }
         }
 
         private void Class_PropertyChanged(object sender, PropertyChangedEventArgs e)
