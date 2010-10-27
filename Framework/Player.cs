@@ -56,6 +56,9 @@ namespace CharPad.Framework
         private ObservableCollectionEx<ResistanceValue> resistances;
         private Armor armor;
         private Shield shield;
+        private Weapon weapon;
+        private Weapon weaponOffhand;
+        private ObservableCollectionEx<IInventoryItem> inventory;
 
         public string CharacterName { get { return characterName; } set { characterName = value; Notify("CharacterName"); } }
         public string PlayerName { get { return playerName; } set { playerName = value; Notify("PlayerName"); } }
@@ -102,13 +105,15 @@ namespace CharPad.Framework
         public ObservableCollectionEx<FeatureValue> DestinyFeatures { get { return destinyFeatures; } }
         public ObservableCollectionEx<FeatureValue> Feats { get { return feats; } }
         public ObservableCollectionEx<ResistanceValue> Resistances { get { return resistances; } }
+        public ObservableCollectionEx<IInventoryItem> Inventory { get { return inventory; } }
 
         public Armor Armor 
         { 
             get { return armor; }             
             set 
             { 
-                armor.PropertyChanged -= new PropertyChangedEventHandler(armor_PropertyChanged);
+                if (armor != null)
+                    armor.PropertyChanged -= new PropertyChangedEventHandler(armor_PropertyChanged);
 
                 armor = value; 
                 
@@ -121,7 +126,8 @@ namespace CharPad.Framework
                 Notify("Stealth");
                 Notify("Thievery");
 
-                armor.PropertyChanged += new PropertyChangedEventHandler(armor_PropertyChanged);
+                if (armor != null)
+                    armor.PropertyChanged += new PropertyChangedEventHandler(armor_PropertyChanged);
             } 
         }
 
@@ -142,9 +148,14 @@ namespace CharPad.Framework
             get { return shield; }
             set
             {
-                // TODO: Check for off-hand weapon
+                if ((value != null) && (WeaponOffhand != null))
+                {
+                    Inventory.Add(WeaponOffhand);
+                    WeaponOffhand = null;
+                }
 
-                shield.PropertyChanged -= new PropertyChangedEventHandler(shield_PropertyChanged);
+                if (shield != null)
+                    shield.PropertyChanged -= new PropertyChangedEventHandler(shield_PropertyChanged);
 
                 shield = value;
 
@@ -158,7 +169,8 @@ namespace CharPad.Framework
                 Notify("Stealth");
                 Notify("Thievery");
 
-                shield.PropertyChanged += new PropertyChangedEventHandler(shield_PropertyChanged);
+                if (shield != null)
+                    shield.PropertyChanged += new PropertyChangedEventHandler(shield_PropertyChanged);
             }
         }
 
@@ -173,6 +185,56 @@ namespace CharPad.Framework
             Notify("Endurance");
             Notify("Stealth");
             Notify("Thievery");
+        }
+
+        public Weapon Weapon
+        {
+            get { return weapon; }
+            set
+            {
+                if (weapon != null)
+                    weapon.PropertyChanged -= new PropertyChangedEventHandler(weapon_PropertyChanged);
+
+                weapon = value;
+
+                Notify("Weapon");
+
+                if (weapon != null)
+                    weapon.PropertyChanged += new PropertyChangedEventHandler(weapon_PropertyChanged);
+            }
+        }
+
+        private void weapon_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("Weapon");
+        }
+
+        public Weapon WeaponOffhand
+        {
+            get { return weaponOffhand; }
+            set
+            {
+                if ((value != null) && (Shield != null))
+                {
+                    Inventory.Add(Shield);
+                    Shield = null;
+                }
+
+                if (weaponOffhand != null)
+                    weaponOffhand.PropertyChanged -= new PropertyChangedEventHandler(weaponOffhand_PropertyChanged);
+
+                weaponOffhand = value;
+
+                Notify("WeaponOffhand");
+
+                if (weaponOffhand != null)
+                    weaponOffhand.PropertyChanged += new PropertyChangedEventHandler(weaponOffhand_PropertyChanged);
+            }
+        }
+
+        private void weaponOffhand_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("WeaponOffhand");
         }
 
         public Player()
@@ -211,6 +273,7 @@ namespace CharPad.Framework
             this.destinyFeatures = new ObservableCollectionEx<FeatureValue>();
             this.feats = new ObservableCollectionEx<FeatureValue>();
             this.resistances = new ObservableCollectionEx<ResistanceValue>();
+            this.inventory = new ObservableCollectionEx<IInventoryItem>();
 
             hitPoints.PropertyChanged += new PropertyChangedEventHandler(hitPoints_PropertyChanged);
             insight.PropertyChanged += new PropertyChangedEventHandler(insight_PropertyChanged);
@@ -221,6 +284,12 @@ namespace CharPad.Framework
             destinyFeatures.ContainedElementChanged += new PropertyChangedEventHandler(destinyFeatures_ContainedElementChanged);
             feats.ContainedElementChanged += new PropertyChangedEventHandler(feats_ContainedElementChanged);
             resistances.ContainedElementChanged += new PropertyChangedEventHandler(resistances_ContainedElementChanged);
+            inventory.ContainedElementChanged += new PropertyChangedEventHandler(inventory_ContainedElementChanged);
+        }
+
+        void inventory_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("Inventory");
         }
 
         void resistances_ContainedElementChanged(object sender, PropertyChangedEventArgs e)

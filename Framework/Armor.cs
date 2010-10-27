@@ -46,7 +46,7 @@ namespace CharPad.Framework
         public string Name { get { return name; } set { name = value; Notify("Name"); } }
         public ArmorType ArmorType { get { return armorType; } set { armorType = value; NotifyAll(); } }
         public int ArmorBonus { get { return armorBonus; } set { armorBonus = value; Notify("ArmorBonus"); Notify("TotalBonus"); } }
-        public int EnhancementBonus { get { return enhancementBonus; } set { enhancementBonus = value; Notify("EnhancementBonus"); } }
+        public int EnhancementBonus { get { return enhancementBonus; } set { enhancementBonus = value; Notify("EnhancementBonus"); Notify("TotalBonus"); } }
 
         public int SkillModifier { get { return (skillModifier == null ? GetArmorTypeSkillModifier() : skillModifier.Value); } }
         public int SpeedModifier { get { return (speedModifier == null ? GetArmorTypeSpeedModifier() : speedModifier.Value); } }

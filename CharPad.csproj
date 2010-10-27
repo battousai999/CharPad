@@ -75,6 +75,7 @@
     <Compile Include="Framework\ClassDefinition.cs" />
     <Compile Include="Framework\DefenseBonus.cs" />
     <Compile Include="Framework\DefenseType.cs" />
+    <Compile Include="Framework\Dice.cs" />
     <Compile Include="Framework\HitPointsValue.cs" />
     <Compile Include="Framework\IInventoryItem.cs" />
     <Compile Include="Framework\InitiativeValue.cs" />
@@ -92,7 +93,10 @@
     <Compile Include="Framework\SkillValue.cs" />
     <Compile Include="Framework\SpeedValue.cs" />
     <Compile Include="Framework\SurgeValue.cs" />
+    <Compile Include="Framework\Weapon.cs" />
     <Compile Include="Framework\WeaponCategory.cs" />
+    <Compile Include="Framework\WeaponGroup.cs" />
+    <Compile Include="Framework\WeaponProperties.cs" />
     <Compile Include="Framework\WeaponType.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
