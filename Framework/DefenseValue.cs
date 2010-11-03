@@ -9,6 +9,7 @@ namespace CharPad.Framework
     public class DefenseValue : INotifyPropertyChanged
     {
         private Player player;
+        private PlayerClass playerClass;
         private DefenseType defenseType;
         private BasicAdjustmentList miscAdjustments;
 
@@ -19,7 +20,12 @@ namespace CharPad.Framework
             this.miscAdjustments = new BasicAdjustmentList();
 
             player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
-            player.Class.PropertyChanged += new PropertyChangedEventHandler(Class_PropertyChanged);
+
+            this.playerClass = player.Class;
+
+            if (player.Class != null)
+                player.Class.PropertyChanged += new PropertyChangedEventHandler(Class_PropertyChanged);
+
             miscAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(miscAdjustments_ContainedElementChanged);
         }
 
@@ -62,6 +68,17 @@ namespace CharPad.Framework
 
         private void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Class") == 0)
+            {
+                if (playerClass != null)
+                    playerClass.PropertyChanged -= new PropertyChangedEventHandler(player_PropertyChanged);
+
+                if (player.Class != null)
+                    player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
+
+                playerClass = player.Class;
+            }
+
             if ((StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "LevelBonus") == 0) ||
                 (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Armor") == 0) ||
                 (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Shield") == 0))

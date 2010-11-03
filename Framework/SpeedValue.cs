@@ -9,6 +9,7 @@ namespace CharPad.Framework
     public class SpeedValue : INotifyPropertyChanged
     {
         private Player player;
+        private PlayerRace playerRace;
         private BasicAdjustmentList miscAdjustments;
 
         public SpeedValue(Player player)
@@ -17,7 +18,12 @@ namespace CharPad.Framework
             this.miscAdjustments = new BasicAdjustmentList();
 
             player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
-            player.Race.PropertyChanged += new PropertyChangedEventHandler(Race_PropertyChanged);
+
+            this.playerRace = player.Race;
+
+            if (player.Race != null)
+                player.Race.PropertyChanged += new PropertyChangedEventHandler(Race_PropertyChanged);
+
             miscAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(miscAdjustments_ContainedElementChanged);
         }
 
@@ -39,6 +45,17 @@ namespace CharPad.Framework
 
         private void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Race") == 0)
+            {
+                if (playerRace != null)
+                    playerRace.PropertyChanged -= new PropertyChangedEventHandler(player_PropertyChanged);
+
+                if (player.Race != null)
+                    player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
+
+                playerRace = player.Race;
+            }
+
             if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Armor") == 0)
                 Notify("Value");
         }

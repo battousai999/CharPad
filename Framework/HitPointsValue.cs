@@ -9,6 +9,7 @@ namespace CharPad.Framework
     public class HitPointsValue : INotifyPropertyChanged
     {
         private Player player;
+        private PlayerClass playerClass;
         private BasicAdjustmentList miscAdjustments;
 
         public HitPointsValue(Player player)
@@ -16,7 +17,11 @@ namespace CharPad.Framework
             this.player = player;
             this.miscAdjustments = new BasicAdjustmentList();
 
-            player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
+            this.playerClass = player.Class;
+
+            if (player.Class != null)
+                player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
+
             miscAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(miscAdjustments_ContainedElementChanged);
         }
 
@@ -33,6 +38,17 @@ namespace CharPad.Framework
 
         private void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Class") == 0)
+            {
+                if (playerClass != null)
+                    playerClass.PropertyChanged -= new PropertyChangedEventHandler(player_PropertyChanged);
+
+                if (player.Class != null)
+                    player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
+
+                playerClass = player.Class;
+            }
+
             if ((StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Class") == 0) ||
                 (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "ConModifier") == 0))
             {

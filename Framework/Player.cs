@@ -242,6 +242,14 @@ namespace CharPad.Framework
             this.characterName = "";
             this.playerName = "";
             this.deity = "";
+            this.isMale = true;
+            this.level = 1;
+            this.str = 10;
+            this.con = 10;
+            this.dex = 10;
+            this._int = 10;
+            this.wis = 10;
+            this.cha = 10;
             this.hitPoints = new HitPointsValue(this);
             this.surgeValue = new SurgeValue(this);
             this.acrobatics = new SkillValue(this, Skill.Acrobatics, false);

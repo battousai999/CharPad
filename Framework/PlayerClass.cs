@@ -24,6 +24,11 @@ namespace CharPad.Framework
         public int ReflexBonus { get { return reflexBonus; } set { reflexBonus = value; Notify("ReflexBonus"); } }
         public int WillBonus { get { return willBonus; } set { willBonus = value; Notify("WillBonus"); } }
 
+        public PlayerClass()
+            : this("", 0, 0, 0)
+        {
+        }
+
         public PlayerClass(string name, int baseHealth, int healthPerLevel, int baseHealingSurges)
         {
             this.name = name;

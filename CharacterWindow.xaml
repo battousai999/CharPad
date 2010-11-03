@@ -1,0 +1,93 @@
+﻿<Window x:Class="CharPad.CharacterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:conv="clr-namespace:CharPad.ValueConverters"
+        Name="ThisWindow"
+        Title="CharacterWindow" Height="600" Width="500" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <conv:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+        <conv:BoolToGenderConverter x:Key="boolToGenderConverter" />
+        <Style x:Key="LinkButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock TextDecorations="Underline">
+                    <ContentPresenter />
+                        </TextBlock>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="Blue" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <TabControl Grid.Row="0">
+            <TabItem Header="Main">
+                <Grid Name="mainGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Character Name:" Margin="0 0 10 0" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding CharacterName, UpdateSourceTrigger=PropertyChanged}" />
+                    
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Player Name:" Margin="0 5 10 0" />
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding PlayerName}" Margin="0 5 0 0" />
+                    
+                    <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <Button Grid.Row="0" Grid.Column="0" Content="Race:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Race.Name}" Margin="5 0 10 0" />
+
+                        <Button Grid.Row="0" Grid.Column="2" Content="Class:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" />
+                        <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Class.Name}" Margin="5 0 10 0" />
+
+                        <Button Grid.Row="0" Grid.Column="4" Content="Level:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" Margin="5 0 0 0" />
+                        <TextBlock Grid.Row="0" Grid.Column="5" Text="{Binding Level}" Margin="5 0 0 0" />
+
+                        <Button Grid.Row="1" Grid.Column="0" Content="Gender:" Margin="0 10 0 0" Style="{StaticResource LinkButton}" ToolTip="Press to toggle gender." Click="btnGender_Click" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding IsMale, Converter={StaticResource boolToGenderConverter}}" Margin="5 10 10 0" />
+                        
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Deity:" Margin="0 10 0 0" />
+                        <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding Deity}" Margin="5 10 0 0" />
+                    </Grid>
+                </Grid>                 
+            </TabItem>
+        </TabControl>
+        
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 10 10">
+            <Button Content="Close" Click="btnClose_Click" Visibility="{Binding ElementName=ThisWindow, Path=IsNew, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=false}" MinWidth="75" MinHeight="23" />
+            <Button Content="OK" Click="btnClose_Click" Visibility="{Binding ElementName=ThisWindow, Path=IsNew, Converter={StaticResource boolToVisibilityConverter}}" MinWidth="75" MinHeight="23" Margin="0 0 10 0" />
+            <Button Content="Cancel" Click="btnCancel_Click" Visibility="{Binding ElementName=ThisWindow, Path=IsNew, Converter={StaticResource boolToVisibilityConverter}}" MinWidth="75" MinHeight="23" />
+        </StackPanel>
+    </Grid>
+</Window>
