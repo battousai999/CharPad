@@ -59,5 +59,13 @@ namespace CharPad
         {
             player.IsMale = !player.IsMale;
         }
+
+        private void btnRace_Click(object sender, RoutedEventArgs e)
+        {
+            EditCharacterRaceWindow window = new EditCharacterRaceWindow(player.Race);
+
+            if (window.ShowDialog() == true)
+                player.Race.CopyValues(window.Race);
+        }
     }
 }

@@ -27,5 +27,12 @@ namespace CharPad.Framework
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
+
+        public void CopyValues(PlayerRace playerRace)
+        {
+            this.Name = playerRace.Name;
+            this.Size = playerRace.Size;
+            this.BaseSpeed = playerRace.BaseSpeed;
+        }
     }
 }

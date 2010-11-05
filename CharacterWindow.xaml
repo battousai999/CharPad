@@ -65,7 +65,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         
-                        <Button Grid.Row="0" Grid.Column="0" Content="Race:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" />
+                        <Button Grid.Row="0" Grid.Column="0" Content="Race:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" Click="btnRace_Click" />
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Race.Name}" Margin="5 0 10 0" />
 
                         <Button Grid.Row="0" Grid.Column="2" Content="Class:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" />

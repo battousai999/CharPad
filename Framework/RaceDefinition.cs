@@ -9,10 +9,11 @@ namespace CharPad.Framework
     {
         private static Dictionary<string, RaceDefinition> definitionCache = new Dictionary<string, RaceDefinition>(StringComparer.CurrentCultureIgnoreCase);
 
-        private string Name { get; set; }
-        private int Speed { get; set; }
-        private List<SkillBonus> SkillBonues { get; set; }
-        private List<AttributeBonus> AttributeBonuses { get; set; }
+        public string Name { get; set; }
+        public CreatureSize Size { get; set; }
+        public int Speed { get; set; }
+        public List<SkillBonus> SkillBonues { get; set; }
+        public List<AttributeBonus> AttributeBonuses { get; set; }
 
         public RaceDefinition()
         {
@@ -27,6 +28,7 @@ namespace CharPad.Framework
             // PHB #1
             RaceDefinition def = new RaceDefinition();
             def.Name = "Dragonborn";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 6;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.History), new SkillBonus(2, Skill.Intimidate) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Strength), new AttributeBonus(2, AttributeType.Charisma) };
@@ -34,6 +36,7 @@ namespace CharPad.Framework
 
             def = new RaceDefinition();
             def.Name = "Dwarf";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 5;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Dungeoneering), new SkillBonus(2, Skill.Endurance) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Constitution), new AttributeBonus(2, AttributeType.Wisdom) };
@@ -41,6 +44,7 @@ namespace CharPad.Framework
 
             def = new RaceDefinition();
             def.Name = "Eladrin";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 6;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Arcana), new SkillBonus(2, Skill.History) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Dexterity), new AttributeBonus(2, AttributeType.Intelligence) };
@@ -48,6 +52,7 @@ namespace CharPad.Framework
 
             def = new RaceDefinition();
             def.Name = "Elf";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 7;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Nature), new SkillBonus(2, Skill.Perception) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Dexterity), new AttributeBonus(2, AttributeType.Wisdom) };
@@ -55,6 +60,7 @@ namespace CharPad.Framework
 
             def = new RaceDefinition();
             def.Name = "Half-Elf";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 6;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Diplomacy), new SkillBonus(2, Skill.Insight) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Constitution), new AttributeBonus(2, AttributeType.Charisma) };
@@ -62,6 +68,7 @@ namespace CharPad.Framework
 
             def = new RaceDefinition();
             def.Name = "Halfling";
+            def.Size = CreatureSize.Small;
             def.Speed = 6;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Acrobatics), new SkillBonus(2, Skill.Thievery) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Dexterity), new AttributeBonus(2, AttributeType.Charisma) };
@@ -69,12 +76,14 @@ namespace CharPad.Framework
 
             def = new RaceDefinition();
             def.Name = "Human";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 6;
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Wildcard) };
             AddDefinition(def);
 
             def = new RaceDefinition();
             def.Name = "Tiefling";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 6;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Bluff), new SkillBonus(2, Skill.Stealth) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Intelligence), new AttributeBonus(2, AttributeType.Charisma) };
@@ -83,6 +92,7 @@ namespace CharPad.Framework
             // PHB #2
             def = new RaceDefinition();
             def.Name = "Deva";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 6;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.History), new SkillBonus(2, Skill.Religion) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Intelligence), new AttributeBonus(2, AttributeType.Wisdom) };
@@ -90,6 +100,7 @@ namespace CharPad.Framework
 
             def = new RaceDefinition();
             def.Name = "Gnome";
+            def.Size = CreatureSize.Small;
             def.Speed = 5;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Arcana), new SkillBonus(2, Skill.Stealth) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Intelligence), new AttributeBonus(2, AttributeType.Charisma) };
@@ -97,6 +108,7 @@ namespace CharPad.Framework
 
             def = new RaceDefinition();
             def.Name = "Goliath";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 6;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Athletics), new SkillBonus(2, Skill.Nature) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Strength), new AttributeBonus(2, AttributeType.Constitution) };
@@ -104,6 +116,7 @@ namespace CharPad.Framework
 
             def = new RaceDefinition();
             def.Name = "Half-Orc";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 6;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Endurance), new SkillBonus(2, Skill.Intimidate) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Strength), new AttributeBonus(2, AttributeType.Dexterity) };
@@ -111,6 +124,7 @@ namespace CharPad.Framework
 
             def = new RaceDefinition();
             def.Name = "Longtooth Shifter";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 6;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Athletics), new SkillBonus(2, Skill.Endurance) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Strength), new AttributeBonus(2, AttributeType.Wisdom) };
@@ -118,6 +132,7 @@ namespace CharPad.Framework
 
             def = new RaceDefinition();
             def.Name = "Razorclaw Shifter";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 6;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Acrobatics), new SkillBonus(2, Skill.Stealth) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Dexterity), new AttributeBonus(2, AttributeType.Wisdom) };
@@ -126,6 +141,7 @@ namespace CharPad.Framework
             // PHB #3
             def = new RaceDefinition();
             def.Name = "Githzerai";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 6;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Acrobatics), new SkillBonus(2, Skill.Athletics) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Wisdom), new AttributeBonus(2, AttributeType.Dexterity, AttributeType.Intelligence) };
@@ -133,6 +149,7 @@ namespace CharPad.Framework
 
             def = new RaceDefinition();
             def.Name = "Minotaur";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 6;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Nature), new SkillBonus(2, Skill.Perception) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Strength), new AttributeBonus(2, AttributeType.Constitution, AttributeType.Wisdom) };
@@ -140,6 +157,7 @@ namespace CharPad.Framework
 
             def = new RaceDefinition();
             def.Name = "Shardmind";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 6;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Arcana), new SkillBonus(2, Skill.Endurance), new SkillBonus(2, Skill.Wildcard) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Intelligence), new AttributeBonus(2, AttributeType.Wisdom, AttributeType.Charisma) };
@@ -147,6 +165,7 @@ namespace CharPad.Framework
 
             def = new RaceDefinition();
             def.Name = "Wilden";
+            def.Size = CreatureSize.Meduim;
             def.Speed = 6;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Nature), new SkillBonus(2, Skill.Stealth) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Wisdom), new AttributeBonus(2, AttributeType.Constitution, AttributeType.Dexterity) };
