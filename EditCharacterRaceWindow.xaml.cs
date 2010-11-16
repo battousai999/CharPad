@@ -69,7 +69,7 @@ namespace CharPad
         {
             List<Inline> list = new List<Inline>();
 
-            list.Add(new Run("Attribute Bonuses:" + Environment.NewLine));
+            list.Add(new Bold(new Run("Attribute Bonuses:" + Environment.NewLine)));
             list.Add(new Run(String.Join(", ", race.AttributeBonuses.ConvertAll(x =>
             {
                 if (x.CanChooseAttribute)
@@ -85,7 +85,7 @@ namespace CharPad
 
             list.Add(new Run(Environment.NewLine));
             list.Add(new Run(Environment.NewLine));
-            list.Add(new Run("Skill Bonuses:" + Environment.NewLine));
+            list.Add(new Bold(new Run("Skill Bonuses:" + Environment.NewLine)));
 
             if (race.SkillBonues.Count == 0)
                 list.Add(new Run("<none>"));

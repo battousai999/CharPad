@@ -67,5 +67,13 @@ namespace CharPad
             if (window.ShowDialog() == true)
                 player.Race.CopyValues(window.Race);
         }
+
+        private void btnClass_Click(object sender, RoutedEventArgs e)
+        {
+            EditCharacterClassWindow window = new EditCharacterClassWindow(player.Class);
+
+            if (window.ShowDialog() == true)
+                player.Class.CopyValues(window.Class);
+        }
     }
 }

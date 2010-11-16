@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:conv="clr-namespace:CharPad.ValueConverters"
         Name="ThisWindow"
-        Title="CharacterWindow" Height="600" Width="500" WindowStartupLocation="CenterScreen">
+        Title="CharacterWindow" Height="600" Width="500" WindowStartupLocation="CenterScreen" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
     <Window.Resources>
         <conv:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
         <conv:BoolToGenderConverter x:Key="boolToGenderConverter" />
@@ -68,7 +68,7 @@
                         <Button Grid.Row="0" Grid.Column="0" Content="Race:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" Click="btnRace_Click" />
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Race.Name}" Margin="5 0 10 0" />
 
-                        <Button Grid.Row="0" Grid.Column="2" Content="Class:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" />
+                        <Button Grid.Row="0" Grid.Column="2" Content="Class:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" Click="btnClass_Click" />
                         <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Class.Name}" Margin="5 0 10 0" />
 
                         <Button Grid.Row="0" Grid.Column="4" Content="Level:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" Margin="5 0 0 0" />

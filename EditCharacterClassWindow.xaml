@@ -1,0 +1,81 @@
+﻿<Window x:Class="CharPad.EditCharacterClassWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:CharPad"
+        Name="ThisWindow"
+        Title="Edit Player's Class" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
+        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+    <Grid Margin="10 10 10 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0" Margin="0 0 0 20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="Select a class:" Margin="0 0 10 0" />
+            <ComboBox Grid.Column="1" Name="cboClass" ItemsSource="{x:Static local:EditCharacterClassWindow.ClassList}" DisplayMemberPath="Name" SelectionChanged="cboClass_SelectionChanged" />
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" Text="Name:" Margin="0 0 10 0" />
+                <TextBox Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Class.Name}" />
+            </Grid>
+            
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Base Health:" Margin="0 10 10 0" />
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Class.BaseHealth}" Margin="0 10 20 0" />
+            
+            <TextBlock Grid.Row="1" Grid.Column="2" Text="Fortitude Bonus:" Margin="0 10 10 0" />
+            <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Class.FortitudeBonus}" Margin="0 10 0 0" />
+            
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Health/Level:" Margin="0 10 10 0" />
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Class.HealthPerLevel}" Margin="0 10 20 0" />
+            
+            <TextBlock Grid.Row="2" Grid.Column="2" Text="Reflex Bonus:" Margin="0 10 10 0" />
+            <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Class.ReflexBonus}" Margin="0 10 0 0" />
+            
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Base # Surges:" Margin="0 10 10 0" />
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Class.BaseHealingSurges}" Margin="0 10 20 0" />
+            
+            <TextBlock Grid.Row="3" Grid.Column="2" Text="Will Bonus:" Margin="0 10 10 0" />
+            <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Class.WillBonus}" Margin="0 10 0 0" />
+        </Grid>
+        
+        <TextBlock Grid.Row="2" Margin="0 10 0 0" Text="Class Information:" />
+
+        <ScrollViewer Grid.Row="3" HorizontalAlignment="Stretch" Height="100" Margin="0 0 0 0" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+            <TextBlock Name="txtNotes" TextWrapping="Wrap" Width="300" />
+        </ScrollViewer>
+        
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
+            <Button Content="OK" IsDefault="True" MinWidth="75" MinHeight="23" Margin="0 0 10 0" Click="btnOk_Click" />
+            <Button Content="Cancel" IsCancel="True" MinWidth="75" MinHeight="23" />
+        </StackPanel>
+    </Grid>
+</Window>

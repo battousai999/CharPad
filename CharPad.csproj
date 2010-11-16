@@ -55,15 +55,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EditCharacterClassWindow.xaml.cs">
+      <DependentUpon>EditCharacterClassWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditCharacterRaceWindow.xaml.cs">
       <DependentUpon>EditCharacterRaceWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Framework\Party.cs" />
+    <Compile Include="Framework\Utility.cs" />
     <Compile Include="ValueConverters\BoolToGenderConverter.cs" />
     <Compile Include="ValueConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\CreatureSizeConverter.cs" />
     <Compile Include="ValueConverters\EmptyCollectionToVisibilityConverter.cs" />
     <Page Include="CharacterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditCharacterClassWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

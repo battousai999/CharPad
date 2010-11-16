@@ -48,5 +48,16 @@ namespace CharPad.Framework
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
+
+        public void CopyValues(PlayerClass playerClass)
+        {
+            this.Name = playerClass.Name;
+            this.BaseHealth = playerClass.BaseHealth;
+            this.HealthPerLevel = playerClass.HealthPerLevel;
+            this.BaseHealingSurges = playerClass.BaseHealingSurges;
+            this.FortitudeBonus = playerClass.FortitudeBonus;
+            this.ReflexBonus = playerClass.ReflexBonus;
+            this.WillBonus = playerClass.WillBonus;
+        }
     }
 }
