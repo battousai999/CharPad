@@ -64,7 +64,7 @@ namespace CharPad
             Player player = new Player();
             CharacterWindow window = new CharacterWindow(player, true);
 
-            if (window.ShowDialog() == true)
+            if (window.ShowDialog(this))
             {
                 Party.Members.Add(player);
             }
@@ -80,7 +80,7 @@ namespace CharPad
             Player player = (button.Tag as Player);
             CharacterWindow window = new CharacterWindow(player, false);
 
-            window.ShowDialog();
+            window.ShowDialog(this);
         }
 
         private void InitializeTestParty()

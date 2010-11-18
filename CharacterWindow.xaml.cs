@@ -64,7 +64,7 @@ namespace CharPad
         {
             EditCharacterRaceWindow window = new EditCharacterRaceWindow(player.Race);
 
-            if (window.ShowDialog() == true)
+            if (window.ShowDialog(this))
                 player.Race.CopyValues(window.Race);
         }
 
@@ -72,8 +72,16 @@ namespace CharPad
         {
             EditCharacterClassWindow window = new EditCharacterClassWindow(player.Class);
 
-            if (window.ShowDialog() == true)
+            if (window.ShowDialog(this))
                 player.Class.CopyValues(window.Class);
+        }
+
+        private void btnLevel_Click(object sender, RoutedEventArgs e)
+        {
+            EditCharacterLevelWindow window = new EditCharacterLevelWindow(player.Level);
+
+            if (window.ShowDialog(this))
+                player.Level = window.Level;
         }
     }
 }
