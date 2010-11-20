@@ -65,8 +65,12 @@
     <Compile Include="EditCharacterRaceWindow.xaml.cs">
       <DependentUpon>EditCharacterRaceWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EditDefenseWindow.xaml.cs">
+      <DependentUpon>EditDefenseWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Framework\Party.cs" />
     <Compile Include="Framework\Utility.cs" />
+    <Compile Include="ValueConverters\ModifierConverter.cs" />
     <Compile Include="ValueConverters\BoolToGenderConverter.cs" />
     <Compile Include="ValueConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\CreatureSizeConverter.cs" />
@@ -84,6 +88,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EditCharacterRaceWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditDefenseWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

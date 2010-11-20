@@ -48,12 +48,13 @@ namespace CharPad.Framework
             if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Race") == 0)
             {
                 if (playerRace != null)
-                    playerRace.PropertyChanged -= new PropertyChangedEventHandler(player_PropertyChanged);
+                    playerRace.PropertyChanged -= new PropertyChangedEventHandler(Race_PropertyChanged);
 
                 if (player.Race != null)
-                    player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
+                    player.Race.PropertyChanged += new PropertyChangedEventHandler(Race_PropertyChanged);
 
                 playerRace = player.Race;
+                Notify("Value");
             }
 
             if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Armor") == 0)

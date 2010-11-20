@@ -37,7 +37,24 @@ namespace CharPad.Framework
         {
             get
             {
-                return 10 + player.LevelBonus + GetArmorBonus() + GetClassBonus() + miscAdjustments.TotalAdjustment;
+                return 10 + player.LevelBonus + GetAttributeBonus() + GetArmorBonus() + GetClassBonus() + miscAdjustments.TotalAdjustment;
+            }
+        }
+
+        private int GetAttributeBonus()
+        {
+            switch (defenseType)
+            {
+                case DefenseType.AC:
+                    return ((player.Armor == null) || !player.Armor.IsHeavy ? Math.Max(player.DexModifier, player.IntModifier) : 0);
+                case DefenseType.Fortitude:
+                    return Math.Max(player.StrModifier, player.ConModifier);
+                case DefenseType.Reflex:
+                    return Math.Max(player.DexModifier, player.IntModifier);
+                case DefenseType.Will:
+                    return Math.Max(player.WisModifier, player.ChaModifier);
+                default:
+                    throw new InvalidOperationException("Unexpected defense type: " + Enum.Format(typeof(DefenseType), defenseType, "G"));
             }
         }
 
@@ -71,17 +88,24 @@ namespace CharPad.Framework
             if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Class") == 0)
             {
                 if (playerClass != null)
-                    playerClass.PropertyChanged -= new PropertyChangedEventHandler(player_PropertyChanged);
+                    playerClass.PropertyChanged -= new PropertyChangedEventHandler(Class_PropertyChanged);
 
                 if (player.Class != null)
-                    player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
+                    player.Class.PropertyChanged += new PropertyChangedEventHandler(Class_PropertyChanged);
 
                 playerClass = player.Class;
+                Notify("Value");
             }
 
             if ((StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "LevelBonus") == 0) ||
                 (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Armor") == 0) ||
-                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Shield") == 0))
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Shield") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "StrModifier") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "ConModifier") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "DexModifier") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "IntModifier") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "WisModifier") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "ChaModifier") == 0))
             {
                 Notify("Value");
             }

@@ -20,8 +20,9 @@ namespace CharPad.Framework
             this.playerClass = player.Class;
 
             if (player.Class != null)
-                player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
+                player.Class.PropertyChanged += new PropertyChangedEventHandler(Class_PropertyChanged);
 
+            player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
             miscAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(miscAdjustments_ContainedElementChanged);
         }
 
@@ -32,7 +33,7 @@ namespace CharPad.Framework
         {
             get
             {
-                return player.Class.BaseHealth + player.Con + miscAdjustments.TotalAdjustment;
+                return player.Class.BaseHealth + player.Con + miscAdjustments.TotalAdjustment + (player.Level * player.Class.HealthPerLevel);
             }
         }
 
@@ -41,16 +42,26 @@ namespace CharPad.Framework
             if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Class") == 0)
             {
                 if (playerClass != null)
-                    playerClass.PropertyChanged -= new PropertyChangedEventHandler(player_PropertyChanged);
+                    playerClass.PropertyChanged -= new PropertyChangedEventHandler(Class_PropertyChanged);
 
                 if (player.Class != null)
-                    player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
+                    player.Class.PropertyChanged += new PropertyChangedEventHandler(Class_PropertyChanged);
 
                 playerClass = player.Class;
+                Notify("Value");
             }
 
-            if ((StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Class") == 0) ||
-                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "ConModifier") == 0))
+            if ((StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "ConModifier") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Level") == 0))
+            {
+                Notify("Value");
+            }
+        }
+
+        private void Class_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if ((StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "BaseHealth") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "HealthPerLevel") == 0))
             {
                 Notify("Value");
             }

@@ -3,10 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:conv="clr-namespace:CharPad.ValueConverters"
         Name="ThisWindow"
-        Title="CharacterWindow" Height="600" Width="500" WindowStartupLocation="CenterScreen" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+        Title="CharacterWindow" Height="600" Width="500" WindowStartupLocation="CenterScreen" MinWidth="370" MinHeight="450"
+        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
     <Window.Resources>
         <conv:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
         <conv:BoolToGenderConverter x:Key="boolToGenderConverter" />
+        <conv:ModifierConverter x:Key="modifierConverter" />
         <Style x:Key="LinkButton" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -34,53 +36,127 @@
         
         <TabControl Grid.Row="0">
             <TabItem Header="Main">
-                <Grid Name="mainGrid">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Character Name:" Margin="0 0 10 0" />
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding CharacterName, UpdateSourceTrigger=PropertyChanged}" />
-                    
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Player Name:" Margin="0 5 10 0" />
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding PlayerName}" Margin="0 5 0 0" />
-                    
-                    <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0">
+                <ScrollViewer>
+                    <Grid Name="mainGrid">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
+                    
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Character Name:" Margin="0 0 10 0" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding CharacterName, UpdateSourceTrigger=PropertyChanged}" />
+                    
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Player Name:" Margin="0 5 10 0" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding PlayerName}" Margin="0 5 0 0" />
+                    
+                        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
                         
-                        <Button Grid.Row="0" Grid.Column="0" Content="Race:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" Click="btnRace_Click" />
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Race.Name}" Margin="5 0 10 0" />
+                            <Button Grid.Row="0" Grid.Column="0" Content="Race:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" Click="btnRace_Click" />
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Race.Name}" Margin="5 0 10 0" />
 
-                        <Button Grid.Row="0" Grid.Column="2" Content="Class:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" Click="btnClass_Click" />
-                        <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Class.Name}" Margin="5 0 10 0" />
+                            <Button Grid.Row="0" Grid.Column="2" Content="Class:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" Click="btnClass_Click" />
+                            <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Class.Name}" Margin="5 0 10 0" />
 
-                        <Button Grid.Row="0" Grid.Column="4" Content="Level:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" Margin="5 0 0 0" Click="btnLevel_Click" />
-                        <TextBlock Grid.Row="0" Grid.Column="5" Text="{Binding Level}" Margin="5 0 0 0" />
+                            <Button Grid.Row="0" Grid.Column="4" Content="Level:" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" Margin="5 0 0 0" Click="btnLevel_Click" />
+                            <TextBlock Grid.Row="0" Grid.Column="5" Text="{Binding Level}" Margin="5 0 0 0" />
 
-                        <Button Grid.Row="1" Grid.Column="0" Content="Gender:" Margin="0 10 0 0" Style="{StaticResource LinkButton}" ToolTip="Press to toggle gender." Click="btnGender_Click" />
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding IsMale, Converter={StaticResource boolToGenderConverter}}" Margin="5 10 10 0" />
+                            <Button Grid.Row="1" Grid.Column="0" Content="Gender:" Margin="0 10 0 0" Style="{StaticResource LinkButton}" ToolTip="Press to toggle gender." Click="btnGender_Click" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding IsMale, Converter={StaticResource boolToGenderConverter}}" Margin="5 10 10 0" />
                         
-                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Deity:" Margin="0 10 0 0" />
-                        <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding Deity}" Margin="5 10 0 0" />
+                            <TextBlock Grid.Row="1" Grid.Column="2" Text="Deity:" Margin="0 10 0 0" />
+                            <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding Deity}" Margin="5 10 0 0" />
+                        </Grid>
+                    
+                        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="STR:" Margin="0 0 10 0" VerticalAlignment="Center" />
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Str, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Width="25" HorizontalContentAlignment="Right" Margin="0 0 0 0" />
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding StrModifier, Converter={StaticResource modifierConverter}}" VerticalAlignment="Center" MinWidth="25" Margin="10 0 0 0" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="CON:" VerticalAlignment="Center" Margin="0 5 10 0" />
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Con, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Width="25" HorizontalContentAlignment="Right" Margin="0 5 0 0" />
+                            <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding ConModifier, Converter={StaticResource modifierConverter}}" VerticalAlignment="Center" MinWidth="25" Margin="10 5 0 0" />
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="DEX:" VerticalAlignment="Center" Margin="0 5 10 0" />
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Dex, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Width="25" HorizontalContentAlignment="Right" Margin="0 5 0 0" />
+                            <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding DexModifier, Converter={StaticResource modifierConverter}}" VerticalAlignment="Center" MinWidth="25" Margin="10 5 0 0" />
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="INT:" VerticalAlignment="Center" Margin="0 5 10 0" />
+                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Int, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Width="25" HorizontalContentAlignment="Right" Margin="0 5 0 0" />
+                            <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding IntModifier, Converter={StaticResource modifierConverter}}" VerticalAlignment="Center" MinWidth="25" Margin="10 5 0 0" />
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="WIS:" VerticalAlignment="Center" Margin="0 5 10 0" />
+                            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Wis, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Width="25" HorizontalContentAlignment="Right" Margin="0 5 0 0" />
+                            <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding WisModifier, Converter={StaticResource modifierConverter}}" VerticalAlignment="Center" MinWidth="25" Margin="10 5 0 0" />
+
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="CHA:" VerticalAlignment="Center" Margin="0 5 10 0" />
+                            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Cha, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Width="25" HorizontalContentAlignment="Right" Margin="0 5 0 0" />
+                            <TextBlock Grid.Row="5" Grid.Column="2" Text="{Binding ChaModifier, Converter={StaticResource modifierConverter}}" VerticalAlignment="Center" MinWidth="25" Margin="10 5 0 0" />
+
+                            <Button Grid.Row="0" Grid.Column="3" Content="AC:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 0 10 0" />
+                            <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding AcDefense.Value}" VerticalAlignment="Center" Margin="0 0 0 0" />
+
+                            <Button Grid.Row="1" Grid.Column="3" Content="Fort:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" />
+                            <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding FortDefense.Value}" VerticalAlignment="Center" Margin="0 5 0 0" />
+
+                            <Button Grid.Row="2" Grid.Column="3" Content="Reflex:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" />
+                            <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding ReflexDefense.Value}" VerticalAlignment="Center" Margin="0 5 0 0" />
+
+                            <Button Grid.Row="3" Grid.Column="3" Content="Will:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" />
+                            <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding WillDefense.Value}" VerticalAlignment="Center" Margin="0 5 0 0" />
+                        
+                            <Button Grid.Row="0" Grid.Column="5" Content="Hit Points:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 0 10 0" />
+                            <TextBlock Grid.Row="0" Grid.Column="6" Text="{Binding HitPoints.Value}" VerticalAlignment="Center" Margin="0 0 0 0" />
+                        
+                            <Button Grid.Row="1" Grid.Column="5" Content="Surge Value:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" />
+                            <TextBlock Grid.Row="1" Grid.Column="6" Text="{Binding SurgeValue.Value}" VerticalAlignment="Center" Margin="0 5 0 0" />
+                        
+                            <TextBlock Grid.Row="2" Grid.Column="5" Text="Surges/Day:" VerticalAlignment="Center" Margin="30 5 10 0" />
+                            <TextBox Grid.Row="2" Grid.Column="6" Text="{Binding SurgesPerDay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Width="25" VerticalAlignment="Center" Margin="0 5 0 0" />
+                        
+                            <Button Grid.Row="4" Grid.Column="5" Content="Initiative:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" />
+                            <TextBlock Grid.Row="4" Grid.Column="6" Text="{Binding Initiative.Value, Converter={StaticResource modifierConverter}}" VerticalAlignment="Center" Margin="0 5 0 0" />
+                        
+                            <Button Grid.Row="5" Grid.Column="5" Content="Speed:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" />
+                            <TextBlock Grid.Row="5" Grid.Column="6" Text="{Binding Speed.Value}" VerticalAlignment="Center" Margin="0 5 0 0" />
+                        </Grid>
                     </Grid>
-                </Grid>                 
+                </ScrollViewer>
             </TabItem>
         </TabControl>
         
