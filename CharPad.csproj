@@ -38,6 +38,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,6 +56,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BasicAdjustmentGrid.xaml.cs">
+      <DependentUpon>BasicAdjustmentGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common.cs" />
     <Compile Include="EditCharacterClassWindow.xaml.cs">
       <DependentUpon>EditCharacterClassWindow.xaml</DependentUpon>
@@ -70,11 +74,17 @@
     </Compile>
     <Compile Include="Framework\Party.cs" />
     <Compile Include="Framework\Utility.cs" />
+    <Compile Include="ValueConverters\ListViewLastColumnWidthConverter.cs" />
     <Compile Include="ValueConverters\ModifierConverter.cs" />
     <Compile Include="ValueConverters\BoolToGenderConverter.cs" />
     <Compile Include="ValueConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\CreatureSizeConverter.cs" />
     <Compile Include="ValueConverters\EmptyCollectionToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\ZeroToBoolConverter.cs" />
+    <Page Include="BasicAdjustmentGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CharacterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

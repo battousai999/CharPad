@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Collections.Specialized;
 
 namespace CharPad.Framework
 {
@@ -27,6 +28,7 @@ namespace CharPad.Framework
                 player.Class.PropertyChanged += new PropertyChangedEventHandler(Class_PropertyChanged);
 
             miscAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(miscAdjustments_ContainedElementChanged);
+            miscAdjustments.CollectionChanged += new NotifyCollectionChangedEventHandler(miscAdjustments_CollectionChanged);
         }
 
         public Player Player { get { return player; } }
@@ -39,6 +41,26 @@ namespace CharPad.Framework
             {
                 return 10 + player.LevelBonus + GetAttributeBonus() + GetArmorBonus() + GetClassBonus() + miscAdjustments.TotalAdjustment;
             }
+        }
+
+        public int AttributeBonus
+        {
+            get { return GetAttributeBonus(); }
+        }
+
+        public int ClassBonus
+        {
+            get { return GetClassBonus(); }
+        }
+
+        public int ArmorBonus
+        {
+            get { return GetArmorBonus(); }
+        }
+
+        public int TotalMiscAdjustment
+        {
+            get { return miscAdjustments.TotalAdjustment; }
         }
 
         private int GetAttributeBonus()
@@ -94,6 +116,7 @@ namespace CharPad.Framework
                     player.Class.PropertyChanged += new PropertyChangedEventHandler(Class_PropertyChanged);
 
                 playerClass = player.Class;
+                Notify("ClassBonus");
                 Notify("Value");
             }
 
@@ -107,6 +130,8 @@ namespace CharPad.Framework
                 (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "WisModifier") == 0) ||
                 (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "ChaModifier") == 0))
             {
+                Notify("ArmorBonus");
+                Notify("AttributeBonus");
                 Notify("Value");
             }
         }
@@ -117,12 +142,20 @@ namespace CharPad.Framework
                 (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "ReflexBonus") == 0) ||
                 (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "WillBonus") == 0))
             {
+                Notify("ClassBonus");
                 Notify("Value"); 
             }
         }
 
         private void miscAdjustments_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
         {
+            Notify("TotalMiscAdjustment");
+            Notify("Value");
+        }
+
+        private void miscAdjustments_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Notify("TotalMiscAdjustment");
             Notify("Value");
         }
 

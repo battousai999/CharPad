@@ -128,16 +128,16 @@
                             <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Cha, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Width="25" HorizontalContentAlignment="Right" Margin="0 5 0 0" />
                             <TextBlock Grid.Row="5" Grid.Column="2" Text="{Binding ChaModifier, Converter={StaticResource modifierConverter}}" VerticalAlignment="Center" MinWidth="25" Margin="10 5 0 0" />
 
-                            <Button Grid.Row="0" Grid.Column="3" Content="AC:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 0 10 0" />
+                            <Button Grid.Row="0" Grid.Column="3" Content="AC:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 0 10 0" Click="btnAcDefense_Click" />
                             <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding AcDefense.Value}" VerticalAlignment="Center" Margin="0 0 0 0" />
 
-                            <Button Grid.Row="1" Grid.Column="3" Content="Fort:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" />
+                            <Button Grid.Row="1" Grid.Column="3" Content="Fort:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" Click="btnFortDefense_Click" />
                             <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding FortDefense.Value}" VerticalAlignment="Center" Margin="0 5 0 0" />
 
-                            <Button Grid.Row="2" Grid.Column="3" Content="Reflex:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" />
+                            <Button Grid.Row="2" Grid.Column="3" Content="Reflex:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" Click="btnReflexDefense_Click" />
                             <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding ReflexDefense.Value}" VerticalAlignment="Center" Margin="0 5 0 0" />
 
-                            <Button Grid.Row="3" Grid.Column="3" Content="Will:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" />
+                            <Button Grid.Row="3" Grid.Column="3" Content="Will:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" Click="btnWillDefense_Click" />
                             <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding WillDefense.Value}" VerticalAlignment="Center" Margin="0 5 0 0" />
                         
                             <Button Grid.Row="0" Grid.Column="5" Content="Hit Points:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 0 10 0" />

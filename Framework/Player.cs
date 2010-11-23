@@ -367,6 +367,23 @@ namespace CharPad.Framework
         public int PassiveInsight { get { return insight.Value + 10; } }
         public int PassivePerception { get { return perception.Value + 10; } }
 
+        public DefenseValue GetDefenseValue(DefenseType defenseType)
+        {
+            switch (defenseType)
+            {
+                case DefenseType.AC:
+                    return AcDefense;
+                case DefenseType.Fortitude:
+                    return FortDefense;
+                case DefenseType.Reflex:
+                    return ReflexDefense;
+                case DefenseType.Will:
+                    return WillDefense;
+                default:
+                    throw new InvalidOperationException("Unexpected defense type value: " + Enum.Format(typeof(DefenseType), defenseType, "G"));
+            }
+        }
+
         #region INotifyPropertyChanged Members
 
         private void Notify(string propertyName)

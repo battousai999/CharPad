@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CharPad.Framework;
 
 namespace CharPad
 {
@@ -18,9 +19,45 @@ namespace CharPad
     /// </summary>
     public partial class EditDefenseWindow : Window
     {
-        public EditDefenseWindow()
+        private Player player;
+        private DefenseType defenseType;
+
+        public EditDefenseWindow(Player player, DefenseType defenseType)
         {
+            this.player = player;
+            this.defenseType = defenseType;
+
             InitializeComponent();
+        }
+
+        public Player Player
+        {
+            get { return player; }
+        }
+
+        public DefenseValue DefenseValue
+        {
+            get { return player.GetDefenseValue(defenseType); }
+        }
+
+        public string DefenseTitle
+        {
+            get
+            {
+                switch (defenseType)
+                {
+                    case DefenseType.AC:
+                        return "AC Defense:";
+                    case DefenseType.Fortitude:
+                        return "Fortitude Defense";
+                    case DefenseType.Reflex:
+                        return "Reflex Defense";
+                    case DefenseType.Will:
+                        return "Will Defense";
+                    default:
+                        throw new InvalidOperationException("Unexpected defense type: " + Enum.Format(typeof(DefenseType), defenseType, "G"));
+                }
+            }
         }
 
         private void btnOk_Click(object sender, RoutedEventArgs e)

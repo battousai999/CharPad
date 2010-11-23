@@ -41,7 +41,7 @@
             <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{x:Static local:EditCharacterRaceWindow.SizeList}" DisplayMemberPath="Name" SelectedItem="{Binding ElementName=ThisWindow, Path=Race.Size, Converter={StaticResource creatureSizeConverter}}" Width="200" HorizontalAlignment="Left" Margin="0 10 0 0" />
             
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Base Speed:" Margin="0 10 10 0" />
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Race.BaseSpeed}" Width="100" HorizontalAlignment="Left" Margin="0 10 0 0" />
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Race.BaseSpeed}" Width="100" HorizontalAlignment="Left" Margin="0 10 0 0" />
         </Grid>
         
         <TextBlock Grid.Row="2" Margin="0 10 0 0" Text="Race Information:" />

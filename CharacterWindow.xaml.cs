@@ -83,5 +83,33 @@ namespace CharPad
             if (window.ShowDialog(this))
                 player.Level = window.Level;
         }
+
+        private void btnAcDefense_Click(object sender, RoutedEventArgs e)
+        {
+            EditDefenseWindow window = new EditDefenseWindow(player, DefenseType.AC);
+
+            window.ShowDialog(this);
+        }
+
+        private void btnFortDefense_Click(object sender, RoutedEventArgs e)
+        {
+            EditDefenseWindow window = new EditDefenseWindow(player, DefenseType.Fortitude);
+
+            window.ShowDialog(this);
+        }
+
+        private void btnReflexDefense_Click(object sender, RoutedEventArgs e)
+        {
+            EditDefenseWindow window = new EditDefenseWindow(player, DefenseType.Reflex);
+
+            window.ShowDialog(this);
+        }
+
+        private void btnWillDefense_Click(object sender, RoutedEventArgs e)
+        {
+            EditDefenseWindow window = new EditDefenseWindow(player, DefenseType.Will);
+
+            window.ShowDialog(this);
+        }
     }
 }

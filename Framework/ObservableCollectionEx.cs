@@ -45,7 +45,7 @@ namespace CharPad.Framework
             if (iList != null)
             {
                 foreach (T element in iList)
-                    element.PropertyChanged += (x, y) => ContainedElementChangedHandler(y);
+                    element.PropertyChanged += (x, y) => OnContainedElementChanged(y);
             }
         }
 
@@ -54,14 +54,12 @@ namespace CharPad.Framework
             if (iList != null)
             {
                 foreach (T element in iList)
-                    element.PropertyChanged -= (x, y) => ContainedElementChangedHandler(y);
+                    element.PropertyChanged -= (x, y) => OnContainedElementChanged(y);
             }
         }
 
-        private void ContainedElementChangedHandler(PropertyChangedEventArgs e)
+        protected virtual void OnContainedElementChanged(PropertyChangedEventArgs e)
         {
-            //OnPropertyChanged(e);
-
             if (ContainedElementChanged != null)
                 ContainedElementChanged(this, e);
         }
