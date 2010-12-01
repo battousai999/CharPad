@@ -1,0 +1,28 @@
+﻿<Window x:Class="CharPad.AddBasicAdjustmentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Add Adjustment" SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
+        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FocusManager.FocusedElement="{Binding ElementName=txtAdjustment}">
+    <Grid Margin="20 20 20 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Adjustment:" Margin="0 0 10 0"/>
+        <TextBox Name="txtAdjustment" Grid.Row="0" Grid.Column="1" Width="50" HorizontalAlignment="Left" Margin="0 0 0 0" />
+        
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Note:" Margin="0 10 10 0" />
+        <TextBox Name="txtNote" Grid.Row="1" Grid.Column="1" Width="200" Margin="0 10 0 0" />
+        
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 20 0 0">
+            <Button Content="OK" IsDefault="True" MinWidth="75" MinHeight="23" Click="btnOk_Click" Margin="0 0 10 0" />
+            <Button Content="Cancel" IsCancel="True" MinWidth="75" MinHeight="23" />
+        </StackPanel>
+    </Grid>
+</Window>

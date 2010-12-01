@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace CharPad.Framework
 {
@@ -149,10 +150,7 @@ namespace CharPad.Framework
             set
             {
                 if ((value != null) && (WeaponOffhand != null))
-                {
-                    Inventory.Add(WeaponOffhand);
                     WeaponOffhand = null;
-                }
 
                 if (shield != null)
                     shield.PropertyChanged -= new PropertyChangedEventHandler(shield_PropertyChanged);
@@ -215,10 +213,7 @@ namespace CharPad.Framework
             set
             {
                 if ((value != null) && (Shield != null))
-                {
-                    Inventory.Add(Shield);
                     Shield = null;
-                }
 
                 if (weaponOffhand != null)
                     weaponOffhand.PropertyChanged -= new PropertyChangedEventHandler(weaponOffhand_PropertyChanged);
@@ -235,6 +230,28 @@ namespace CharPad.Framework
         private void weaponOffhand_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             Notify("WeaponOffhand");
+        }
+
+        public List<IInventoryItem> WieldedItems
+        {
+            get
+            {
+                List<IInventoryItem> list = new List<IInventoryItem>();
+
+                if (weapon != null)
+                    list.Add(weapon);
+
+                if (weaponOffhand != null)
+                    list.Add(weaponOffhand);
+
+                if (armor != null)
+                    list.Add(armor);
+
+                if (shield != null)
+                    list.Add(shield);
+
+                return list;
+            }
         }
 
         public Player()
@@ -287,12 +304,66 @@ namespace CharPad.Framework
             insight.PropertyChanged += new PropertyChangedEventHandler(insight_PropertyChanged);
             perception.PropertyChanged += new PropertyChangedEventHandler(perception_PropertyChanged);
             raceFeatures.ContainedElementChanged += new PropertyChangedEventHandler(raceFeatures_ContainedElementChanged);
+            raceFeatures.CollectionChanged += new NotifyCollectionChangedEventHandler(raceFeatures_CollectionChanged);
             classFeatures.ContainedElementChanged += new PropertyChangedEventHandler(classFeatures_ContainedElementChanged);
+            classFeatures.CollectionChanged += new NotifyCollectionChangedEventHandler(classFeatures_CollectionChanged);
             paragonFeatures.ContainedElementChanged += new PropertyChangedEventHandler(paragonFeatures_ContainedElementChanged);
+            paragonFeatures.CollectionChanged += new NotifyCollectionChangedEventHandler(paragonFeatures_CollectionChanged);
             destinyFeatures.ContainedElementChanged += new PropertyChangedEventHandler(destinyFeatures_ContainedElementChanged);
+            destinyFeatures.CollectionChanged += new NotifyCollectionChangedEventHandler(destinyFeatures_CollectionChanged);
             feats.ContainedElementChanged += new PropertyChangedEventHandler(feats_ContainedElementChanged);
+            feats.CollectionChanged += new NotifyCollectionChangedEventHandler(feats_CollectionChanged);
             resistances.ContainedElementChanged += new PropertyChangedEventHandler(resistances_ContainedElementChanged);
+            resistances.CollectionChanged += new NotifyCollectionChangedEventHandler(resistances_CollectionChanged);
             inventory.ContainedElementChanged += new PropertyChangedEventHandler(inventory_ContainedElementChanged);
+            inventory.CollectionChanged += new NotifyCollectionChangedEventHandler(inventory_CollectionChanged);
+        }
+
+        void inventory_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if ((weapon != null) && !inventory.Contains(weapon))
+                Weapon = null;
+
+            if ((weaponOffhand != null) && !inventory.Contains(weaponOffhand))
+                WeaponOffhand = null;
+
+            if ((armor != null) && !inventory.Contains(armor))
+                Armor = null;
+
+            if ((shield != null) && !inventory.Contains(shield))
+                Shield = null;
+
+            Notify("Inventory");
+        }
+
+        void resistances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Notify("Resistances");
+        }
+
+        void feats_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Notify("Feats");
+        }
+
+        void destinyFeatures_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Notify("DestinyFeatures");
+        }
+
+        void paragonFeatures_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Notify("ParagonFeatures");
+        }
+
+        void classFeatures_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Notify("ClassFeatures");
+        }
+
+        void raceFeatures_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Notify("RaceFeatures");
         }
 
         void inventory_ContainedElementChanged(object sender, PropertyChangedEventArgs e)

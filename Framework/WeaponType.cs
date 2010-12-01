@@ -56,5 +56,41 @@ namespace CharPad.Framework
 
         // Superior Ranged
         Shuriken,
+
+        // ** AV_1 **
+        // Simple Melee
+        SpikedGauntlet,
+
+        // Military Melee
+        Broadsword,
+        Khopesh,
+        LightWarPick,
+        Scourge,
+        Trident,
+        HeavyWarPick,
+
+        // Superior Melee
+        Craghammer,
+        Kukri,
+        ParryingDagger,
+        SpikedShield,
+        Trantnyr,
+        TripleHeadedFlail,
+        Waraxe,
+        ExecutionAxe,
+        Fullblade,
+        Greatspear,
+        Mordenkrad,
+        DoubleAxe,
+        DoubleFlail,
+        DoubleSword,
+        Urgrosh,
+
+        // Simple Ranged
+        RepeatingCrossbow,
+
+        // Superior Ranged
+        Greatbow,
+        SuperiorCrossbow,
     }
 }

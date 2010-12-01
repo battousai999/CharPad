@@ -25,6 +25,7 @@ namespace CharPad.Framework
                 player.Race.PropertyChanged += new PropertyChangedEventHandler(Race_PropertyChanged);
 
             miscAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(miscAdjustments_ContainedElementChanged);
+            miscAdjustments.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(miscAdjustments_CollectionChanged);
         }
 
         public Player Player { get { return player; } }
@@ -36,6 +37,21 @@ namespace CharPad.Framework
             {
                 return player.Race.BaseSpeed + GetArmorAdjustment() + miscAdjustments.TotalAdjustment;
             }
+        }
+
+        public int BaseSpeed
+        {
+            get { return player.Race.BaseSpeed; }
+        }
+
+        public int ArmorAdjustment
+        {
+            get { return GetArmorAdjustment(); }
+        }
+
+        public int TotalMiscAdjustment
+        {
+            get { return miscAdjustments.TotalAdjustment; }
         }
 
         private int GetArmorAdjustment()
@@ -54,21 +70,35 @@ namespace CharPad.Framework
                     player.Race.PropertyChanged += new PropertyChangedEventHandler(Race_PropertyChanged);
 
                 playerRace = player.Race;
+                Notify("BaseSpeed");
                 Notify("Value");
             }
 
             if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Armor") == 0)
+            {
+                Notify("ArmorAdjustment");
                 Notify("Value");
+            }
         }
 
         private void Race_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "BaseSpeed") == 0)
+            {
+                Notify("BaseSpeed");
                 Notify("Value");
+            }
         }
 
         private void miscAdjustments_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
         {
+            Notify("TotalMiscAdjustment");
+            Notify("Value");
+        }
+
+        private void miscAdjustments_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Notify("TotalMiscAdjustment");
             Notify("Value");
         }
 

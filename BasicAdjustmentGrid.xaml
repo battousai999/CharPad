@@ -10,7 +10,7 @@
     <UserControl.Resources>
         <conv:ListViewLastColumnWidthConverter x:Key="listViewLastColumnWidthConverter" />
         <conv:ModifierConverter x:Key="modifierConverter" />
-        <conv:ZeroToBoolConverter x:Key="zeroToBoolConverter" />
+        <conv:NullToBoolConverter x:Key="nullToBoolConverter" />
         <Style x:Key="LinkButton" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -26,6 +26,9 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
                     <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Foreground" Value="Gray" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -47,8 +50,8 @@
         
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 0 0 5">
             <Button Content="Add" Style="{StaticResource LinkButton}" Margin="0 0 10 0" Click="btnAdd_Click" />
-            <Button Content="Edit" Style="{StaticResource LinkButton}" Margin="0 0 10 0" Click="btnEdit_Click" IsEnabled="{Binding ElementName=lvMain, Path=SelectedItems, Converter={StaticResource zeroToBoolConverter}, ConverterParameter=false}" />
-            <Button Content="Delete" Style="{StaticResource LinkButton}" Click="btnDelete_Click" IsEnabled="{Binding ElementName=lvMain, Path=SelectedItems, Converter={StaticResource zeroToBoolConverter}, ConverterParameter=false}" />
+            <Button Content="Edit" Style="{StaticResource LinkButton}" Margin="0 0 10 0" Click="btnEdit_Click" IsEnabled="{Binding ElementName=lvMain, Path=SelectedItem, Converter={StaticResource nullToBoolConverter}, ConverterParameter=false}" />
+            <Button Content="Delete" Style="{StaticResource LinkButton}" Click="btnDelete_Click" IsEnabled="{Binding ElementName=lvMain, Path=SelectedItem, Converter={StaticResource nullToBoolConverter}, ConverterParameter=false}" />
         </StackPanel>
     </Grid>
 </UserControl>

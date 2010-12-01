@@ -35,7 +35,7 @@ namespace CharPad.ValueConverters
                 otherColumnsWidth += gridview.Columns[i].ActualWidth;
             }
 
-            return Math.Max(listview.ActualWidth - otherColumnsWidth - 8, minValue);
+            return Math.Max(listview.ActualWidth - otherColumnsWidth - 10, minValue);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

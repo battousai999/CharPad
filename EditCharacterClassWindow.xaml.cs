@@ -40,6 +40,10 @@ namespace CharPad
         {
             List<Inline> list = new List<Inline>();
 
+            list.Add(new Bold(new Run("Key Abilities:" + Environment.NewLine)));
+            list.Add(new Run(String.Join(", ", _class.KeyAttributes.ConvertAll(x => Enum.Format(typeof(AttributeType), x, "G")))));
+            list.Add(new Run(Environment.NewLine));
+            list.Add(new Run(Environment.NewLine));
             list.Add(new Bold(new Run("Armor Proficiencies:" + Environment.NewLine)));
             list.Add(new Run(String.Join(", ", _class.ArmorProficiencies.ConvertAll(x => Utility.GetArmorTypeName(x)))));
             list.Add(new Run(Environment.NewLine));

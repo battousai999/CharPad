@@ -18,6 +18,7 @@ namespace CharPad.Framework
 
             player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
             miscAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(miscAdjustments_ContainedElementChanged);
+            miscAdjustments.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(miscAdjustments_CollectionChanged);
         }
 
         private void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -40,8 +41,20 @@ namespace CharPad.Framework
             }
         }
 
+        public int TotalMiscAdjustment
+        {
+            get { return miscAdjustments.TotalAdjustment; }
+        }
+
         private void miscAdjustments_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
         {
+            Notify("TotalMiscAdjustment");
+            Notify("Value");
+        }
+
+        private void miscAdjustments_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Notify("TotalMiscAdjustment");
             Notify("Value");
         }
 

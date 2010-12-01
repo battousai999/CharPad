@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:conv="clr-namespace:CharPad.ValueConverters"
-        Name="ThisWindow"
+        Name="ThisWindow" ShowInTaskbar="False"
         Title="CharacterWindow" Height="600" Width="500" WindowStartupLocation="CenterScreen" MinWidth="370" MinHeight="450"
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
     <Window.Resources>
@@ -39,6 +39,9 @@
                 <ScrollViewer>
                     <Grid Name="mainGrid">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -140,24 +143,65 @@
                             <Button Grid.Row="3" Grid.Column="3" Content="Will:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" Click="btnWillDefense_Click" />
                             <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding WillDefense.Value}" VerticalAlignment="Center" Margin="0 5 0 0" />
                         
-                            <Button Grid.Row="0" Grid.Column="5" Content="Hit Points:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 0 10 0" />
+                            <Button Grid.Row="0" Grid.Column="5" Content="Hit Points:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 0 10 0" Click="btnHitPoints_Click" />
                             <TextBlock Grid.Row="0" Grid.Column="6" Text="{Binding HitPoints.Value}" VerticalAlignment="Center" Margin="0 0 0 0" />
                         
-                            <Button Grid.Row="1" Grid.Column="5" Content="Surge Value:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" />
+                            <Button Grid.Row="1" Grid.Column="5" Content="Surge Value:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" Click="btnSurgeValue_Click" />
                             <TextBlock Grid.Row="1" Grid.Column="6" Text="{Binding SurgeValue.Value}" VerticalAlignment="Center" Margin="0 5 0 0" />
                         
                             <TextBlock Grid.Row="2" Grid.Column="5" Text="Surges/Day:" VerticalAlignment="Center" Margin="30 5 10 0" />
                             <TextBox Grid.Row="2" Grid.Column="6" Text="{Binding SurgesPerDay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Width="25" VerticalAlignment="Center" Margin="0 5 0 0" />
                         
-                            <Button Grid.Row="4" Grid.Column="5" Content="Initiative:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" />
+                            <Button Grid.Row="4" Grid.Column="5" Content="Initiative:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" Click="btnInitiative_Click" />
                             <TextBlock Grid.Row="4" Grid.Column="6" Text="{Binding Initiative.Value, Converter={StaticResource modifierConverter}}" VerticalAlignment="Center" Margin="0 5 0 0" />
                         
-                            <Button Grid.Row="5" Grid.Column="5" Content="Speed:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" />
+                            <Button Grid.Row="5" Grid.Column="5" Content="Speed:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" Click="btnSpeed_Click" />
                             <TextBlock Grid.Row="5" Grid.Column="6" Text="{Binding Speed.Value}" VerticalAlignment="Center" Margin="0 5 0 0" />
                         </Grid>
+                        
+                        <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Weapon (main):" VerticalAlignment="Center" Margin="0 0 10 0" />
+                            <ComboBox Grid.Row="0" Grid.Column="1" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Weapon (off-hand):" VerticalAlignment="Center" Margin="0 5 10 0" />
+                            <ComboBox Grid.Row="1" Grid.Column="1" Margin="0 5 0 0" />
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Implement:" VerticalAlignment="Center" Margin="0 5 10 0" />
+                            <ComboBox Grid.Row="2" Grid.Column="1" Margin="0 5 0 0" />
+
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Armor:" VerticalAlignment="Center" Margin="20 0 10 0" />
+                            <ComboBox Grid.Row="0" Grid.Column="3" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="2" Text="Shield:" VerticalAlignment="Center" Margin="20 5 10 0" />
+                            <ComboBox Grid.Row="1" Grid.Column="3" Margin="0 5 0 0" />
+                        </Grid>
+                        
+                        <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="Resistances:" Margin="0 5 0 0" HorizontalAlignment="Left" />
+                        <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 0 0 0" Height="120">
+                            
+                        </Grid>
+                        
+                        <!-- Add weapon and armor proficiencies -->
                     </Grid>
                 </ScrollViewer>
             </TabItem>
+            <TabItem Header="Skills"></TabItem>
+            <TabItem Header="Feats"></TabItem>
+            <TabItem Header="Class/Race Features"></TabItem>
+            <TabItem Header="Powers"></TabItem>
+            <TabItem Header="Inventory"></TabItem>
         </TabControl>
         
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 10 10">

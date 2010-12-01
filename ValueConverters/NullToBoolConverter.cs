@@ -6,7 +6,7 @@ using System.Windows.Data;
 
 namespace CharPad.ValueConverters
 {
-    public class ZeroToBoolConverter : IValueConverter
+    public class NullToBoolConverter : IValueConverter
     {
         #region IValueConverter Members
 
@@ -18,10 +18,7 @@ namespace CharPad.ValueConverters
             if (Boolean.TryParse(System.Convert.ToString(parameter), out tempValue))
                 matchValue = tempValue;
 
-            if (!(value is int))
-                return !matchValue;
-
-            return ((int)value == 0 ? matchValue : !matchValue);
+            return (value == null ? matchValue : !matchValue);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

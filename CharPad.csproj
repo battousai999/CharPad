@@ -56,6 +56,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddBasicAdjustmentWindow.xaml.cs">
+      <DependentUpon>AddBasicAdjustmentWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BasicAdjustmentGrid.xaml.cs">
       <DependentUpon>BasicAdjustmentGrid.xaml</DependentUpon>
     </Compile>
@@ -72,6 +75,18 @@
     <Compile Include="EditDefenseWindow.xaml.cs">
       <DependentUpon>EditDefenseWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EditHitPointsWindow.xaml.cs">
+      <DependentUpon>EditHitPointsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditInitiativeWindow.xaml.cs">
+      <DependentUpon>EditInitiativeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditSurgeValueWindow.xaml.cs">
+      <DependentUpon>EditSurgeValueWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditSpeedWindow.xaml.cs">
+      <DependentUpon>EditSpeedWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Framework\Party.cs" />
     <Compile Include="Framework\Utility.cs" />
     <Compile Include="ValueConverters\ListViewLastColumnWidthConverter.cs" />
@@ -80,7 +95,11 @@
     <Compile Include="ValueConverters\BoolToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\CreatureSizeConverter.cs" />
     <Compile Include="ValueConverters\EmptyCollectionToVisibilityConverter.cs" />
-    <Compile Include="ValueConverters\ZeroToBoolConverter.cs" />
+    <Compile Include="ValueConverters\NullToBoolConverter.cs" />
+    <Page Include="AddBasicAdjustmentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BasicAdjustmentGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -102,6 +121,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EditDefenseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditHitPointsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditInitiativeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditSurgeValueWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditSpeedWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

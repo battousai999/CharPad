@@ -23,6 +23,30 @@ namespace CharPad.Framework
                     return "Spiked Chain";
                 case WeaponType.HandCrossbow:
                     return "Hand Crossbow";
+                case WeaponType.SpikedGauntlet:
+                    return "Spiked Gauntlet";
+                case WeaponType.LightWarPick:
+                    return "Light War Pick";
+                case WeaponType.HeavyWarPick:
+                    return "Heavy War Pick";
+                case WeaponType.ParryingDagger:
+                    return "Parrying Dagger";
+                case WeaponType.SpikedShield:
+                    return "Spiked Shield";
+                case WeaponType.TripleHeadedFlail:
+                    return "Triple-headed Flail";
+                case WeaponType.ExecutionAxe:
+                    return "Execution Axe";
+                case WeaponType.DoubleAxe:
+                    return "Double Axe";
+                case WeaponType.DoubleFlail:
+                    return "Double Flail";
+                case WeaponType.DoubleSword:
+                    return "Double Sword";
+                case WeaponType.RepeatingCrossbow:
+                    return "Repeating Crossbow";
+                case WeaponType.SuperiorCrossbow:
+                    return "Superior Crossbow";
                 default:
                     return Enum.Format(typeof(WeaponType), weaponType, "G");
             }

@@ -38,14 +38,41 @@ namespace CharPad
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            AddBasicAdjustmentWindow window = new AddBasicAdjustmentWindow(null);
+
+            if (window.ShowDialog(Application.Current.MainWindow))
+            {
+                List.Add(window.Adjustment);
+            }
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
+            BasicAdjustment adjustment = (lvMain.SelectedItem as BasicAdjustment);
+
+            if (adjustment == null)
+                return;
+
+            AddBasicAdjustmentWindow window = new AddBasicAdjustmentWindow(adjustment);
+
+            if (window.ShowDialog(Application.Current.MainWindow))
+            {
+                adjustment.Modifier = window.Adjustment.Modifier;
+                adjustment.Note = window.Adjustment.Note;
+            }
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+            BasicAdjustment adjustment = (lvMain.SelectedItem as BasicAdjustment);
+
+            if (adjustment == null)
+                return;
+
+            if (MessageBox.Show("Are you sure you want to delete this adjustment?", "Delete adjustment?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+            {
+                List.Remove(adjustment);
+            }
         }
     }
 }

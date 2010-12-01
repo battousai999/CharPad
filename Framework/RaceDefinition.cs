@@ -21,7 +21,7 @@ namespace CharPad.Framework
             AttributeBonuses = new List<AttributeBonus>();
         }
 
-        #region
+        #region Initialization
 
         static RaceDefinition()
         {
@@ -169,6 +169,48 @@ namespace CharPad.Framework
             def.Speed = 6;
             def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Nature), new SkillBonus(2, Skill.Stealth) };
             def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Wisdom), new AttributeBonus(2, AttributeType.Constitution, AttributeType.Dexterity) };
+            AddDefinition(def);
+
+            // EPG
+            def = new RaceDefinition();
+            def.Name = "Changeling";
+            def.Size = CreatureSize.Meduim;
+            def.Speed = 6;
+            def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Bluff), new SkillBonus(2, Skill.Insight) };
+            def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Dexterity, AttributeType.Intelligence), new AttributeBonus(2, AttributeType.Charisma) };
+            AddDefinition(def);
+
+            def = new RaceDefinition();
+            def.Name = "Kalashtar";
+            def.Size = CreatureSize.Meduim;
+            def.Speed = 6;
+            def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Insight), new SkillBonus(2, Skill.Wildcard) };
+            def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Wisdom), new AttributeBonus(2, AttributeType.Charisma) };
+            AddDefinition(def);
+
+            def = new RaceDefinition();
+            def.Name = "Warforged";
+            def.Size = CreatureSize.Meduim;
+            def.Speed = 6;
+            def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Endurance), new SkillBonus(2, Skill.Intimidate) };
+            def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Strength), new AttributeBonus(2, AttributeType.Constitution) };
+            AddDefinition(def);
+
+            // FRPG
+            def = new RaceDefinition();
+            def.Name = "Drow";
+            def.Size = CreatureSize.Meduim;
+            def.Speed = 6;
+            def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Intimidate), new SkillBonus(2, Skill.Stealth) };
+            def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Dexterity), new AttributeBonus(2, AttributeType.Charisma) };
+            AddDefinition(def);
+
+            def = new RaceDefinition();
+            def.Name = "Genasi";
+            def.Size = CreatureSize.Meduim;
+            def.Speed = 6;
+            def.SkillBonues = new List<SkillBonus> { new SkillBonus(2, Skill.Endurance), new SkillBonus(2, Skill.Nature) };
+            def.AttributeBonuses = new List<AttributeBonus> { new AttributeBonus(2, AttributeType.Strength), new AttributeBonus(2, AttributeType.Intelligence) };
             AddDefinition(def);
         }
 

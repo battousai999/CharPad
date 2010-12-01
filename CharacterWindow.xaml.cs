@@ -111,5 +111,33 @@ namespace CharPad
 
             window.ShowDialog(this);
         }
+
+        private void btnHitPoints_Click(object sender, RoutedEventArgs e)
+        {
+            EditHitPointsWindow window = new EditHitPointsWindow(player);
+
+            window.ShowDialog(this);
+        }
+
+        private void btnSurgeValue_Click(object sender, RoutedEventArgs e)
+        {
+            EditSurgeValueWindow window = new EditSurgeValueWindow(player);
+
+            window.ShowDialog(this);
+        }
+
+        private void btnInitiative_Click(object sender, RoutedEventArgs e)
+        {
+            EditInitiativeWindow window = new EditInitiativeWindow(player);
+
+            window.ShowDialog(this);
+        }
+
+        private void btnSpeed_Click(object sender, RoutedEventArgs e)
+        {
+            EditSpeedWindow window = new EditSpeedWindow(player);
+
+            window.ShowDialog(this);
+        }
     }
 }
