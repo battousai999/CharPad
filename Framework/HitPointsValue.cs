@@ -45,7 +45,7 @@ namespace CharPad.Framework
 
         public int HealthFromLevel
         {
-            get { return (player.Level * player.Class.HealthPerLevel); }
+            get { return ((player.Level - 1) * player.Class.HealthPerLevel); }
         }
 
         public int TotalMiscAdjustment
@@ -64,6 +64,7 @@ namespace CharPad.Framework
                     player.Class.PropertyChanged += new PropertyChangedEventHandler(Class_PropertyChanged);
 
                 playerClass = player.Class;
+
                 Notify("HealthFromLevel");
                 Notify("BaseHealth");
                 Notify("Value");

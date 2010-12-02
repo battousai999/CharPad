@@ -9,6 +9,7 @@
         <conv:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
         <conv:BoolToGenderConverter x:Key="boolToGenderConverter" />
         <conv:ModifierConverter x:Key="modifierConverter" />
+        <conv:WeaponBonusConverter x:Key="weaponBonusConverter" />
         <Style x:Key="LinkButton" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -159,36 +160,24 @@
                             <TextBlock Grid.Row="5" Grid.Column="6" Text="{Binding Speed.Value}" VerticalAlignment="Center" Margin="0 5 0 0" />
                         </Grid>
                         
-                        <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
+                        <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 10 0 0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Weapon (main):" VerticalAlignment="Center" Margin="0 0 10 0" />
-                            <ComboBox Grid.Row="0" Grid.Column="1" />
-
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Weapon (off-hand):" VerticalAlignment="Center" Margin="0 5 10 0" />
-                            <ComboBox Grid.Row="1" Grid.Column="1" Margin="0 5 0 0" />
-
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Implement:" VerticalAlignment="Center" Margin="0 5 10 0" />
-                            <ComboBox Grid.Row="2" Grid.Column="1" Margin="0 5 0 0" />
-
-                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Armor:" VerticalAlignment="Center" Margin="20 0 10 0" />
-                            <ComboBox Grid.Row="0" Grid.Column="3" />
-
-                            <TextBlock Grid.Row="1" Grid.Column="2" Text="Shield:" VerticalAlignment="Center" Margin="20 5 10 0" />
-                            <ComboBox Grid.Row="1" Grid.Column="3" Margin="0 5 0 0" />
+                            <Button Grid.Column="0" Content="Weapon Bonuses:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="0 0 10 0" />
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource weaponBonusConverter}">
+                                        <Binding Path="Weapon" />
+                                        <Binding Path="." />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
                         </Grid>
                         
-                        <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="Resistances:" Margin="0 5 0 0" HorizontalAlignment="Left" />
+                        <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="Resistances:" Margin="0 10 0 0" HorizontalAlignment="Left" />
                         <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 0 0 0" Height="120">
                             
                         </Grid>
@@ -201,7 +190,51 @@
             <TabItem Header="Feats"></TabItem>
             <TabItem Header="Class/Race Features"></TabItem>
             <TabItem Header="Powers"></TabItem>
-            <TabItem Header="Inventory"></TabItem>
+            <TabItem Header="Inventory">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Weapon (main):" VerticalAlignment="Center" Margin="0 0 10 0" />
+                        <ComboBox Grid.Row="0" Grid.Column="1" SelectedItem="{Binding ElementName=ThisWindow, Path=CurrentMainWeapon}" DisplayMemberPath="DisplayName" ItemsSource="{Binding ElementName=ThisWindow, Path=MainWeapons}" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Weapon (off-hand):" VerticalAlignment="Center" Margin="0 5 10 0" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" SelectedItem="{Binding ElementName=ThisWindow, Path=CurrentOffhandWeapon}" DisplayMemberPath="DisplayName" ItemsSource="{Binding ElementName=ThisWindow, Path=OffhandWeapons}" Margin="0 5 0 0" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Implement:" VerticalAlignment="Center" Margin="0 5 10 0" />
+                        <ComboBox Grid.Row="2" Grid.Column="1" Margin="0 5 0 0" />
+
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Armor:" VerticalAlignment="Center" Margin="20 0 10 0" />
+                        <ComboBox Grid.Row="0" Grid.Column="3" SelectedItem="{Binding ElementName=ThisWindow, Path=CurrentArmor}" DisplayMemberPath="DisplayName" ItemsSource="{Binding ElementName=ThisWindow, Path=Armors}" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Shield:" VerticalAlignment="Center" Margin="20 5 10 0" />
+                        <ComboBox Grid.Row="1" Grid.Column="3" SelectedItem="{Binding ElementName=ThisWindow, Path=CurrentShield}" DisplayMemberPath="DisplayName" ItemsSource="{Binding ElementName=ThisWindow, Path=Shields}" Margin="0 5 0 0" />
+                    </Grid>
+
+                    <ListView Grid.Row="1" ItemsSource="{Binding ElementName=ThisWindow, Path=Inventory}" Margin="0 5 0 0">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
         </TabControl>
         
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 10 10">

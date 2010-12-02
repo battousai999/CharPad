@@ -12,21 +12,68 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CharPad.Framework;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace CharPad
 {
     /// <summary>
     /// Interaction logic for CharacterWindow.xaml
     /// </summary>
-    public partial class CharacterWindow : Window
+    public partial class CharacterWindow : Window, INotifyPropertyChanged
     {
+        #region Classes
+
+        public class InvItem
+        {
+            public static InvItem NullItem = new InvItem(null);
+
+            public string DisplayName { get; set; }
+            public IInventoryItem Item { get; set; }
+
+            public InvItem(IInventoryItem item)
+            {
+                this.DisplayName = (item == null ? "(none)" : item.Name);
+                this.Item = item;
+            }
+        }
+
+        #endregion
+
         private Player player;
         private bool isNew;
+        private ObservableCollectionEx<IInventoryItem> inventory;
+        private ObservableCollection<InvItem> mainWeapons;
+        private ObservableCollection<InvItem> offhandWeapons;
+        private ObservableCollection<InvItem> armors;
+        private ObservableCollection<InvItem> shields;
+        private InvItem currentArmor;
+        private InvItem currentShield;
+        private InvItem currentMainWeapon;
+        private InvItem currentOffhandWeapon;
 
         public CharacterWindow(Player player, bool isNew)
         {
             this.player = player;
             this.isNew = isNew;
+
+            List<IInventoryItem> wieldedItems = player.WieldedItems;
+
+            inventory = new ObservableCollectionEx<IInventoryItem>(player.Inventory.Where(x => !wieldedItems.Contains(x)));
+            player.Inventory.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Inventory_CollectionChanged);
+            player.Inventory.ContainedElementChanged += new PropertyChangedEventHandler(Inventory_ContainedElementChanged);
+            player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
+
+            mainWeapons = new ObservableCollection<InvItem>();
+            offhandWeapons = new ObservableCollection<InvItem>();
+            armors = new ObservableCollection<InvItem>();
+            shields = new ObservableCollection<InvItem>();
+
+            UpdateItemCollections();
+
+            currentMainWeapon = mainWeapons.FirstOrDefault(x => x.Item == player.Weapon);
+            currentOffhandWeapon = offhandWeapons.FirstOrDefault(x => x.Item == player.WeaponOffhand);
+            currentArmor = armors.FirstOrDefault(x => x.Item == player.Armor);
+            currentShield = shields.FirstOrDefault(x => x.Item == player.Shield);
 
             InitializeComponent();
 
@@ -36,6 +83,150 @@ namespace CharPad
                 this.Title = "New Character";
             else
                 this.SetBinding(Window.TitleProperty, new Binding { Source = player, Path = new PropertyPath("CharacterName"), StringFormat = "Edit {0}" });
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+
+            player.Inventory.CollectionChanged -= new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Inventory_CollectionChanged);
+            player.Inventory.ContainedElementChanged -= new PropertyChangedEventHandler(Inventory_ContainedElementChanged);
+            player.PropertyChanged -= new PropertyChangedEventHandler(player_PropertyChanged);
+        }
+
+        void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if ((StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Weapon") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "WeaponOffhand") == 0))
+            {
+                UpdateWeaponCollections();
+            }
+        }
+
+        void Inventory_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("Inventory");
+        }
+
+        void Inventory_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            foreach (IInventoryItem item in e.NewItems)
+            {
+                inventory.Add(item);
+            }
+
+            foreach (IInventoryItem item in e.OldItems)
+            {
+                inventory.Remove(item);
+            }
+
+            UpdateItemCollections();
+
+            Notify("Inventory");            
+        }
+
+        private void UpdateItemCollections()
+        {
+            UpdateWeaponCollections();
+
+            armors.Clear();
+            armors.Add(InvItem.NullItem);
+            player.Inventory.Where(x => x is Armor).ToList().ForEach(x => armors.Add(new InvItem(x)));
+            currentArmor = armors.FirstOrDefault(x => x.Item == player.Armor);
+
+            shields.Clear();
+            shields.Add(InvItem.NullItem);
+            player.Inventory.Where(x => x is Shield).ToList().ForEach(x => shields.Add(new InvItem(x)));
+            currentShield = shields.FirstOrDefault(x => x.Item == player.Shield);
+        }
+
+        private void UpdateWeaponCollections()
+        {
+            mainWeapons.Clear();
+            mainWeapons.Add(InvItem.NullItem);
+            player.Inventory.Where(x => (x is Weapon) && (x != player.WeaponOffhand)).ToList().ForEach(x => mainWeapons.Add(new InvItem(x)));
+            currentMainWeapon = mainWeapons.FirstOrDefault(x => x.Item == player.Weapon);
+            Notify("CurrentMainWeapon");
+
+            offhandWeapons.Clear();
+            offhandWeapons.Add(InvItem.NullItem);
+            player.Inventory.Where(x => (x is Weapon) && (x != player.Weapon)).ToList().ForEach(x => offhandWeapons.Add(new InvItem(x)));
+            currentOffhandWeapon = offhandWeapons.FirstOrDefault(x => x.Item == player.WeaponOffhand);
+            Notify("CurrentOffhandWeapon");
+        }
+
+        public Player Player
+        {
+            get { return player; }
+        }
+
+        public InvItem CurrentArmor
+        {
+            get { return currentArmor; }
+            set
+            {
+                currentArmor = value; 
+                player.Armor = (Armor)currentArmor.Item; 
+                Notify("CurrentArmor");
+            }
+        }
+
+        public InvItem CurrentShield
+        {
+            get { return currentShield; }
+            set
+            {
+                currentShield = value; 
+                player.Shield = (Shield)currentShield.Item; 
+                Notify("CurrentShield");
+            }
+        }
+
+        public InvItem CurrentMainWeapon
+        {
+            get { return currentMainWeapon; }
+            set
+            {
+                currentMainWeapon = value; 
+                player.Weapon = (Weapon)currentMainWeapon.Item;
+                Notify("CurrentMainWeapon");
+            }
+        }
+
+        public InvItem CurrentOffhandWeapon
+        {
+            get { return currentOffhandWeapon; }
+            set
+            {
+                currentOffhandWeapon = value; 
+                player.WeaponOffhand = (Weapon)currentOffhandWeapon.Item;
+                Notify("CurrentOffhandWeapon");
+            }
+        }
+
+        public ObservableCollectionEx<IInventoryItem> Inventory
+        {
+            get { return inventory; }
+        }
+
+        public ObservableCollection<InvItem> MainWeapons
+        {
+            get { return mainWeapons; }
+        }
+
+        public ObservableCollection<InvItem> OffhandWeapons
+        {
+            get { return offhandWeapons; }
+        }
+
+        public ObservableCollection<InvItem> Armors
+        {
+            get { return armors; }
+        }
+
+        public ObservableCollection<InvItem> Shields
+        {
+            get { return shields; }
         }
 
         public bool IsNew
@@ -139,5 +330,17 @@ namespace CharPad
 
             window.ShowDialog(this);
         }
+
+        #region INotifyPropertyChanged Members
+
+        private void Notify(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
     }
 }

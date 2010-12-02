@@ -60,6 +60,9 @@ namespace CharPad.Framework
         private Weapon weapon;
         private Weapon weaponOffhand;
         private ObservableCollectionEx<IInventoryItem> inventory;
+        private WeaponBonusList weaponBonuses;
+        private WeaponSpecValue weaponSpec;
+        private WeaponSpecValue weaponOffhandSpec;
 
         public string CharacterName { get { return characterName; } set { characterName = value; Notify("CharacterName"); } }
         public string PlayerName { get { return playerName; } set { playerName = value; Notify("PlayerName"); } }
@@ -107,16 +110,25 @@ namespace CharPad.Framework
         public ObservableCollectionEx<FeatureValue> Feats { get { return feats; } }
         public ObservableCollectionEx<ResistanceValue> Resistances { get { return resistances; } }
         public ObservableCollectionEx<IInventoryItem> Inventory { get { return inventory; } }
+        public WeaponBonusList WeaponBonuses { get { return weaponBonuses; } }
+        public WeaponSpecValue WeaponSpec { get { return weaponSpec; } }
+        public WeaponSpecValue WeaponOffhandSpec { get { return weaponOffhandSpec; } }
 
         public Armor Armor 
         { 
             get { return armor; }             
             set 
-            { 
+            {
+                if ((value != null) && !inventory.Contains(value))
+                    throw new InvalidOperationException("Cannot equipt armor that is not in your inventory.");
+
                 if (armor != null)
                     armor.PropertyChanged -= new PropertyChangedEventHandler(armor_PropertyChanged);
 
-                armor = value; 
+                armor = value;
+
+                if (armor != null)
+                    armor.PropertyChanged += new PropertyChangedEventHandler(armor_PropertyChanged);
                 
                 Notify("Armor");
                 Notify("AcDefense");
@@ -126,9 +138,6 @@ namespace CharPad.Framework
                 Notify("Endurance");
                 Notify("Stealth");
                 Notify("Thievery");
-
-                if (armor != null)
-                    armor.PropertyChanged += new PropertyChangedEventHandler(armor_PropertyChanged);
             } 
         }
 
@@ -149,6 +158,9 @@ namespace CharPad.Framework
             get { return shield; }
             set
             {
+                if ((value != null) && !inventory.Contains(value))
+                    throw new InvalidOperationException("Cannot equipt a shield that is not in your inventory.");
+
                 if ((value != null) && (WeaponOffhand != null))
                     WeaponOffhand = null;
 
@@ -156,6 +168,9 @@ namespace CharPad.Framework
                     shield.PropertyChanged -= new PropertyChangedEventHandler(shield_PropertyChanged);
 
                 shield = value;
+
+                if (shield != null)
+                    shield.PropertyChanged += new PropertyChangedEventHandler(shield_PropertyChanged);
 
                 Notify("Shield");
                 Notify("AcDefense");
@@ -166,9 +181,6 @@ namespace CharPad.Framework
                 Notify("Endurance");
                 Notify("Stealth");
                 Notify("Thievery");
-
-                if (shield != null)
-                    shield.PropertyChanged += new PropertyChangedEventHandler(shield_PropertyChanged);
             }
         }
 
@@ -190,21 +202,26 @@ namespace CharPad.Framework
             get { return weapon; }
             set
             {
+                if ((value != null) && !inventory.Contains(value))
+                    throw new InvalidOperationException("Cannot equipt a weapon that is not in your inventory.");
+
                 if (weapon != null)
                     weapon.PropertyChanged -= new PropertyChangedEventHandler(weapon_PropertyChanged);
 
                 weapon = value;
 
-                Notify("Weapon");
-
                 if (weapon != null)
                     weapon.PropertyChanged += new PropertyChangedEventHandler(weapon_PropertyChanged);
+
+                Notify("Weapon");
+                Notify("WeaponSpec");
             }
         }
 
         private void weapon_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             Notify("Weapon");
+            Notify("WeaponSpec");
         }
 
         public Weapon WeaponOffhand
@@ -212,6 +229,9 @@ namespace CharPad.Framework
             get { return weaponOffhand; }
             set
             {
+                if ((value != null) && !inventory.Contains(value))
+                    throw new InvalidOperationException("Cannot equipt an off-hand weapon that is not in your inventory.");
+
                 if ((value != null) && (Shield != null))
                     Shield = null;
 
@@ -220,16 +240,18 @@ namespace CharPad.Framework
 
                 weaponOffhand = value;
 
-                Notify("WeaponOffhand");
-
                 if (weaponOffhand != null)
                     weaponOffhand.PropertyChanged += new PropertyChangedEventHandler(weaponOffhand_PropertyChanged);
+
+                Notify("WeaponOffhand");
+                Notify("WeaponOffhandSpec");
             }
         }
 
         private void weaponOffhand_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             Notify("WeaponOffhand");
+            Notify("WeaponOffhandSpec");
         }
 
         public List<IInventoryItem> WieldedItems
@@ -299,6 +321,9 @@ namespace CharPad.Framework
             this.feats = new ObservableCollectionEx<FeatureValue>();
             this.resistances = new ObservableCollectionEx<ResistanceValue>();
             this.inventory = new ObservableCollectionEx<IInventoryItem>();
+            this.weaponBonuses = new WeaponBonusList();
+            this.weaponSpec = new WeaponSpecValue(this, true);
+            this.weaponOffhandSpec = new WeaponSpecValue(this, false);
 
             hitPoints.PropertyChanged += new PropertyChangedEventHandler(hitPoints_PropertyChanged);
             insight.PropertyChanged += new PropertyChangedEventHandler(insight_PropertyChanged);
@@ -317,6 +342,30 @@ namespace CharPad.Framework
             resistances.CollectionChanged += new NotifyCollectionChangedEventHandler(resistances_CollectionChanged);
             inventory.ContainedElementChanged += new PropertyChangedEventHandler(inventory_ContainedElementChanged);
             inventory.CollectionChanged += new NotifyCollectionChangedEventHandler(inventory_CollectionChanged);
+            weaponBonuses.ContainedElementChanged += new PropertyChangedEventHandler(weaponBonuses_ContainedElementChanged);
+            weaponBonuses.CollectionChanged += new NotifyCollectionChangedEventHandler(weaponBonuses_CollectionChanged);
+            weaponSpec.PropertyChanged += new PropertyChangedEventHandler(weaponSpec_PropertyChanged);
+            weaponOffhandSpec.PropertyChanged += new PropertyChangedEventHandler(weaponOffhandSpec_PropertyChanged);
+        }
+
+        void weaponOffhandSpec_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("WeaponOffhandSpec");
+        }
+
+        void weaponSpec_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("WeaponSpec");
+        }
+
+        void weaponBonuses_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Notify("WeaponBonuses");
+        }
+
+        void weaponBonuses_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("WeaponBonuses");
         }
 
         void inventory_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

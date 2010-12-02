@@ -87,8 +87,11 @@
     <Compile Include="EditSpeedWindow.xaml.cs">
       <DependentUpon>EditSpeedWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Framework\WeaponBonusList.cs" />
     <Compile Include="Framework\Party.cs" />
     <Compile Include="Framework\Utility.cs" />
+    <Compile Include="Framework\WeaponBonusValue.cs" />
+    <Compile Include="Framework\WeaponSpecValue.cs" />
     <Compile Include="ValueConverters\ListViewLastColumnWidthConverter.cs" />
     <Compile Include="ValueConverters\ModifierConverter.cs" />
     <Compile Include="ValueConverters\BoolToGenderConverter.cs" />
@@ -96,6 +99,7 @@
     <Compile Include="ValueConverters\CreatureSizeConverter.cs" />
     <Compile Include="ValueConverters\EmptyCollectionToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\NullToBoolConverter.cs" />
+    <Compile Include="ValueConverters\WeaponBonusConverter.cs" />
     <Page Include="AddBasicAdjustmentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

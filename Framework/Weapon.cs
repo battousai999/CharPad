@@ -42,6 +42,13 @@ namespace CharPad.Framework
 
         public int TotalBonus { get { return proficiencyBonus + enhancementBonus; } }
 
+        public bool IsRanged { get { return !String.IsNullOrWhiteSpace(Range); } }
+
+        public bool HasWeaponProperty(WeaponProperties property)
+        {
+            return ((Properties & property) == property);
+        }
+
         #region INotifyPropertyChanged Members
 
         private void Notify(string propertyName)
