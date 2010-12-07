@@ -48,6 +48,11 @@ namespace CharPad
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
+            EditSelectedItem();
+        }
+
+        private void EditSelectedItem()
+        {
             BasicAdjustment adjustment = (lvMain.SelectedItem as BasicAdjustment);
 
             if (adjustment == null)
@@ -73,6 +78,11 @@ namespace CharPad
             {
                 List.Remove(adjustment);
             }
+        }
+
+        private void lvMain_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            EditSelectedItem();
         }
     }
 }

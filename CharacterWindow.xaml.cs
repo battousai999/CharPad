@@ -50,6 +50,7 @@ namespace CharPad
         private InvItem currentShield;
         private InvItem currentMainWeapon;
         private InvItem currentOffhandWeapon;
+        private bool ignorePlayerWeaponUpdating = false;
 
         public CharacterWindow(Player player, bool isNew)
         {
@@ -142,22 +143,36 @@ namespace CharPad
 
         private void UpdateWeaponCollections()
         {
-            mainWeapons.Clear();
-            mainWeapons.Add(InvItem.NullItem);
-            player.Inventory.Where(x => (x is Weapon) && (x != player.WeaponOffhand)).ToList().ForEach(x => mainWeapons.Add(new InvItem(x)));
-            currentMainWeapon = mainWeapons.FirstOrDefault(x => x.Item == player.Weapon);
-            Notify("CurrentMainWeapon");
+            ignorePlayerWeaponUpdating = true;
 
-            offhandWeapons.Clear();
-            offhandWeapons.Add(InvItem.NullItem);
-            player.Inventory.Where(x => (x is Weapon) && (x != player.Weapon)).ToList().ForEach(x => offhandWeapons.Add(new InvItem(x)));
-            currentOffhandWeapon = offhandWeapons.FirstOrDefault(x => x.Item == player.WeaponOffhand);
-            Notify("CurrentOffhandWeapon");
+            try
+            {
+                mainWeapons.Clear();
+                mainWeapons.Add(InvItem.NullItem);
+                player.Inventory.Where(x => (x is Weapon) && (x != player.WeaponOffhand)).ToList().ForEach(x => mainWeapons.Add(new InvItem(x)));
+                currentMainWeapon = mainWeapons.FirstOrDefault(x => x.Item == player.Weapon);
+                Notify("CurrentMainWeapon");
+
+                offhandWeapons.Clear();
+                offhandWeapons.Add(InvItem.NullItem);
+                player.Inventory.Where(x => (x is Weapon) && (x != player.Weapon)).ToList().ForEach(x => offhandWeapons.Add(new InvItem(x)));
+                currentOffhandWeapon = offhandWeapons.FirstOrDefault(x => x.Item == player.WeaponOffhand);
+                Notify("CurrentOffhandWeapon");
+            }
+            finally
+            {
+                ignorePlayerWeaponUpdating = false;
+            }
         }
 
         public Player Player
         {
             get { return player; }
+        }
+
+        public ObservableCollectionEx<ResistanceValue> Resistances
+        {
+            get { return player.Resistances; }
         }
 
         public InvItem CurrentArmor
@@ -188,7 +203,10 @@ namespace CharPad
             set
             {
                 currentMainWeapon = value; 
-                player.Weapon = (Weapon)currentMainWeapon.Item;
+
+                if (!ignorePlayerWeaponUpdating)
+                    player.Weapon = (Weapon)currentMainWeapon.Item;
+
                 Notify("CurrentMainWeapon");
             }
         }
@@ -199,7 +217,10 @@ namespace CharPad
             set
             {
                 currentOffhandWeapon = value; 
-                player.WeaponOffhand = (Weapon)currentOffhandWeapon.Item;
+
+                if (!ignorePlayerWeaponUpdating)
+                    player.WeaponOffhand = (Weapon)currentOffhandWeapon.Item;
+
                 Notify("CurrentOffhandWeapon");
             }
         }
@@ -331,6 +352,75 @@ namespace CharPad
             window.ShowDialog(this);
         }
 
+        private void btnMainWeaponSpec_Click(object sender, RoutedEventArgs e)
+        {
+            if (player.Weapon == null)
+                return;
+
+            EditWeaponSpecWindow window = new EditWeaponSpecWindow(player.WeaponSpec);
+
+            window.ShowDialog(this);
+
+            BindingOperations.GetMultiBindingExpression(txtWeaponSpec, TextBlock.TextProperty).UpdateTarget();
+        }
+
+        private void btnOffhandWeaponSpec_Click(object sender, RoutedEventArgs e)
+        {
+            if (player.WeaponOffhand == null)
+                return;
+
+            EditWeaponSpecWindow window = new EditWeaponSpecWindow(player.WeaponOffhandSpec);
+
+            window.ShowDialog(this);
+
+            BindingOperations.GetMultiBindingExpression(txtOffhandWeaponSpec, TextBlock.TextProperty).UpdateTarget();
+        }
+
+        private void btnAddResistance_Click(object sender, RoutedEventArgs e)
+        {
+            AddResistanceValueWindow window = new AddResistanceValueWindow(null);
+
+            if (window.ShowDialog(Application.Current.MainWindow))
+            {
+                player.Resistances.Add(window.Resistance);
+            }
+        }
+
+        private void btnEditResistance_Click(object sender, RoutedEventArgs e)
+        {
+            EditSelectedResistance();
+        }
+
+        private void EditSelectedResistance()
+        {
+            ResistanceValue resistance = (lvResistances.SelectedItem as ResistanceValue);
+
+            if (resistance == null)
+                return;
+
+            AddResistanceValueWindow window = new AddResistanceValueWindow(resistance);
+
+            if (window.ShowDialog(Application.Current.MainWindow))
+            {
+                resistance.Modifier = window.Resistance.Modifier;
+                resistance.DamageType = window.Resistance.DamageType;
+                resistance.Description = window.Resistance.Description;
+            }
+        }
+
+        private void btnDeleteResistance_Click(object sender, RoutedEventArgs e)
+        {
+            ResistanceValue resistance = (lvResistances.SelectedItem as ResistanceValue);
+
+            if (resistance == null)
+                return;
+
+            if (MessageBox.Show("Are you sure you want to delete this resistance value?", "Delete resistance?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+            {
+                player.Resistances.Remove(resistance);
+            }
+        }
+
         #region INotifyPropertyChanged Members
 
         private void Notify(string propertyName)
@@ -342,5 +432,10 @@ namespace CharPad
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
+
+        private void lvResistances_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            EditSelectedResistance();
+        }
     }
 }

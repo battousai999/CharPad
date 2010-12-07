@@ -10,6 +10,7 @@ namespace CharPad.Framework
     {
         private Player player;
         private Weapon playerWeapon;
+        private WeaponBonusValue weaponBonus;
         private bool isMainWeapon;
         private bool asRanged;
         private BasicAdjustmentList toHitAdjustments;
@@ -34,9 +35,15 @@ namespace CharPad.Framework
 
             if (Weapon != null)
                 Weapon.PropertyChanged += new PropertyChangedEventHandler(Weapon_PropertyChanged);
+
+            if (Weapon != null)
+            {
+                weaponBonus = player.WeaponBonuses[Weapon];
+
+                if (weaponBonus != null)
+                    weaponBonus.PropertyChanged += new PropertyChangedEventHandler(bonus_PropertyChanged);
+            }
             
-            player.WeaponBonuses.ContainedElementChanged += new PropertyChangedEventHandler(WeaponBonuses_ContainedElementChanged);
-            player.WeaponBonuses.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(WeaponBonuses_CollectionChanged);
             toHitAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(toHitAdjustments_ContainedElementChanged);
             toHitAdjustments.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(toHitAdjustments_CollectionChanged);
             damageAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(damageAdjustments_ContainedElementChanged);
@@ -57,7 +64,7 @@ namespace CharPad.Framework
                 if (Weapon == null)
                     return 0;
 
-                return AttributeBonus + ProficiencyBonus + LevelBonus + TotalToHitAdjustments + WeaponSpecificToHitAdjustments;
+                return AttributeBonus + ProficiencyBonus + LevelBonus + TotalToHitAdjustment + WeaponSpecificToHitAdjustment;
             }
         }
 
@@ -68,7 +75,7 @@ namespace CharPad.Framework
                 if (Weapon == null)
                     return 0;
 
-                return AttributeBonus + TotalDamageAdjustments + WeaponSpecificDamageAdjustments;
+                return AttributeBonus + TotalDamageAdjustment + WeaponSpecificDamageAdjustment;
             }
         }
 
@@ -116,17 +123,17 @@ namespace CharPad.Framework
             get { return (Weapon == null ? 0 : Weapon.ProficiencyBonus); }
         }
 
-        public int TotalToHitAdjustments
+        public int TotalToHitAdjustment
         {
             get { return toHitAdjustments.TotalAdjustment; }
         }
 
-        public int TotalDamageAdjustments
+        public int TotalDamageAdjustment
         {
             get { return damageAdjustments.TotalAdjustment; }
         }
 
-        public int WeaponSpecificToHitAdjustments
+        public int WeaponSpecificToHitAdjustment
         {
             get
             {
@@ -139,7 +146,7 @@ namespace CharPad.Framework
             }
         }
 
-        public int WeaponSpecificDamageAdjustments
+        public int WeaponSpecificDamageAdjustment
         {
             get
             {
@@ -152,44 +159,70 @@ namespace CharPad.Framework
             }
         }
 
+        public BasicAdjustmentList WeaponSpecificToHitAdjustments
+        {
+            get 
+            {
+                if (Weapon == null)
+                    return null;
+
+                WeaponBonusValue bonus = player.WeaponBonuses[Weapon];
+ 
+                return (bonus == null ? null : bonus.ToHitAdjustments); 
+            }
+        }
+
+        public BasicAdjustmentList WeaponSpecificDamageAdjustments
+        {
+            get 
+            {
+                if (Weapon == null)
+                    return null;
+
+                WeaponBonusValue bonus = player.WeaponBonuses[Weapon];
+
+                return (bonus == null ? null : bonus.DamageAdjustments); 
+            }
+        }
+
         public int LevelBonus
         {
             get { return player.LevelBonus; }
         }
 
-        void WeaponBonuses_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        void bonus_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             Notify("WeaponSpecificToHitAdjustments");
-            Notify("TotalToHitBonus");
-        }
-
-        void WeaponBonuses_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
-        {
             Notify("WeaponSpecificDamageAdjustments");
+            Notify("WeaponSpecificToHitAdjustment");
+            Notify("WeaponSpecificDamageAdjustment");
+            Notify("TotalToHitAdjustment");
+            Notify("TotalDamageAdjustment");
+            Notify("TotalToHitBonus");
             Notify("TotalDamageBonus");
         }
 
         void damageAdjustments_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            Notify("TotalDamageAdjustments");
+            Notify("TotalDamageAdjustment");
             Notify("TotalDamageBonus");
         }
 
         void damageAdjustments_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
         {
-            Notify("TotalDamageAdjustments");
+            Notify("TotalDamageAdjustment");
             Notify("TotalDamageBonus");
         }
 
         void toHitAdjustments_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            Notify("TotalToHitAdjustments");
+            Notify("TotalToHitAdjustment");
             Notify("TotalToHitBonus");
         }
 
         void toHitAdjustments_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
         {
-            Notify("TotalToHitAdjustments");
+            Notify("TotalToHitAdjustment");
             Notify("TotalToHitBonus");
         }
 
@@ -207,6 +240,14 @@ namespace CharPad.Framework
                         Weapon.PropertyChanged += new PropertyChangedEventHandler(Weapon_PropertyChanged);
 
                     playerWeapon = Weapon;
+
+                    if (weaponBonus != null)
+                        weaponBonus.PropertyChanged -= new PropertyChangedEventHandler(bonus_PropertyChanged);
+
+                    weaponBonus = (Weapon == null ? null : player.WeaponBonuses[Weapon]);
+
+                    if (weaponBonus != null)
+                        weaponBonus.PropertyChanged += new PropertyChangedEventHandler(bonus_PropertyChanged);
 
                     Notify("ToHitSpec");
                     Notify("DamageSpec");

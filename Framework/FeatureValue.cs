@@ -25,12 +25,8 @@ namespace CharPad.Framework
         }
 
         public string Name { get { return name; } set { name = value; Notify("Name"); } }
-        public string ShortDescription { get { return shortDescription; } set { shortDescription = value; Notify("ShortDescription"); Notify("LongDescription"); } }
-
-        public string LongDescription 
-        { 
-            get { return (String.IsNullOrWhiteSpace(longDescription) ? shortDescription : longDescription); } 
-            set { longDescription = value; Notify("ShortDescription"); Notify("LongDescription"); } }
+        public string ShortDescription { get { return shortDescription; } set { shortDescription = value; Notify("ShortDescription"); } }
+        public string LongDescription { get { return longDescription; } set { longDescription = value; Notify("LongDescription"); } }
 
         #region INotifyPropertyChanged Members
 

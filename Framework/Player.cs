@@ -213,6 +213,11 @@ namespace CharPad.Framework
                 if (weapon != null)
                     weapon.PropertyChanged += new PropertyChangedEventHandler(weapon_PropertyChanged);
 
+                WeaponBonusValue bonus = WeaponBonuses[weapon];
+
+                if (bonus == null)
+                    WeaponBonuses.Add(weapon, new WeaponBonusValue());
+
                 Notify("Weapon");
                 Notify("WeaponSpec");
             }
