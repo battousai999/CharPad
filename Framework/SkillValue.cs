@@ -10,6 +10,8 @@ namespace CharPad.Framework
     {
         private Skill skill;
         private Player player;
+        private Armor playerArmor;
+        private Shield playerShield;
         private bool isTrained;
         private BasicAdjustmentList miscAdjustments;
 
@@ -21,16 +23,71 @@ namespace CharPad.Framework
             this.miscAdjustments = new BasicAdjustmentList();
 
             player.PropertyChanged += new PropertyChangedEventHandler(player_PropertyChanged);
+
+            if (player.Armor != null)
+                player.Armor.PropertyChanged += new PropertyChangedEventHandler(Armor_PropertyChanged);
+
+            playerArmor = player.Armor;
+
+            if (player.Shield != null)
+                player.Shield.PropertyChanged += new PropertyChangedEventHandler(Shield_PropertyChanged);
+
+            playerShield = player.Shield;
+
             miscAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(miscAdjustments_ContainedElementChanged);
+        }
+
+        void Shield_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("ArmorAdjustment");
+            Notify("Value");
+        }
+
+        void Armor_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("ArmorAdjustment");
+            Notify("Value");
         }
 
         private void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (IsAttributeProperty(e.PropertyName) ||
-                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "LevelBonus") == 0) ||
-                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Armor") == 0) ||
-                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Shield") == 0))
+            if (IsAttributeProperty(e.PropertyName))
             {
+                Notify("AttributeBonus");
+                Notify("Value");
+            }
+
+            if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Armor") == 0)
+            {
+                if (playerArmor != null)
+                    playerArmor.PropertyChanged -= new PropertyChangedEventHandler(Armor_PropertyChanged);
+
+                if (player.Armor != null)
+                    player.Armor.PropertyChanged += new PropertyChangedEventHandler(Armor_PropertyChanged);
+
+                playerArmor = player.Armor;
+
+                Notify("ArmorAdjustment");
+                Notify("Value");
+            }
+
+            if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Shield") == 0)
+            {
+                if (playerShield != null)
+                    playerShield.PropertyChanged += new PropertyChangedEventHandler(Shield_PropertyChanged);
+
+                if (player.Shield != null)
+                    player.Shield.PropertyChanged += new PropertyChangedEventHandler(Shield_PropertyChanged);
+
+                playerShield = player.Shield;
+
+                Notify("ArmorAdjustment");
+                Notify("Value");
+            }
+
+            if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "LevelBonus") == 0)
+            {
+                Notify("LevelBonus");
                 Notify("Value");
             }
         }
@@ -50,12 +107,6 @@ namespace CharPad.Framework
         public bool IsTrained { get { return isTrained; } set { isTrained = value; Notify("Value"); Notify("IsTrained"); } }
         public BasicAdjustmentList MiscAdjustments { get { return miscAdjustments; } }
 
-        public void AddMiscAdjustment(BasicAdjustment adjustment)
-        {
-            miscAdjustments.Add(adjustment);
-            Notify("Value");
-        }
-
         private void miscAdjustments_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
         {
             Notify("Value");
@@ -68,6 +119,36 @@ namespace CharPad.Framework
                 return player.LevelBonus + GetAttributeBonus() + (isTrained ? 5 : 0) + GetArmorAdjustment() +
                     miscAdjustments.TotalAdjustment;
             }
+        }
+
+        public int LevelBonus
+        {
+            get { return player.LevelBonus; }
+        }
+
+        public int AttributeBonus
+        {
+            get { return GetAttributeBonus(); }
+        }
+
+        public int TrainedBonus
+        {
+            get { return (isTrained ? 5 : 0); }
+        }
+
+        public int ArmorAdjustment
+        {
+            get { return GetArmorAdjustment(); }
+        }
+
+        public int TotalMiscAdjustment
+        {
+            get { return miscAdjustments.TotalAdjustment; }
+        }
+
+        public AttributeType AttributeBonusType
+        {
+            get { return GetAttributeBonusType(); }
         }
 
         private int GetAttributeBonus()
@@ -97,6 +178,38 @@ namespace CharPad.Framework
                 case Skill.Intimidate:
                 case Skill.Streetwise:
                     return player.ChaModifier;
+                default:
+                    throw new InvalidOperationException("Unexpected skill: " + Enum.Format(typeof(Skill), skill, "G"));
+            }
+        }
+
+        private AttributeType GetAttributeBonusType()
+        {
+            switch (skill)
+            {
+                case Skill.Athletics:
+                    return AttributeType.Strength;
+                case Skill.Endurance:
+                    return AttributeType.Constitution;
+                case Skill.Acrobatics:
+                case Skill.Stealth:
+                case Skill.Thievery:
+                    return AttributeType.Dexterity;
+                case Skill.Arcana:
+                case Skill.History:
+                case Skill.Religion:
+                    return AttributeType.Intelligence;
+                case Skill.Dungeoneering:
+                case Skill.Heal:
+                case Skill.Insight:
+                case Skill.Nature:
+                case Skill.Perception:
+                    return AttributeType.Wisdom;
+                case Skill.Bluff:
+                case Skill.Diplomacy:
+                case Skill.Intimidate:
+                case Skill.Streetwise:
+                    return AttributeType.Charisma;
                 default:
                     throw new InvalidOperationException("Unexpected skill: " + Enum.Format(typeof(Skill), skill, "G"));
             }

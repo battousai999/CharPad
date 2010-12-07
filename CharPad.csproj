@@ -104,7 +104,9 @@
     <Compile Include="Framework\Utility.cs" />
     <Compile Include="Framework\WeaponBonusValue.cs" />
     <Compile Include="Framework\WeaponSpecValue.cs" />
+    <Compile Include="ValueConverters\AbbreviatedAttributeTypeConverter.cs" />
     <Compile Include="ValueConverters\DisplayLongNoteConverter.cs" />
+    <Compile Include="ValueConverters\HideZeroModifierConverter.cs" />
     <Compile Include="ValueConverters\ListViewLastColumnWidthConverter.cs" />
     <Compile Include="ValueConverters\ModifierConverter.cs" />
     <Compile Include="ValueConverters\BoolToGenderConverter.cs" />
