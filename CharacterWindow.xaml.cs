@@ -111,14 +111,20 @@ namespace CharPad
 
         void Inventory_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            foreach (IInventoryItem item in e.NewItems)
+            if ((e.NewItems != null) && (e.NewItems.Count > 0))
             {
-                inventory.Add(item);
+                foreach (IInventoryItem item in e.NewItems)
+                {
+                    inventory.Add(item);
+                }
             }
 
-            foreach (IInventoryItem item in e.OldItems)
+            if ((e.OldItems != null) && (e.OldItems.Count > 0))
             {
-                inventory.Remove(item);
+                foreach (IInventoryItem item in e.OldItems)
+                {
+                    inventory.Remove(item);
+                }
             }
 
             UpdateItemCollections();
@@ -436,6 +442,79 @@ namespace CharPad
         private void lvResistances_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             EditSelectedResistance();
+        }
+
+        private void btnSkill_Click(object sender, RoutedEventArgs e)
+        {
+            SkillValue skill = ((sender as Button).Tag as SkillValue);
+
+            if (skill == null)
+                return;
+
+            EditSkillValueWindow window = new EditSkillValueWindow(skill);
+
+            window.ShowDialog(this);
+        }
+
+        private void btnSurgesPerDay_Click(object sender, RoutedEventArgs e)
+        {
+            EditSurgesPerDayWindow window = new EditSurgesPerDayWindow(player);
+
+            window.ShowDialog(this);
+        }
+
+        private void lvInventory_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            IInventoryItem item = (lvInventory.SelectedItem as IInventoryItem);
+
+            if (item == null)
+                return;
+
+            EditInventoryItem(item);
+        }
+
+        private void EditInventoryItem(IInventoryItem item)
+        {
+        }
+
+        private void btnAddInventory_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void btnEditInventory_Click(object sender, RoutedEventArgs e)
+        {
+            if (lvInventory.SelectedItems.Count > 1)
+                return;
+
+            IInventoryItem item = (lvInventory.SelectedItem as IInventoryItem);
+
+            if (item == null)
+                return;
+
+            EditInventoryItem(item);
+        }
+
+        private void btnDeleteInventory_Click(object sender, RoutedEventArgs e)
+        {
+            if (lvInventory.SelectedItems.Count == 0)
+                return;
+
+            string message;
+
+            if (lvInventory.SelectedItems.Count == 1)
+                message = String.Format("Are you sure that you want to delete this item ({0})?", (lvInventory.SelectedItem as IInventoryItem).Name);
+            else
+                message = String.Format("Are you sure that you want to delete the selected {0} items?", lvInventory.SelectedItems.Count.ToString());
+
+            if (MessageBox.Show(message, "Delete inventory items", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+            {
+                List<IInventoryItem> itemsToDelete = new List<IInventoryItem>(new ListAdapter<IInventoryItem>(lvInventory.SelectedItems));
+
+                foreach (IInventoryItem item in itemsToDelete)
+                {
+                    player.Inventory.Remove(item);
+                }
+            }
         }
     }
 }

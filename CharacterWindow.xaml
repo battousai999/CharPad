@@ -158,9 +158,9 @@
                         
                             <Button Grid.Row="1" Grid.Column="5" Content="Surge Value:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" Click="btnSurgeValue_Click" />
                             <TextBlock Grid.Row="1" Grid.Column="6" Text="{Binding SurgeValue.Value}" VerticalAlignment="Center" Margin="0 5 0 0" />
-                        
-                            <TextBlock Grid.Row="2" Grid.Column="5" Text="Surges/Day:" VerticalAlignment="Center" Margin="30 5 10 0" />
-                            <TextBox Grid.Row="2" Grid.Column="6" Text="{Binding SurgesPerDay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Width="25" VerticalAlignment="Center" Margin="0 5 0 0" />
+                            
+                            <Button Grid.Row="2" Grid.Column="5" Content="Surges/Day:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" Click="btnSurgesPerDay_Click" />
+                            <TextBlock Grid.Row="2" Grid.Column="6" Text="{Binding SurgesPerDay.Value}" VerticalAlignment="Center" Margin="0 5 0 0" />
                         
                             <Button Grid.Row="4" Grid.Column="5" Content="Initiative:" VerticalAlignment="Center" Style="{StaticResource LinkButton}" Margin="30 5 10 0" Click="btnInitiative_Click" />
                             <TextBlock Grid.Row="4" Grid.Column="6" Text="{Binding Initiative.Value, Converter={StaticResource modifierConverter}}" VerticalAlignment="Center" Margin="0 5 0 0" />
@@ -227,181 +227,183 @@
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="Skills">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <ScrollViewer>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
                     
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Skill" FontWeight="Bold" TextDecorations="Underline" Margin="0 0 10 0" />
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Value" FontWeight="Bold" TextDecorations="Underline" Margin="0 0 10 0" />
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Trained" FontWeight="Bold" TextDecorations="Underline" Margin="0 0 10 0" />
-                    <TextBlock Grid.Row="0" Grid.Column="3" Text="Attr." FontWeight="Bold" TextDecorations="Underline" Margin="0 0 10 0" />
-                    <TextBlock Grid.Row="0" Grid.Column="4" Text="Attr. Bonus" FontWeight="Bold" TextDecorations="Underline" Margin="0 0 10 0" />
-                    <TextBlock Grid.Row="0" Grid.Column="5" Text="Armor Adjust." FontWeight="Bold" TextDecorations="Underline" Margin="0 0 10 0" />
-                    <TextBlock Grid.Row="0" Grid.Column="6" Text="Misc. Adjust." FontWeight="Bold" TextDecorations="Underline" />
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Skill" FontWeight="Bold" TextDecorations="Underline" Margin="0 0 10 0" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Value" FontWeight="Bold" TextDecorations="Underline" Margin="0 0 10 0" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Trained" FontWeight="Bold" TextDecorations="Underline" Margin="0 0 10 0" />
+                        <TextBlock Grid.Row="0" Grid.Column="3" Text="Attr." FontWeight="Bold" TextDecorations="Underline" Margin="0 0 10 0" />
+                        <TextBlock Grid.Row="0" Grid.Column="4" Text="Attr. Bonus" FontWeight="Bold" TextDecorations="Underline" Margin="0 0 10 0" />
+                        <TextBlock Grid.Row="0" Grid.Column="5" Text="Armor Adjust." FontWeight="Bold" TextDecorations="Underline" Margin="0 0 10 0" />
+                        <TextBlock Grid.Row="0" Grid.Column="6" Text="Misc. Adjust." FontWeight="Bold" TextDecorations="Underline" />
 
-                    <Button Grid.Row="1" Grid.Column="0" Content="Acrobatics" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Acrobatics.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Acrobatics.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Acrobatics.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Acrobatics.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="1" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Acrobatics.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="1" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Acrobatics.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="1" Grid.Column="0" Content="Acrobatics" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Acrobatics}" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Acrobatics.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Acrobatics.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Acrobatics.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Acrobatics.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="1" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Acrobatics.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="1" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Acrobatics.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="2" Grid.Column="0" Content="Arcana" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Arcana.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Arcana.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Arcana.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Arcana.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="2" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Arcana.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="2" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Arcana.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="2" Grid.Column="0" Content="Arcana" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Arcana}" />
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Arcana.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Arcana.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Arcana.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Arcana.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="2" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Arcana.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="2" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Arcana.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="3" Grid.Column="0" Content="Athletics" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Athletics.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Athletics.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Athletics.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Athletics.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="3" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Athletics.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="3" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Athletics.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="3" Grid.Column="0" Content="Athletics" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Athletics}" />
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Athletics.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Athletics.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Athletics.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Athletics.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="3" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Athletics.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="3" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Athletics.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="4" Grid.Column="0" Content="Bluff" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Bluff.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Bluff.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="4" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Bluff.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="4" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Bluff.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="4" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Bluff.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="4" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Bluff.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="4" Grid.Column="0" Content="Bluff" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Bluff}" />
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Bluff.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Bluff.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="4" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Bluff.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="4" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Bluff.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="4" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Bluff.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="4" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Bluff.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="5" Grid.Column="0" Content="Diplomacy" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Diplomacy.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="5" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Diplomacy.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="5" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Diplomacy.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="5" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Diplomacy.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="5" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Diplomacy.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="5" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Diplomacy.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="5" Grid.Column="0" Content="Diplomacy" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Diplomacy}" />
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Diplomacy.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="5" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Diplomacy.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="5" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Diplomacy.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="5" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Diplomacy.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="5" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Diplomacy.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="5" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Diplomacy.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="6" Grid.Column="0" Content="Dungeoneering" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Dungeoneering.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="6" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Dungeoneering.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="6" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Dungeoneering.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="6" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Dungeoneering.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="6" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Dungeoneering.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="6" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Dungeoneering.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="6" Grid.Column="0" Content="Dungeoneering" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Dungeoneering}" />
+                        <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Dungeoneering.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="6" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Dungeoneering.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="6" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Dungeoneering.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="6" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Dungeoneering.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="6" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Dungeoneering.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="6" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Dungeoneering.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="7" Grid.Column="0" Content="Endurance" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Endurance.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="7" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Endurance.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="7" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Endurance.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="7" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Endurance.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="7" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Endurance.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="7" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Endurance.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="7" Grid.Column="0" Content="Endurance" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Endurance}" />
+                        <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Endurance.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="7" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Endurance.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="7" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Endurance.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="7" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Endurance.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="7" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Endurance.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="7" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Endurance.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="8" Grid.Column="0" Content="Heal" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Heal.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="8" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Heal.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="8" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Heal.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="8" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Heal.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="8" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Heal.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="8" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Heal.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="8" Grid.Column="0" Content="Heal" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Heal}" />
+                        <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Heal.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="8" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Heal.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="8" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Heal.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="8" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Heal.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="8" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Heal.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="8" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Heal.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="9" Grid.Column="0" Content="History" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.History.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="9" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.History.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="9" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.History.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="9" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.History.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="9" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.History.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="9" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.History.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="9" Grid.Column="0" Content="History" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.History}" />
+                        <TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.History.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="9" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.History.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="9" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.History.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="9" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.History.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="9" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.History.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="9" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.History.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="10" Grid.Column="0" Content="Insight" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="10" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Insight.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="10" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Insight.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="10" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Insight.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="10" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Insight.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="10" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Insight.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="10" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Insight.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="10" Grid.Column="0" Content="Insight" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Insight}" />
+                        <TextBlock Grid.Row="10" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Insight.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="10" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Insight.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="10" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Insight.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="10" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Insight.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="10" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Insight.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="10" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Insight.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="11" Grid.Column="0" Content="Intimidate" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="11" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Intimidate.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="11" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Intimidate.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="11" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Intimidate.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="11" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Intimidate.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="11" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Intimidate.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="11" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Intimidate.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="11" Grid.Column="0" Content="Intimidate" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Intimidate}" />
+                        <TextBlock Grid.Row="11" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Intimidate.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="11" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Intimidate.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="11" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Intimidate.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="11" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Intimidate.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="11" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Intimidate.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="11" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Intimidate.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="12" Grid.Column="0" Content="Nature" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="12" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Nature.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="12" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Nature.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="12" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Nature.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="12" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Nature.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="12" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Nature.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="12" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Nature.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="12" Grid.Column="0" Content="Nature" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Nature}" />
+                        <TextBlock Grid.Row="12" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Nature.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="12" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Nature.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="12" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Nature.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="12" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Nature.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="12" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Nature.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="12" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Nature.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="13" Grid.Column="0" Content="Perception" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="13" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Perception.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="13" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Perception.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="13" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Perception.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="13" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Perception.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="13" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Perception.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="13" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Perception.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="13" Grid.Column="0" Content="Perception" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Perception}" />
+                        <TextBlock Grid.Row="13" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Perception.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="13" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Perception.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="13" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Perception.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="13" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Perception.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="13" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Perception.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="13" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Perception.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="14" Grid.Column="0" Content="Religion" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="14" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Religion.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="14" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Religion.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="14" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Religion.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="14" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Religion.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="14" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Religion.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="14" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Religion.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="14" Grid.Column="0" Content="Religion" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Religion}" />
+                        <TextBlock Grid.Row="14" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Religion.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="14" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Religion.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="14" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Religion.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="14" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Religion.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="14" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Religion.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="14" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Religion.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="15" Grid.Column="0" Content="Stealth" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="15" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Stealth.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="15" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Stealth.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="15" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Stealth.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="15" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Stealth.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="15" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Stealth.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="15" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Stealth.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="15" Grid.Column="0" Content="Stealth" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Stealth}" />
+                        <TextBlock Grid.Row="15" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Stealth.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="15" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Stealth.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="15" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Stealth.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="15" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Stealth.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="15" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Stealth.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="15" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Stealth.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="16" Grid.Column="0" Content="Streetwise" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="16" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Streetwise.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="16" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Streetwise.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="16" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Streetwise.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="16" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Streetwise.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="16" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Streetwise.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="16" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Streetwise.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                        <Button Grid.Row="16" Grid.Column="0" Content="Streetwise" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Streetwise}" />
+                        <TextBlock Grid.Row="16" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Streetwise.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="16" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Streetwise.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="16" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Streetwise.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="16" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Streetwise.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="16" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Streetwise.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="16" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Streetwise.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
 
-                    <Button Grid.Row="17" Grid.Column="0" Content="Thievery" Style="{StaticResource LinkButton}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="17" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Thievery.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="17" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Thievery.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="17" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Thievery.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="17" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Thievery.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="17" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Thievery.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
-                    <TextBlock Grid.Row="17" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Thievery.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
-                </Grid>
+                        <Button Grid.Row="17" Grid.Column="0" Content="Thievery" Style="{StaticResource LinkButton}" Margin="0 5 10 0" Click="btnSkill_Click" Tag="{Binding ElementName=ThisWindow, Path=Player.Thievery}" />
+                        <TextBlock Grid.Row="17" Grid.Column="1" Text="{Binding ElementName=ThisWindow, Path=Player.Thievery.Value, Converter={StaticResource modifierConverter}}" FontWeight="Bold" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="17" Grid.Column="2" Text="{Binding ElementName=ThisWindow, Path=Player.Thievery.TrainedBonus, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="17" Grid.Column="3" Text="{Binding ElementName=ThisWindow, Path=Player.Thievery.AttributeBonusType, Converter={StaticResource abbreviatedAttributeTypeConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="17" Grid.Column="4" Text="{Binding ElementName=ThisWindow, Path=Player.Thievery.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="17" Grid.Column="5" Text="{Binding ElementName=ThisWindow, Path=Player.Thievery.ArmorAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 10 0" />
+                        <TextBlock Grid.Row="17" Grid.Column="6" Text="{Binding ElementName=ThisWindow, Path=Player.Thievery.TotalMiscAdjustment, Converter={StaticResource hideZeroModifierConverter}}" Margin="0 5 0 0" />
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
             <TabItem Header="Feats">
                 <ScrollViewer>
@@ -466,6 +468,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0">
@@ -497,13 +500,19 @@
                         <ComboBox Grid.Row="1" Grid.Column="3" SelectedItem="{Binding ElementName=ThisWindow, Path=CurrentShield}" DisplayMemberPath="DisplayName" ItemsSource="{Binding ElementName=ThisWindow, Path=Shields}" Margin="0 5 0 0" />
                     </Grid>
 
-                    <ListView Grid.Row="1" ItemsSource="{Binding ElementName=ThisWindow, Path=Inventory}" Margin="0 5 0 0">
+                    <ListView Name="lvInventory" Grid.Row="1" ItemsSource="{Binding ElementName=ThisWindow, Path=Inventory}" Margin="0 5 0 0" MouseDoubleClick="lvInventory_MouseDoubleClick">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
+                    
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 0 0 5">
+                        <Button Content="Add" Style="{StaticResource LinkButton}" Margin="0 0 10 0" Click="btnAddInventory_Click" />
+                        <Button Content="Edit" Style="{StaticResource LinkButton}" Margin="0 0 10 0" Click="btnEditInventory_Click" />
+                        <Button Content="Delete" Style="{StaticResource LinkButton}" Click="btnDeleteInventory_Click" />
+                    </StackPanel>
                 </Grid>
             </TabItem>
         </TabControl>

@@ -25,7 +25,7 @@ namespace CharPad.Framework
         private int cha;
         private HitPointsValue hitPoints;
         private SurgeValue surgeValue;
-        private int surgesPerDay;
+        private SurgesPerDayValue surgesPerDay;
         private SkillValue acrobatics;
         private SkillValue arcana;
         private SkillValue athletics;
@@ -79,7 +79,7 @@ namespace CharPad.Framework
         public int Cha { get { return cha; } set { cha = value; Notify("Cha"); Notify("ChaModifier"); } }
         public HitPointsValue HitPoints { get { return hitPoints; } }
         public SurgeValue SurgeValue { get { return surgeValue; } }
-        public int SurgesPerDay { get { return surgesPerDay; } set { surgesPerDay = value; Notify("SurgesPerDay"); } }
+        public SurgesPerDayValue SurgesPerDay { get { return surgesPerDay; } }
         public SkillValue Acrobatics { get { return acrobatics; } }
         public SkillValue Arcana { get { return arcana; } }
         public SkillValue Athletics { get { return athletics; } }
@@ -329,6 +329,7 @@ namespace CharPad.Framework
             this.weaponBonuses = new WeaponBonusList();
             this.weaponSpec = new WeaponSpecValue(this, true);
             this.weaponOffhandSpec = new WeaponSpecValue(this, false);
+            this.surgesPerDay = new SurgesPerDayValue(this);
 
             hitPoints.PropertyChanged += new PropertyChangedEventHandler(hitPoints_PropertyChanged);
             insight.PropertyChanged += new PropertyChangedEventHandler(insight_PropertyChanged);
@@ -351,6 +352,12 @@ namespace CharPad.Framework
             weaponBonuses.CollectionChanged += new NotifyCollectionChangedEventHandler(weaponBonuses_CollectionChanged);
             weaponSpec.PropertyChanged += new PropertyChangedEventHandler(weaponSpec_PropertyChanged);
             weaponOffhandSpec.PropertyChanged += new PropertyChangedEventHandler(weaponOffhandSpec_PropertyChanged);
+            surgesPerDay.PropertyChanged += new PropertyChangedEventHandler(surgesPerDay_PropertyChanged);
+        }
+
+        void surgesPerDay_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("SurgesPerDay");
         }
 
         void weaponOffhandSpec_PropertyChanged(object sender, PropertyChangedEventArgs e)

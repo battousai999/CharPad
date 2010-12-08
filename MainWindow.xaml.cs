@@ -99,7 +99,6 @@ namespace CharPad
             player.Int = 8;
             player.Wis = 14;
             player.Cha = 10;
-            player.SurgesPerDay = 7;
             player.Inventory.Add(new Weapon("Longsword", 3, Dice.Get(8), null, WeaponGroup.HeavyBlade, WeaponProperties.Versatile));
             player.Inventory.Add(new Weapon("Battleaxe", 2, Dice.Get(8), null, WeaponGroup.Axe, WeaponProperties.None));
             player.Inventory.Add(new Weapon("Dagger", 3, Dice.Get(4), null, WeaponGroup.LightBlade, WeaponProperties.LightThrown));
@@ -123,7 +122,6 @@ namespace CharPad
             player.Int = 8;
             player.Wis = 14;
             player.Cha = 10;
-            player.SurgesPerDay = 7;
 
             Party.Members.Add(player);
 
@@ -139,7 +137,6 @@ namespace CharPad
             player.Int = 8;
             player.Wis = 14;
             player.Cha = 10;
-            player.SurgesPerDay = 7;
 
             Party.Members.Add(player);
         }

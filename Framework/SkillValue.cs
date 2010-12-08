@@ -35,6 +35,7 @@ namespace CharPad.Framework
             playerShield = player.Shield;
 
             miscAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(miscAdjustments_ContainedElementChanged);
+            miscAdjustments.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(miscAdjustments_CollectionChanged);
         }
 
         void Shield_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -104,11 +105,18 @@ namespace CharPad.Framework
 
         public Skill Skill { get { return skill; } }
         public Player Player { get { return player; } }
-        public bool IsTrained { get { return isTrained; } set { isTrained = value; Notify("Value"); Notify("IsTrained"); } }
+        public bool IsTrained { get { return isTrained; } set { isTrained = value; Notify("Value"); Notify("IsTrained"); Notify("TrainedBonus"); } }
         public BasicAdjustmentList MiscAdjustments { get { return miscAdjustments; } }
 
         private void miscAdjustments_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
         {
+            Notify("TotalMiscAdjustment");
+            Notify("Value");
+        }
+
+        void miscAdjustments_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Notify("TotalMiscAdjustment");
             Notify("Value");
         }
 

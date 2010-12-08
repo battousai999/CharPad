@@ -87,6 +87,12 @@
     <Compile Include="EditInitiativeWindow.xaml.cs">
       <DependentUpon>EditInitiativeWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EditSkillValueWindow.xaml.cs">
+      <DependentUpon>EditSkillValueWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditSurgesPerDayWindow.xaml.cs">
+      <DependentUpon>EditSurgesPerDayWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditSurgeValueWindow.xaml.cs">
       <DependentUpon>EditSurgeValueWindow.xaml</DependentUpon>
     </Compile>
@@ -99,6 +105,8 @@
     <Compile Include="FeatureValueGrid.xaml.cs">
       <DependentUpon>FeatureValueGrid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Framework\ListAdapter.cs" />
+    <Compile Include="Framework\SurgesPerDayValue.cs" />
     <Compile Include="Framework\WeaponBonusList.cs" />
     <Compile Include="Framework\Party.cs" />
     <Compile Include="Framework\Utility.cs" />
@@ -114,6 +122,7 @@
     <Compile Include="ValueConverters\CreatureSizeConverter.cs" />
     <Compile Include="ValueConverters\EmptyCollectionToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\NullToBoolConverter.cs" />
+    <Compile Include="ValueConverters\SkillNameConverter.cs" />
     <Compile Include="ValueConverters\WeaponBonusConverter.cs" />
     <Page Include="AddBasicAdjustmentWindow.xaml">
       <SubType>Designer</SubType>
@@ -156,6 +165,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EditInitiativeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditSkillValueWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditSurgesPerDayWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

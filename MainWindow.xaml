@@ -79,7 +79,7 @@
                                         </TextBlock>
                                         <TextBlock Grid.Row="2" Grid.Column="1">
                                             <TextBlock.Inlines>
-                                                <Run Text="HP: " /><Run Text="{Binding HitPoints.Value, Mode=OneWay}" /><Run Text=",   Surges: " /><Run Text="{Binding SurgesPerDay}" />
+                                                <Run Text="HP: " /><Run Text="{Binding HitPoints.Value, Mode=OneWay}" /><Run Text=",   Surges: " /><Run Text="{Binding SurgesPerDay.Value, Mode=OneWay}" />
                                             </TextBlock.Inlines>
                                         </TextBlock>
                                         <TextBlock Grid.Row="3" Grid.Column="1">
