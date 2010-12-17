@@ -15,6 +15,7 @@
         <conv:NullToBoolConverter x:Key="nullToBoolConverter" />
         <conv:HideZeroModifierConverter x:Key="hideZeroModifierConverter" />
         <conv:AbbreviatedAttributeTypeConverter x:Key="abbreviatedAttributeTypeConverter" />
+        <conv:OneToBoolConverter x:Key="oneToBoolConverter" />
         
         <Style x:Key="LinkButton" TargetType="Button">
             <Setter Property="Template">
@@ -510,8 +511,8 @@
                     
                     <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 0 0 5">
                         <Button Content="Add" Style="{StaticResource LinkButton}" Margin="0 0 10 0" Click="btnAddInventory_Click" />
-                        <Button Content="Edit" Style="{StaticResource LinkButton}" Margin="0 0 10 0" Click="btnEditInventory_Click" />
-                        <Button Content="Delete" Style="{StaticResource LinkButton}" Click="btnDeleteInventory_Click" />
+                        <Button Content="Edit" Style="{StaticResource LinkButton}" Margin="0 0 10 0" Click="btnEditInventory_Click" IsEnabled="{Binding ElementName=lvInventory, Path=SelectedItems.Count, Converter={StaticResource oneToBoolConverter}}" />
+                        <Button Content="Delete" Style="{StaticResource LinkButton}" Click="btnDeleteInventory_Click" IsEnabled="{Binding ElementName=lvInventory, Path=SelectedItem, Converter={StaticResource nullToBoolConverter}, ConverterParameter=false}" />
                     </StackPanel>
                 </Grid>
             </TabItem>

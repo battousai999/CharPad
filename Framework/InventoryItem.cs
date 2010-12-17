@@ -8,26 +8,30 @@ namespace CharPad.Framework
 {
     public class InventoryItem : IInventoryItem, INotifyPropertyChanged
     {
+        private string name;
         private bool isStackable;
         private int count;
 
-        public string Name { get; set; }
+        public InventoryItem()
+        {
+        }
 
         public InventoryItem(string name)
         {
-            this.Name = name;
+            this.name = name;
             this.isStackable = false;
             this.count = 1;
         }
 
         public InventoryItem(string name, int count)
         {
-            this.Name = name;
+            this.name = name;
             this.isStackable = true;
             this.count = count;
         }
 
-        public bool IsStackable { get { return isStackable; } }
+        public string Name { get { return name; } set { name = value; Notify("Name"); } }
+        public bool IsStackable { get { return isStackable; } set { isStackable = value; Notify("IsStackable"); } }
         public int Count { get { return count; } set { count = value; Notify("Count"); } }
 
         #region INotifyPropertyChanged Members

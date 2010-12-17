@@ -1,0 +1,85 @@
+﻿<Window x:Class="CharPad.AddInventoryItemWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:conv="clr-namespace:CharPad.ValueConverters"
+        Name="ThisWindow"
+        Title="Add Feature" SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
+        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+    <Window.Resources>
+        <conv:ModifierConverter x:Key="modifierConverter" />
+        <conv:WeaponGroupDisplayConverter x:Key="weaponGroupDisplayConverter" />
+        <conv:WeaponPropertyDisplayConverter x:Key="weaponPropertyDisplayConverter" />
+        <conv:InventoryTabOkButtonConverter x:Key="inventoryTabOkButtonConverter" />
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <TabControl Grid.Row="0">
+            <TabItem Name="tabWeapons" Header="Weapons">
+                <ListView Name="lvWeapons" SelectionMode="Single" ItemsSource="{Binding ElementName=ThisWindow, Path=Weapons}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
+                            <GridViewColumn Header="Prof. Bonus" DisplayMemberBinding="{Binding ProficiencyBonus, Converter={StaticResource modifierConverter}}" />
+                            <GridViewColumn Header="Damage" DisplayMemberBinding="{Binding Damage.DisplayString}" />
+                            <GridViewColumn Header="Range" DisplayMemberBinding="{Binding Range}" />
+                            <GridViewColumn Header="Weapon Group" DisplayMemberBinding="{Binding Group, Converter={StaticResource weaponGroupDisplayConverter}}" />
+                            <GridViewColumn Header="Properties" DisplayMemberBinding="{Binding Properties, Converter={StaticResource weaponPropertyDisplayConverter}}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Name="tabArmor" Header="Armor">
+                <ListView Name="lvArmor" SelectionMode="Single" ItemsSource="{Binding ElementName=ThisWindow, Path=Armors}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
+                            <GridViewColumn Header="Armor Bonus" DisplayMemberBinding="{Binding ArmorBonus, Converter={StaticResource modifierConverter}}" />
+                            <GridViewColumn Header="Skill Modifier" DisplayMemberBinding="{Binding SkillModifier, Converter={StaticResource modifierConverter}}" />
+                            <GridViewColumn Header="Speed Modifier" DisplayMemberBinding="{Binding SpeedModifier, Converter={StaticResource modifierConverter}}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Name="tabInventoryItems" Header="Miscellaneous">
+                <ListView Name="lvInventoryItems" SelectionMode="Single" ItemsSource="{Binding ElementName=ThisWindow, Path=InventoryItems}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+        </TabControl>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <CheckBox Grid.Column="0" Content="Open in 'Edit Inventory Item' window" />
+            
+            <Button Content="Select" IsDefault="True" MinWidth="75" MinHeight="23">
+                <Button.IsEnabled>
+                    <MultiBinding Converter="{StaticResource inventoryTabOkButtonConverter}">
+                        <MultiBinding.Bindings>
+                            <Binding ElementName="tabWeapons" Path="IsSelected" />
+                            <Binding ElementName="lvWeapons" Path="SelectedItem" />
+                            <Binding ElementName="tabArmor" Path="IsSelected" />
+                            <Binding ElementName="lvArmor" Path="SelectedItem" />
+                            <Binding ElementName="tabInventoryItems" Path="IsSelected" />
+                            <Binding ElementName="lvInventoryItems" Path="SelectedItem" />
+                        </MultiBinding.Bindings>
+                    </MultiBinding>
+                </Button.IsEnabled>
+            </Button>
+            
+            <Button Content="Cancel" IsCancel="True" MinWidth="75" MinHeight="23" />
+        </Grid>
+    </Grid>
+</Window>

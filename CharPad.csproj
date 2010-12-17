@@ -62,6 +62,9 @@
     <Compile Include="AddFeatureValueWindow.xaml.cs">
       <DependentUpon>AddFeatureValueWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddInventoryItemWindow.xaml.cs">
+      <DependentUpon>AddInventoryItemWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AddResistanceValueWindow.xaml.cs">
       <DependentUpon>AddResistanceValueWindow.xaml</DependentUpon>
     </Compile>
@@ -111,10 +114,12 @@
     <Compile Include="Framework\Party.cs" />
     <Compile Include="Framework\Utility.cs" />
     <Compile Include="Framework\WeaponBonusValue.cs" />
+    <Compile Include="Framework\WeaponDefinitions.cs" />
     <Compile Include="Framework\WeaponSpecValue.cs" />
     <Compile Include="ValueConverters\AbbreviatedAttributeTypeConverter.cs" />
     <Compile Include="ValueConverters\DisplayLongNoteConverter.cs" />
     <Compile Include="ValueConverters\HideZeroModifierConverter.cs" />
+    <Compile Include="ValueConverters\InventoryTabOkButtonConverter.cs" />
     <Compile Include="ValueConverters\ListViewLastColumnWidthConverter.cs" />
     <Compile Include="ValueConverters\ModifierConverter.cs" />
     <Compile Include="ValueConverters\BoolToGenderConverter.cs" />
@@ -124,11 +129,18 @@
     <Compile Include="ValueConverters\NullToBoolConverter.cs" />
     <Compile Include="ValueConverters\SkillNameConverter.cs" />
     <Compile Include="ValueConverters\WeaponBonusConverter.cs" />
+    <Compile Include="ValueConverters\OneToBoolConverter.cs" />
+    <Compile Include="ValueConverters\WeaponGroupDisplayConverter.cs" />
+    <Compile Include="ValueConverters\WeaponPropertyDisplayConverter.cs" />
     <Page Include="AddBasicAdjustmentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddFeatureValueWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddInventoryItemWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

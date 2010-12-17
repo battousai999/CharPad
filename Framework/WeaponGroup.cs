@@ -21,9 +21,5 @@ namespace CharPad.Framework
         Crossbow = 1024,
         Sling = 2048,
         Bow = 4096,
-        AllGroups = LightBlade | HeavyBlade | Mace | Spear | Staff | Axe | Flail | Hammer | Pick | Polearm | Crossbow | Sling | Bow,
-        Ranged = Crossbow | Sling | Bow,
-        AllMelee = LightBlade | HeavyBlade | Mace | Spear | Staff | Axe | Flail | Hammer | Pick | Polearm,
-        AllRanged = Crossbow | Sling | Bow,
     }
 }

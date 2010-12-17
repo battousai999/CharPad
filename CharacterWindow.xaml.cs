@@ -51,6 +51,7 @@ namespace CharPad
         private InvItem currentMainWeapon;
         private InvItem currentOffhandWeapon;
         private bool ignorePlayerWeaponUpdating = false;
+        private bool ignorePlayerArmorUpdating = false;
 
         public CharacterWindow(Player player, bool isNew)
         {
@@ -136,15 +137,26 @@ namespace CharPad
         {
             UpdateWeaponCollections();
 
-            armors.Clear();
-            armors.Add(InvItem.NullItem);
-            player.Inventory.Where(x => x is Armor).ToList().ForEach(x => armors.Add(new InvItem(x)));
-            currentArmor = armors.FirstOrDefault(x => x.Item == player.Armor);
+            ignorePlayerArmorUpdating = true;
 
-            shields.Clear();
-            shields.Add(InvItem.NullItem);
-            player.Inventory.Where(x => x is Shield).ToList().ForEach(x => shields.Add(new InvItem(x)));
-            currentShield = shields.FirstOrDefault(x => x.Item == player.Shield);
+            try
+            {
+                armors.Clear();
+                armors.Add(InvItem.NullItem);
+                player.Inventory.Where(x => x is Armor).ToList().ForEach(x => armors.Add(new InvItem(x)));
+                currentArmor = armors.FirstOrDefault(x => x.Item == player.Armor);
+                Notify("CurrentArmor");
+
+                shields.Clear();
+                shields.Add(InvItem.NullItem);
+                player.Inventory.Where(x => x is Shield).ToList().ForEach(x => shields.Add(new InvItem(x)));
+                currentShield = shields.FirstOrDefault(x => x.Item == player.Shield);
+                Notify("CurrentShield");
+            }
+            finally
+            {
+                ignorePlayerArmorUpdating = false;
+            }
         }
 
         private void UpdateWeaponCollections()
@@ -187,7 +199,10 @@ namespace CharPad
             set
             {
                 currentArmor = value; 
-                player.Armor = (Armor)currentArmor.Item; 
+
+                if (!ignorePlayerArmorUpdating)
+                    player.Armor = (Armor)currentArmor.Item; 
+
                 Notify("CurrentArmor");
             }
         }
@@ -198,7 +213,10 @@ namespace CharPad
             set
             {
                 currentShield = value; 
-                player.Shield = (Shield)currentShield.Item; 
+
+                if (!ignorePlayerArmorUpdating)
+                    player.Shield = (Shield)currentShield.Item; 
+
                 Notify("CurrentShield");
             }
         }
