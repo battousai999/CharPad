@@ -103,6 +103,37 @@ namespace CharPad
             {
                 UpdateWeaponCollections();
             }
+
+            if ((StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Weapon") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "WeaponOffhand") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Armor") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Shield") == 0))
+            {
+                UpdateInventoryItems();
+            }
+        }
+
+        private void UpdateInventoryItems()
+        {
+            List<IInventoryItem> wieldedItems = player.WieldedItems;
+            List<IInventoryItem> itemsToRemove = new List<IInventoryItem>();
+
+            foreach (IInventoryItem item in inventory)
+            {
+                if (wieldedItems.Contains(item))
+                    itemsToRemove.Add(item);
+            }
+
+            foreach (IInventoryItem item in itemsToRemove)
+            {
+                inventory.Remove(item);
+            }
+
+            foreach (IInventoryItem item in player.Inventory.Where(x => !wieldedItems.Contains(x)))
+            {
+                if (!inventory.Contains(item))
+                    inventory.Add(item);
+            }
         }
 
         void Inventory_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
@@ -497,6 +528,16 @@ namespace CharPad
 
         private void btnAddInventory_Click(object sender, RoutedEventArgs e)
         {
+            AddInventoryItemWindow window = new AddInventoryItemWindow();
+
+            if (window.ShowDialog(this))
+            {
+                if (window.SelectedItem != null)
+                    player.Inventory.Add(window.SelectedItem);
+
+                if (window.EditItem)
+                    EditInventoryItem(window.SelectedItem);
+            }
         }
 
         private void btnEditInventory_Click(object sender, RoutedEventArgs e)

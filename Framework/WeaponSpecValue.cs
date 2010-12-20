@@ -68,6 +68,17 @@ namespace CharPad.Framework
             }
         }
 
+        public int TotalThrownToHitBonus
+        {
+            get
+            {
+                if ((Weapon == null) || Weapon.IsRanged || !Weapon.IsThrown)
+                    return 0;
+
+                return (Weapon.HasWeaponProperty(WeaponProperties.HeavyThrown) ? TotalToHitBonus : (TotalToHitBonus - AttributeBonus + player.DexModifier));
+            }
+        }
+
         public int TotalDamageBonus
         {
             get
@@ -79,6 +90,17 @@ namespace CharPad.Framework
             }
         }
 
+        public int TotalThrownDamageBonus
+        {
+            get
+            {
+                if ((Weapon == null) || Weapon.IsRanged || !Weapon.IsThrown)
+                    return 0;
+
+                return (Weapon.HasWeaponProperty(WeaponProperties.HeavyThrown) ? TotalDamageBonus : (TotalDamageBonus - AttributeBonus + player.DexModifier));
+            }
+        }
+
         public string ToHitSpec
         {
             get
@@ -87,6 +109,19 @@ namespace CharPad.Framework
                     return "";
 
                 return (TotalToHitBonus < 0 ? TotalToHitBonus.ToString() : "+" + TotalToHitBonus.ToString());
+            }
+        }
+
+        public string ThrownToHitSpec
+        {
+            get
+            {
+                if ((Weapon == null) || Weapon.IsRanged || !Weapon.IsThrown)
+                    return "";
+
+                int bonus = (Weapon.HasWeaponProperty(WeaponProperties.HeavyThrown) ? TotalToHitBonus : (TotalToHitBonus - AttributeBonus + player.DexModifier));
+
+                return (bonus < 0 ? bonus.ToString() : "+" + bonus.ToString());
             }
         }
 
@@ -104,6 +139,19 @@ namespace CharPad.Framework
             }
         }
 
+        public string ThrownDamageSpec
+        {
+            get
+            {
+                if ((Weapon == null) || Weapon.IsRanged || !Weapon.IsThrown)
+                    return "";
+
+                int bonus = (Weapon.HasWeaponProperty(WeaponProperties.HeavyThrown) ? TotalDamageBonus : (TotalDamageBonus - AttributeBonus + player.DexModifier));
+
+                return (bonus < 0 ? bonus.ToString() : "+" + bonus.ToString());
+            }
+        }
+
         public int AttributeBonus
         {
             get
@@ -111,7 +159,7 @@ namespace CharPad.Framework
                 if (Weapon == null)
                     return 0;
 
-                if (Weapon.IsRanged && !Weapon.HasWeaponProperty(WeaponProperties.LightThrown | WeaponProperties.HeavyThrown))
+                if (Weapon.IsRanged)
                     return player.DexModifier;
                 else
                     return player.StrModifier;

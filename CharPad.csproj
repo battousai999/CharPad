@@ -108,6 +108,7 @@
     <Compile Include="FeatureValueGrid.xaml.cs">
       <DependentUpon>FeatureValueGrid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Framework\ArmorDefinitions.cs" />
     <Compile Include="Framework\ListAdapter.cs" />
     <Compile Include="Framework\SurgesPerDayValue.cs" />
     <Compile Include="Framework\WeaponBonusList.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Framework\WeaponDefinitions.cs" />
     <Compile Include="Framework\WeaponSpecValue.cs" />
     <Compile Include="ValueConverters\AbbreviatedAttributeTypeConverter.cs" />
+    <Compile Include="ValueConverters\BoolToXConverter.cs" />
     <Compile Include="ValueConverters\DisplayLongNoteConverter.cs" />
     <Compile Include="ValueConverters\HideZeroModifierConverter.cs" />
     <Compile Include="ValueConverters\InventoryTabOkButtonConverter.cs" />
@@ -130,6 +132,7 @@
     <Compile Include="ValueConverters\SkillNameConverter.cs" />
     <Compile Include="ValueConverters\WeaponBonusConverter.cs" />
     <Compile Include="ValueConverters\OneToBoolConverter.cs" />
+    <Compile Include="ValueConverters\WeaponCategoryDisplayConverter.cs" />
     <Compile Include="ValueConverters\WeaponGroupDisplayConverter.cs" />
     <Compile Include="ValueConverters\WeaponPropertyDisplayConverter.cs" />
     <Page Include="AddBasicAdjustmentWindow.xaml">

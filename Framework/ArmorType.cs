@@ -7,12 +7,15 @@ namespace CharPad.Framework
 {
     public enum ArmorType
     {
+        // Normal Armors
         Cloth,
         Leather,
         Hide,
         Chainmail,
         Scale,
         Plate,
+
+        // Shields
         LightShield,
         HeavyShield,
     }

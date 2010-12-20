@@ -31,10 +31,12 @@ namespace CharPad.ValueConverters
             else
                 throw new InvalidOperationException("Weapon given does not match one of the weapons wielded by the player.");
 
-            return String.Format("({0}) {1} to hit, {2} damage",
+            return String.Format("({0}) {1}{3} to hit, {2}{4} damage",
                 weapon.Name,
                 spec.ToHitSpec,
-                spec.DamageSpec);
+                spec.DamageSpec,
+                (spec.Weapon.IsThrown && !spec.Weapon.IsRanged && (spec.TotalToHitBonus != spec.TotalThrownToHitBonus) ? String.Format(" ({0} thrown)", spec.ThrownToHitSpec) : ""),
+                (spec.Weapon.IsThrown && !spec.Weapon.IsRanged && (spec.TotalDamageBonus != spec.TotalThrownDamageBonus) ? String.Format(" ({0} thrown)", spec.ThrownDamageSpec) : ""));
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)

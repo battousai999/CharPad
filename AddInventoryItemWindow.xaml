@@ -3,13 +3,47 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:conv="clr-namespace:CharPad.ValueConverters"
         Name="ThisWindow"
-        Title="Add Feature" SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
+        Title="Add Feature" Width="700" Height="500" ResizeMode="CanResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
     <Window.Resources>
         <conv:ModifierConverter x:Key="modifierConverter" />
         <conv:WeaponGroupDisplayConverter x:Key="weaponGroupDisplayConverter" />
         <conv:WeaponPropertyDisplayConverter x:Key="weaponPropertyDisplayConverter" />
         <conv:InventoryTabOkButtonConverter x:Key="inventoryTabOkButtonConverter" />
+        <conv:BoolToXConverter x:Key="boolToXConverter" />
+        <conv:HideZeroModifierConverter x:Key="hideZeroModifierConverter" />
+        <conv:WeaponCategoryDisplayConverter x:Key="weaponCategoryDisplayConverter" />
+        
+        <CollectionViewSource x:Key="weaponsView" Source="{Binding ElementName=ThisWindow, Path=Weapons}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Category" Converter="{StaticResource weaponCategoryDisplayConverter}" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+        
+        <CollectionViewSource x:Key="armorsView" Source="{Binding ElementName=ThisWindow, Path=Armors}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="ArmorGroup" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+        
+        <Style x:Key="listViewStyle" TargetType="{x:Type GroupItem}">
+            <Setter Property="Margin" Value="0 0 0 10" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Text="{Binding Name}" FontWeight="Bold" TextDecorations="Underline" />
+                            <ItemsPresenter Grid.Row="1" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -17,9 +51,12 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
-        <TabControl Grid.Row="0">
+        <TabControl Name="mainTabControl" Grid.Row="0">
             <TabItem Name="tabWeapons" Header="Weapons">
-                <ListView Name="lvWeapons" SelectionMode="Single" ItemsSource="{Binding ElementName=ThisWindow, Path=Weapons}">
+                <ListView Name="lvWeapons" SelectionMode="Single" ItemsSource="{Binding Source={StaticResource weaponsView}}" MouseDoubleClick="listview_MouseDoubleClick">
+                    <ListView.GroupStyle>
+                        <GroupStyle ContainerStyle="{StaticResource listViewStyle}" />
+                    </ListView.GroupStyle>
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
@@ -28,24 +65,33 @@
                             <GridViewColumn Header="Range" DisplayMemberBinding="{Binding Range}" />
                             <GridViewColumn Header="Weapon Group" DisplayMemberBinding="{Binding Group, Converter={StaticResource weaponGroupDisplayConverter}}" />
                             <GridViewColumn Header="Properties" DisplayMemberBinding="{Binding Properties, Converter={StaticResource weaponPropertyDisplayConverter}}" />
+                            <GridViewColumn Header="2-handed" DisplayMemberBinding="{Binding IsTwoHanded, Converter={StaticResource boolToXConverter}}" />
+                            <GridViewColumn Header="Price" DisplayMemberBinding="{Binding BasePrice, StringFormat={}{0}gp}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
             <TabItem Name="tabArmor" Header="Armor">
-                <ListView Name="lvArmor" SelectionMode="Single" ItemsSource="{Binding ElementName=ThisWindow, Path=Armors}">
+                <ListView Name="lvArmor" SelectionMode="Single" ItemsSource="{Binding Source={StaticResource armorsView}}" MouseDoubleClick="listview_MouseDoubleClick">
+                    <ListView.GroupStyle>
+                        <GroupStyle ContainerStyle="{StaticResource listViewStyle}" />
+                    </ListView.GroupStyle>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
-                            <GridViewColumn Header="Armor Bonus" DisplayMemberBinding="{Binding ArmorBonus, Converter={StaticResource modifierConverter}}" />
-                            <GridViewColumn Header="Skill Modifier" DisplayMemberBinding="{Binding SkillModifier, Converter={StaticResource modifierConverter}}" />
-                            <GridViewColumn Header="Speed Modifier" DisplayMemberBinding="{Binding SpeedModifier, Converter={StaticResource modifierConverter}}" />
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Item.Name}" />
+                            <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Item.ArmorType}" />
+                            <GridViewColumn Header="Armor Bonus" DisplayMemberBinding="{Binding Item.ArmorBonus, Converter={StaticResource modifierConverter}}" />
+                            <GridViewColumn Header="Skill Modifier" DisplayMemberBinding="{Binding Item.SkillModifier, Converter={StaticResource modifierConverter}}" />
+                            <GridViewColumn Header="Speed Modifier" DisplayMemberBinding="{Binding Item.SpeedModifier, Converter={StaticResource modifierConverter}}" />
+                            <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Item.BasePrice, StringFormat={}{0}gp}" />
+                            <GridViewColumn Header="Min. Enhancement" DisplayMemberBinding="{Binding Item.MinEnhancementBonus, Converter={StaticResource hideZeroModifierConverter}}" />
+                            <GridViewColumn Header="Special" DisplayMemberBinding="{Binding Item.SpecialProperty}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
             <TabItem Name="tabInventoryItems" Header="Miscellaneous">
-                <ListView Name="lvInventoryItems" SelectionMode="Single" ItemsSource="{Binding ElementName=ThisWindow, Path=InventoryItems}">
+                <ListView Name="lvInventoryItems" SelectionMode="Single" ItemsSource="{Binding ElementName=ThisWindow, Path=InventoryItems}" MouseDoubleClick="listview_MouseDoubleClick">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
@@ -55,16 +101,16 @@
             </TabItem>
         </TabControl>
         
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Margin="0 10 0 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             
-            <CheckBox Grid.Column="0" Content="Open in 'Edit Inventory Item' window" />
+            <CheckBox Name="chkEditItem" Grid.Column="0" Content="Open in 'Edit Inventory Item' window" VerticalAlignment="Center" />
             
-            <Button Content="Select" IsDefault="True" MinWidth="75" MinHeight="23">
+            <Button Grid.Column="1" Content="Select" IsDefault="True" MinWidth="75" MinHeight="23" Click="btnSelect_Click" HorizontalAlignment="Left" Margin="0 0 10 0">
                 <Button.IsEnabled>
                     <MultiBinding Converter="{StaticResource inventoryTabOkButtonConverter}">
                         <MultiBinding.Bindings>
@@ -79,7 +125,7 @@
                 </Button.IsEnabled>
             </Button>
             
-            <Button Content="Cancel" IsCancel="True" MinWidth="75" MinHeight="23" />
+            <Button Grid.Column="2" Content="Cancel" IsCancel="True" MinWidth="75" MinHeight="23" HorizontalAlignment="Left" />
         </Grid>
     </Grid>
 </Window>

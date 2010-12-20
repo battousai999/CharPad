@@ -12,128 +12,44 @@ namespace CharPad.Framework
         private ArmorType armorType;
         private int enhancementBonus;
         private int armorBonus;
-        private int? skillModifier;
-        private int? speedModifier;
+        private int skillModifier;
+        private int speedModifier;
+        private int basePrice;
+        private bool isHeavy;
+        private string specialProperty;
+        private int minEnhancementBonus;
 
-        public Armor(string name, ArmorType armorType)
-            : this(name, armorType, 0)
+        public Armor(string name, ArmorType armorType, int armorBonus, int skillModifier, int speedModifier, int basePrice, bool isHeavy, string specialProperty, int minEnhancementBonus)
+            : this(name, armorType, armorBonus, skillModifier, speedModifier, basePrice, isHeavy, specialProperty, minEnhancementBonus, 0)
         {
         }
 
-        public Armor(string name, ArmorType armorType, int enhancementBonus)
-            : this(name, armorType, GetBasicArmorBonus(armorType), enhancementBonus)
+        public Armor(string name, ArmorType armorType, int armorBonus, int skillModifier, int speedModifier, int basePrice, bool isHeavy, string specialProperty, int minEnhancementBonus, int enhancementBonus)
         {
-        }
-
-        public Armor(string name, ArmorType armorType, int armorBonus, int enhancementBonus)
-        {
-            if ((armorType != ArmorType.Cloth) &&
-                (armorType != ArmorType.Leather) &&
-                (armorType != ArmorType.Hide) &&
-                (armorType != ArmorType.Chainmail) &&
-                (armorType != ArmorType.Scale) &&
-                (armorType != ArmorType.Plate))
-            {
-                throw new InvalidOperationException("Unexpected armor type: " + Enum.Format(typeof(ArmorType), armorType, "G"));
-            }
-
             this.name = name;
             this.armorType = armorType;
             this.armorBonus = armorBonus;
+            this.skillModifier = skillModifier;
+            this.speedModifier = speedModifier;
+            this.basePrice = basePrice;
+            this.isHeavy = isHeavy;
+            this.specialProperty = specialProperty;
+            this.minEnhancementBonus = minEnhancementBonus;
             this.enhancementBonus = enhancementBonus;
         }
 
         public string Name { get { return name; } set { name = value; Notify("Name"); } }
-        public ArmorType ArmorType { get { return armorType; } set { armorType = value; NotifyAll(); } }
+        public ArmorType ArmorType { get { return armorType; } set { armorType = value; Notify("ArmorType"); } }
         public int ArmorBonus { get { return armorBonus; } set { armorBonus = value; Notify("ArmorBonus"); Notify("TotalBonus"); } }
         public int EnhancementBonus { get { return enhancementBonus; } set { enhancementBonus = value; Notify("EnhancementBonus"); Notify("TotalBonus"); } }
-
-        public int SkillModifier { get { return (skillModifier == null ? GetArmorTypeSkillModifier() : skillModifier.Value); } }
-        public int SpeedModifier { get { return (speedModifier == null ? GetArmorTypeSpeedModifier() : speedModifier.Value); } }
+        public int SkillModifier { get { return skillModifier; } set { skillModifier = value; Notify("SkillModifier"); } }
+        public int SpeedModifier { get { return speedModifier; } set { speedModifier = value; Notify("SpeedModifier"); } }
+        public int BasePrice { get { return basePrice; } set { basePrice = value; Notify("BasePrice"); } }
+        public bool IsHeavy { get { return isHeavy; } set { isHeavy = value; Notify("IsHeavy"); } }
+        public string SpecialProperty { get { return specialProperty; } set { specialProperty = value; Notify("SpecialProperty"); } }
+        public int MinEnhancementBonus { get { return minEnhancementBonus; } set { minEnhancementBonus = value; Notify("MinEnhancementBonus"); } }
 
         public int TotalBonus { get { return ArmorBonus + EnhancementBonus; } }
-
-        public bool IsHeavy
-        {
-            get
-            {
-                switch (armorType)
-                {
-                    case ArmorType.Cloth:
-                    case ArmorType.Leather:
-                    case ArmorType.Hide:
-                        return false;
-                    default:
-                        return true;
-                }
-            }
-        }
-
-        public void SetSkillModifier(int? value)
-        {
-            skillModifier = value;
-            Notify("SkillModifier");
-        }
-
-        public void SetSpeedModifier(int? value)
-        {
-            speedModifier = value;
-            Notify("SpeedModifier");
-        }
-
-        private void NotifyAll()
-        {
-            Notify("Name");
-            Notify("ArmorType");
-            Notify("EnhancementBonus");
-            Notify("SkillModifier");
-            Notify("SpeedModifier");
-            Notify("Category");
-        }
-
-        private static int GetBasicArmorBonus(ArmorType armorType)
-        {
-            switch (armorType)
-            {
-                case ArmorType.Cloth:
-                    return 0;
-                case ArmorType.Leather:
-                    return 2;
-                case ArmorType.Hide:
-                    return 3;
-                case ArmorType.Chainmail:
-                    return 6;
-                case ArmorType.Scale:
-                    return 7;
-                case ArmorType.Plate:
-                    return 8;
-                default:
-                    throw new InvalidOperationException("Unexpected armor type: " + Enum.Format(typeof(ArmorType), armorType, "G"));
-            }
-        }
-
-        private int GetArmorTypeSkillModifier()
-        {
-            switch (armorType)
-            {
-                case ArmorType.Cloth:
-                case ArmorType.Leather:
-                case ArmorType.Scale:
-                    return 0;
-                case ArmorType.Hide:
-                case ArmorType.Chainmail:
-                    return -1;
-                case ArmorType.Plate:
-                    return -2;
-                default:
-                    throw new InvalidOperationException("Unexpected armor type: " + Enum.Format(typeof(ArmorType), armorType, "G"));
-            }
-        }
-
-        private int GetArmorTypeSpeedModifier()
-        {
-            return (IsHeavy ? -1 : 0);
-        }
 
         #region INotifyPropertyChanged Members
 

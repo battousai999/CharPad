@@ -21,5 +21,6 @@ namespace CharPad.Framework
         Crossbow = 1024,
         Sling = 2048,
         Bow = 4096,
+        Unarmed = 8192,
     }
 }
