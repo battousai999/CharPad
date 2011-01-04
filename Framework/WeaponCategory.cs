@@ -13,5 +13,6 @@ namespace CharPad.Framework
         MilitaryRanged,
         SuperiorMelee,
         SuperiorRanged,
+        PureImplement,
     }
 }

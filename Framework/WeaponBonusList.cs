@@ -21,6 +21,16 @@ namespace CharPad.Framework
 
                 return (bonus == null ? null : bonus.Bonus);
             }
+
+            set
+            {
+                WeaponBonus bonus = this.FirstOrDefault(x => x.Weapon == weapon);
+
+                if (bonus == null)
+                    this.Add(new WeaponBonus(weapon, value));
+                else
+                    bonus.Bonus = value;
+            }
         }
 
         public void Add(Weapon weapon, WeaponBonusValue bonus)

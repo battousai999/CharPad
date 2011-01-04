@@ -60,7 +60,7 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
-                            <GridViewColumn Header="Prof. Bonus" DisplayMemberBinding="{Binding ProficiencyBonus, Converter={StaticResource modifierConverter}}" />
+                            <GridViewColumn Header="Prof. Bonus" DisplayMemberBinding="{Binding ProficiencyBonus, Converter={StaticResource hideZeroModifierConverter}}" />
                             <GridViewColumn Header="Damage" DisplayMemberBinding="{Binding Damage.DisplayString}" />
                             <GridViewColumn Header="Range" DisplayMemberBinding="{Binding Range}" />
                             <GridViewColumn Header="Weapon Group" DisplayMemberBinding="{Binding Group, Converter={StaticResource weaponGroupDisplayConverter}}" />

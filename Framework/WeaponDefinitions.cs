@@ -8,10 +8,16 @@ namespace CharPad.Framework
     public static class WeaponDefinitions
     {
         private static List<Weapon> weapons;
+        private static List<Weapon> implements;
 
         public static List<Weapon> Weapons
         {
             get { return weapons; }
+        }
+
+        public static List<Weapon> Implements
+        {
+            get { return implements; }
         }
 
         static WeaponDefinitions()
@@ -102,6 +108,14 @@ namespace CharPad.Framework
             // Superior Ranged
             weapons.Add(new Weapon("Greatbow", 2, Dice.Get(12), "25/50", WeaponGroup.Bow, WeaponProperties.LoadFree, WeaponCategory.SuperiorRanged, 30, true));
             weapons.Add(new Weapon("Superior crossbow", 3, Dice.Get(10), "20/40", WeaponGroup.Crossbow, WeaponProperties.LoadMinor, WeaponCategory.SuperiorRanged, 30, true));
+
+
+            implements = new List<Weapon>();
+
+            implements.Add(Weapon.CreateImplement("Holy Symbol", 10));
+            implements.Add(Weapon.CreateImplement("Orb", 15));
+            implements.Add(Weapon.CreateImplement("Rod", 12));
+            implements.Add(Weapon.CreateImplement("Wand", 7));
         }
     }
 }

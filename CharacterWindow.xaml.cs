@@ -524,6 +524,17 @@ namespace CharPad
 
         private void EditInventoryItem(IInventoryItem item)
         {
+            if (item is Weapon)
+            {
+                Weapon weapon = (Weapon)item;
+                EditWeaponWindow window1 = new EditWeaponWindow(player, weapon);
+
+                if (window1.ShowDialog(this))
+                {
+                    weapon.CopyValues(window1.Weapon);
+                    player.WeaponBonuses[weapon] = new WeaponBonusValue(window1.ToHitAdjustments, window1.DamageAdjustments);
+                }
+            }
         }
 
         private void btnAddInventory_Click(object sender, RoutedEventArgs e)

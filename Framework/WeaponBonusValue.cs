@@ -12,9 +12,14 @@ namespace CharPad.Framework
         private BasicAdjustmentList damageAdjustments;
 
         public WeaponBonusValue()
+            : this(new BasicAdjustmentList(), new BasicAdjustmentList())
         {
-            this.toHitAdjustments = new BasicAdjustmentList();
-            this.damageAdjustments = new BasicAdjustmentList();
+        }
+
+        public WeaponBonusValue(BasicAdjustmentList toHitAdjustments, BasicAdjustmentList damageAdjustments)
+        {
+            this.toHitAdjustments = toHitAdjustments;
+            this.damageAdjustments = damageAdjustments;
 
             toHitAdjustments.ContainedElementChanged += new PropertyChangedEventHandler(toHitAdjustments_ContainedElementChanged);
             toHitAdjustments.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(toHitAdjustments_CollectionChanged);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace CharPad.Framework
 {
@@ -18,6 +19,9 @@ namespace CharPad.Framework
         private int basePrice;
         private WeaponCategory category;
         private bool isTwoHanded;
+        private Image picture;
+        private string notes;
+        private bool isImplement;
 
         public Weapon(string name, int proficiencyBonus, Dice damage, string range, WeaponGroup group, WeaponProperties properties, WeaponCategory category)
             : this(name, proficiencyBonus, damage, range, group, properties, 0, category, false, 0)
@@ -48,6 +52,31 @@ namespace CharPad.Framework
             this.isTwoHanded = isTwoHanded;
         }
 
+        public static Weapon CreateImplement(string name, int price)
+        {
+            Weapon weapon = new Weapon(name, 0, null, "", 0, WeaponProperties.None, WeaponCategory.PureImplement, price);
+            weapon.IsImplement = true;
+
+            return weapon;
+        }
+
+        public void CopyValues(Weapon weapon)
+        {
+            Name = weapon.Name;
+            ProficiencyBonus = weapon.ProficiencyBonus;
+            EnhancementBonus = weapon.EnhancementBonus;
+            Damage = weapon.Damage;
+            Range = weapon.Range;
+            Group = weapon.Group;
+            Properties = weapon.Properties;
+            BasePrice = weapon.BasePrice;
+            Category = weapon.Category;
+            IsTwoHanded = weapon.IsTwoHanded;
+            Picture = weapon.Picture;
+            Notes = weapon.Notes;
+            IsImplement = weapon.IsImplement;
+        }
+
         public string Name { get { return name; } set { name = value; Notify("Name"); } }
         public int ProficiencyBonus { get { return proficiencyBonus; } set { proficiencyBonus = value; Notify("ProficiencyBonus"); Notify("TotalBonus"); } }
         public int EnhancementBonus { get { return enhancementBonus; } set { enhancementBonus = value; Notify("EnhancementBonus"); Notify("TotalBonus"); } }
@@ -58,6 +87,9 @@ namespace CharPad.Framework
         public int BasePrice { get { return basePrice; } set { basePrice = value; Notify("BasePrice"); } }
         public WeaponCategory Category { get { return category; } set { category = value; Notify("Category"); } }
         public bool IsTwoHanded { get { return isTwoHanded; } set { isTwoHanded = value; Notify("IsTwoHanded"); } }
+        public Image Picture { get { return picture; } set { picture = value; Notify("Picture"); } }
+        public string Notes { get { return notes; } set { notes = value; Notify("Notes"); } }
+        public bool IsImplement { get { return isImplement; } set { isImplement = value; Notify("IsImplement"); } }
 
         public int TotalBonus { get { return proficiencyBonus + enhancementBonus; } }
 

@@ -68,7 +68,9 @@ namespace CharPad
 
         private void BuildItemLists()
         {
-            weapons = new List<Weapon>(WeaponDefinitions.Weapons);
+            weapons = new List<Weapon>();
+            weapons.AddRange(WeaponDefinitions.Weapons);
+            weapons.AddRange(WeaponDefinitions.Implements);
 
             inventoryItems = new List<InventoryItem>();
             inventoryItems.Add(new InventoryItem { Name = "Backpack", IsStackable = false });

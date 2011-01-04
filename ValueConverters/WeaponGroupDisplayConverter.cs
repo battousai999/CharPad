@@ -22,7 +22,7 @@ namespace CharPad.ValueConverters
             foreach (WeaponGroup iGroup in Enum.GetValues(typeof(WeaponGroup)))
             {
                 if ((group & iGroup) == iGroup)
-                    results.Add(Enum.Format(typeof(WeaponGroup), iGroup, "G"));
+                    results.Add(Utility.GetWeaponGroupName(iGroup));
             }
 
             return String.Join(", ", results.ToArray());

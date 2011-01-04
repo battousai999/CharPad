@@ -68,6 +68,8 @@ namespace CharPad.Framework
                     return "Superior Melee";
                 case WeaponCategory.SuperiorRanged:
                     return "Superior Ranged";
+                case WeaponCategory.PureImplement:
+                    return "Implement";
                 default:
                     return Enum.Format(typeof(WeaponCategory), weaponCategory, "G");
             }
@@ -89,6 +91,44 @@ namespace CharPad.Framework
         public static string GetSkillName(Skill skill)
         {
             return Enum.Format(typeof(Skill), skill, "G");
+        }
+
+        public static string GetWeaponGroupName(WeaponGroup group)
+        {
+            switch (group)
+            {
+                case WeaponGroup.HeavyBlade:
+                    return "Heavy Blade";
+                case WeaponGroup.LightBlade:
+                    return "Light Blade";
+                default:
+                    return Enum.Format(typeof(WeaponGroup), group, "G");
+            }
+        }
+
+        public static string GetWeaponPropertyName(WeaponProperties property)
+        {
+            switch (property)
+            {
+                case WeaponProperties.Brutal_1:
+                    return "Brutal 1";
+                case WeaponProperties.Brutal_2:
+                    return "Brutal 2";
+                case WeaponProperties.HeavyThrown:
+                    return "Heavy thrown";
+                case WeaponProperties.HighCrit:
+                    return "High crit";
+                case WeaponProperties.LightThrown:
+                    return "Light thrown";
+                case WeaponProperties.LoadFree:
+                    return "Load free";
+                case WeaponProperties.LoadMinor:
+                    return "Load minor";
+                case WeaponProperties.OffHand:
+                    return "Off-hand";
+                default:
+                    return Enum.Format(typeof(WeaponProperties), property, "G");
+            }
         }
     }
 }

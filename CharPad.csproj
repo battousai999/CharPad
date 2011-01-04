@@ -102,8 +102,17 @@
     <Compile Include="EditSpeedWindow.xaml.cs">
       <DependentUpon>EditSpeedWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EditWeaponGroupWindow.xaml.cs">
+      <DependentUpon>EditWeaponGroupWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditWeaponPropertiesWindow.xaml.cs">
+      <DependentUpon>EditWeaponPropertiesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditWeaponSpecWindow.xaml.cs">
       <DependentUpon>EditWeaponSpecWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditWeaponWindow.xaml.cs">
+      <DependentUpon>EditWeaponWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="FeatureValueGrid.xaml.cs">
       <DependentUpon>FeatureValueGrid.xaml</DependentUpon>
@@ -117,6 +126,9 @@
     <Compile Include="Framework\WeaponBonusValue.cs" />
     <Compile Include="Framework\WeaponDefinitions.cs" />
     <Compile Include="Framework\WeaponSpecValue.cs" />
+    <Compile Include="ImageSelector.xaml.cs">
+      <DependentUpon>ImageSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ValueConverters\AbbreviatedAttributeTypeConverter.cs" />
     <Compile Include="ValueConverters\BoolToXConverter.cs" />
     <Compile Include="ValueConverters\DisplayLongNoteConverter.cs" />
@@ -199,11 +211,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="EditWeaponGroupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditWeaponPropertiesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EditWeaponSpecWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="EditWeaponWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FeatureValueGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ImageSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

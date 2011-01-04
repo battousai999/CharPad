@@ -25,7 +25,7 @@ namespace CharPad.ValueConverters
                     continue;
 
                 if ((prop & iProp) == iProp)
-                    results.Add(Enum.Format(typeof(WeaponProperties), iProp, "G"));
+                    results.Add(Utility.GetWeaponPropertyName(iProp));
             }
 
             return String.Join(", ", results.ToArray());
