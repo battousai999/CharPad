@@ -72,6 +72,9 @@
       <DependentUpon>BasicAdjustmentGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common.cs" />
+    <Compile Include="EditArmorWindow.xaml.cs">
+      <DependentUpon>EditArmorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditCharacterClassWindow.xaml.cs">
       <DependentUpon>EditCharacterClassWindow.xaml</DependentUpon>
     </Compile>
@@ -89,6 +92,9 @@
     </Compile>
     <Compile Include="EditInitiativeWindow.xaml.cs">
       <DependentUpon>EditInitiativeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditShieldWindow.xaml.cs">
+      <DependentUpon>EditShieldWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="EditSkillValueWindow.xaml.cs">
       <DependentUpon>EditSkillValueWindow.xaml</DependentUpon>
@@ -171,6 +177,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="EditArmorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EditCharacterClassWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -192,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EditInitiativeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditShieldWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

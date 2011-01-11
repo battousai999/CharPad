@@ -485,19 +485,19 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Weapon (main):" VerticalAlignment="Center" Margin="0 0 10 0" />
+                        <Button Grid.Row="0" Grid.Column="0" Content="Weapon (main):" VerticalAlignment="Center" Margin="0 0 10 0" Style="{StaticResource LinkButton}" Click="btnInvWeaponMain_Click" />
                         <ComboBox Grid.Row="0" Grid.Column="1" SelectedItem="{Binding ElementName=ThisWindow, Path=CurrentMainWeapon}" DisplayMemberPath="DisplayName" ItemsSource="{Binding ElementName=ThisWindow, Path=MainWeapons}" />
 
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Weapon (off-hand):" VerticalAlignment="Center" Margin="0 5 10 0" />
+                        <Button Grid.Row="1" Grid.Column="0" Content="Weapon (off-hand):" VerticalAlignment="Center" Margin="0 5 10 0" Style="{StaticResource LinkButton}" Click="btnInvWeaponOffhand_Click" />
                         <ComboBox Grid.Row="1" Grid.Column="1" SelectedItem="{Binding ElementName=ThisWindow, Path=CurrentOffhandWeapon}" DisplayMemberPath="DisplayName" ItemsSource="{Binding ElementName=ThisWindow, Path=OffhandWeapons}" Margin="0 5 0 0" />
 
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Implement:" VerticalAlignment="Center" Margin="0 5 10 0" />
                         <ComboBox Grid.Row="2" Grid.Column="1" Margin="0 5 0 0" />
 
-                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Armor:" VerticalAlignment="Center" Margin="20 0 10 0" />
+                        <Button Grid.Row="0" Grid.Column="2" Content="Armor:" VerticalAlignment="Center" Margin="20 0 10 0" Style="{StaticResource LinkButton}" Click="btnInvArmor_Click" />
                         <ComboBox Grid.Row="0" Grid.Column="3" SelectedItem="{Binding ElementName=ThisWindow, Path=CurrentArmor}" DisplayMemberPath="DisplayName" ItemsSource="{Binding ElementName=ThisWindow, Path=Armors}" />
 
-                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Shield:" VerticalAlignment="Center" Margin="20 5 10 0" />
+                        <Button Grid.Row="1" Grid.Column="2" Content="Shield:" VerticalAlignment="Center" Margin="20 5 10 0" Style="{StaticResource LinkButton}" Click="btnInvShield_Click" />
                         <ComboBox Grid.Row="1" Grid.Column="3" SelectedItem="{Binding ElementName=ThisWindow, Path=CurrentShield}" DisplayMemberPath="DisplayName" ItemsSource="{Binding ElementName=ThisWindow, Path=Shields}" Margin="0 5 0 0" />
                     </Grid>
 

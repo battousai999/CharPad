@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace CharPad.Framework
 {
@@ -18,6 +19,8 @@ namespace CharPad.Framework
         private bool isHeavy;
         private string specialProperty;
         private int minEnhancementBonus;
+        private Image picture;
+        private string notes;
 
         public Armor(string name, ArmorType armorType, int armorBonus, int skillModifier, int speedModifier, int basePrice, bool isHeavy, string specialProperty, int minEnhancementBonus)
             : this(name, armorType, armorBonus, skillModifier, speedModifier, basePrice, isHeavy, specialProperty, minEnhancementBonus, 0)
@@ -38,6 +41,22 @@ namespace CharPad.Framework
             this.enhancementBonus = enhancementBonus;
         }
 
+        public void CopyValues(Armor armor)
+        {
+            Name = armor.Name;
+            ArmorType = armor.ArmorType;
+            ArmorBonus = armor.ArmorBonus;
+            EnhancementBonus = armor.EnhancementBonus;
+            SkillModifier = armor.SkillModifier;
+            SpeedModifier = armor.SpeedModifier;
+            BasePrice = armor.BasePrice;
+            IsHeavy = armor.IsHeavy;
+            SpecialProperty = armor.SpecialProperty;
+            MinEnhancementBonus = armor.MinEnhancementBonus;
+            Picture = armor.Picture;
+            Notes = armor.Notes;
+        }
+
         public string Name { get { return name; } set { name = value; Notify("Name"); } }
         public ArmorType ArmorType { get { return armorType; } set { armorType = value; Notify("ArmorType"); } }
         public int ArmorBonus { get { return armorBonus; } set { armorBonus = value; Notify("ArmorBonus"); Notify("TotalBonus"); } }
@@ -48,6 +67,8 @@ namespace CharPad.Framework
         public bool IsHeavy { get { return isHeavy; } set { isHeavy = value; Notify("IsHeavy"); } }
         public string SpecialProperty { get { return specialProperty; } set { specialProperty = value; Notify("SpecialProperty"); } }
         public int MinEnhancementBonus { get { return minEnhancementBonus; } set { minEnhancementBonus = value; Notify("MinEnhancementBonus"); } }
+        public Image Picture { get { return picture; } set { picture = value; Notify("Picture"); } }
+        public string Notes { get { return notes; } set { notes = value; Notify("Notes"); } }
 
         public int TotalBonus { get { return ArmorBonus + EnhancementBonus; } }
 

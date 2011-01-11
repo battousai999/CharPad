@@ -28,6 +28,23 @@ namespace CharPad.Framework
             damageAdjustments.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(damageAdjustments_CollectionChanged);
         }
 
+        public void CopyValues(BasicAdjustmentList toHitList, BasicAdjustmentList damageList)
+        {
+            toHitAdjustments.Clear();
+
+            foreach (BasicAdjustment adjustment in toHitList)
+            {
+                toHitAdjustments.Add(new BasicAdjustment(adjustment.Modifier, adjustment.Note));
+            }
+
+            damageAdjustments.Clear();
+
+            foreach (BasicAdjustment adjustment in damageList)
+            {
+                damageAdjustments.Add(new BasicAdjustment(adjustment.Modifier, adjustment.Note));
+            }
+        }
+
         public BasicAdjustmentList ToHitAdjustments { get { return toHitAdjustments; } }
         public BasicAdjustmentList DamageAdjustments { get { return damageAdjustments; } }
 

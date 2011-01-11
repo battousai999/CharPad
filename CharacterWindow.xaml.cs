@@ -535,6 +535,26 @@ namespace CharPad
                     player.WeaponBonuses[weapon] = new WeaponBonusValue(window1.ToHitAdjustments, window1.DamageAdjustments);
                 }
             }
+            else if (item is Armor)
+            {
+                Armor armor = (Armor)item;
+                EditArmorWindow window2 = new EditArmorWindow(armor);
+
+                if (window2.ShowDialog(this))
+                {
+                    armor.CopyValues(window2.Armor);
+                }
+            }
+            else if (item is Shield)
+            {
+                Shield shield = (Shield)item;
+                EditShieldWindow window3 = new EditShieldWindow(shield);
+
+                if (window3.ShowDialog(this))
+                {
+                    shield.CopyValues(window3.Shield);
+                }
+            }
         }
 
         private void btnAddInventory_Click(object sender, RoutedEventArgs e)
@@ -584,6 +604,62 @@ namespace CharPad
                 {
                     player.Inventory.Remove(item);
                 }
+            }
+        }
+
+        private void btnInvWeaponMain_Click(object sender, RoutedEventArgs e)
+        {
+            if (player.Weapon == null)
+                return;
+
+            EditWeaponWindow window = new EditWeaponWindow(player, player.Weapon);
+
+            if (window.ShowDialog(this))
+            {
+                player.Weapon.CopyValues(window.Weapon);
+                player.WeaponBonuses[player.Weapon].CopyValues(window.ToHitAdjustments, window.DamageAdjustments);
+                BindingOperations.GetMultiBindingExpression(txtWeaponSpec, TextBlock.TextProperty).UpdateTarget();
+            }
+        }
+
+        private void btnInvWeaponOffhand_Click(object sender, RoutedEventArgs e)
+        {
+            if (player.WeaponOffhand == null)
+                return;
+
+            EditWeaponWindow window = new EditWeaponWindow(player, player.WeaponOffhand);
+
+            if (window.ShowDialog(this))
+            {
+                player.WeaponOffhand.CopyValues(window.Weapon);
+                player.WeaponBonuses[player.WeaponOffhand].CopyValues(window.ToHitAdjustments, window.DamageAdjustments);
+                BindingOperations.GetMultiBindingExpression(txtOffhandWeaponSpec, TextBlock.TextProperty).UpdateTarget();
+            }
+        }
+
+        private void btnInvArmor_Click(object sender, RoutedEventArgs e)
+        {
+            if (player.Armor == null)
+                return;
+
+            EditArmorWindow window = new EditArmorWindow(player.Armor);
+
+            if (window.ShowDialog(this))
+            {
+                player.Armor.CopyValues(window.Armor);
+            }
+        }
+
+        private void btnInvShield_Click(object sender, RoutedEventArgs e)
+        {
+            if (player.Shield == null)
+                return;
+
+            EditShieldWindow window = new EditShieldWindow(player.Shield);
+
+            if (window.ShowDialog(this))
+            {
+                player.Shield.CopyValues(window.Shield);
             }
         }
     }
