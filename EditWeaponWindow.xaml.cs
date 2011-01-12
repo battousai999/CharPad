@@ -212,6 +212,7 @@ namespace CharPad
             }
 
             int price;
+            int enhancementBonus;
 
             if (String.IsNullOrWhiteSpace(txtPrice.Text))
                 price = 0;
@@ -219,6 +220,15 @@ namespace CharPad
             {
                 MessageBox.Show("Please enter either a valid price or a blank price.", "Invalid price", MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtPrice.Focus();
+                return;
+            }
+
+            if (String.IsNullOrWhiteSpace(txtEnhancementBonus.Text))
+                enhancementBonus = 0;
+            else if (!Int32.TryParse(txtEnhancementBonus.Text, out enhancementBonus))
+            {
+                MessageBox.Show("Please enter either a valid enhancement bonus or a blank enhancement bonus.", "Invalid enhancement bonus", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtEnhancementBonus.Focus();
                 return;
             }
 
@@ -259,9 +269,11 @@ namespace CharPad
                     chkIsTwoHanded.IsChecked.Value);
 
                 weapon.IsImplement = chkIsImplement.IsChecked.Value;
-                weapon.Picture = ConvertToBitmap(weaponImage);
-                weapon.Notes = txtNotes.Text;
             }
+
+            weapon.EnhancementBonus = enhancementBonus;
+            weapon.Picture = ConvertToBitmap(weaponImage);
+            weapon.Notes = txtNotes.Text;
 
             DialogResult = true;
         }

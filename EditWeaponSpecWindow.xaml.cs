@@ -19,11 +19,13 @@ namespace CharPad
     /// </summary>
     public partial class EditWeaponSpecWindow : Window
     {
-        WeaponSpecValue weaponSpec;
+        private WeaponSpecValue weaponSpec;
+        private Player player;
 
-        public EditWeaponSpecWindow(WeaponSpecValue weaponSpec)
+        public EditWeaponSpecWindow(Player player, WeaponSpecValue weaponSpec)
         {
             this.weaponSpec = weaponSpec;
+            this.player = player;
 
             InitializeComponent();
         }
@@ -61,6 +63,17 @@ namespace CharPad
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
+        }
+
+        private void btnWeapon_Click(object sender, RoutedEventArgs e)
+        {
+            EditWeaponWindow window = new EditWeaponWindow(player, weaponSpec.Weapon);
+
+            if (window.ShowDialog(this))
+            {
+                weaponSpec.Weapon.CopyValues(window.Weapon);
+                player.WeaponBonuses[weaponSpec.Weapon].CopyValues(window.ToHitAdjustments, window.DamageAdjustments);
+            }
         }
     }
 }

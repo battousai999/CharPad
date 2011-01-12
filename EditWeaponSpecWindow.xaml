@@ -27,14 +27,15 @@
         
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
             <TextBlock Text="Weapon:" Margin="0 0 10 0" />
-            <TextBlock Text="{Binding ElementName=ThisWindow, Path=Weapon.Name}" />
+            <Button Content="{Binding ElementName=ThisWindow, Path=Weapon.Name}" Style="{StaticResource LinkButton}" Click="btnWeapon_Click" />
         </StackPanel>
         
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="To Hit:" HorizontalAlignment="Center" FontWeight="Bold" />
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="Damage:" HorizontalAlignment="Center" FontWeight="Bold" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="To Hit:" HorizontalAlignment="Center" FontWeight="Bold" Margin="0 5 0 0" />
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Damage:" HorizontalAlignment="Center" FontWeight="Bold" Margin="0 5 0 0" />
         
         <Grid Grid.Row="2" Grid.Column="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -53,24 +54,28 @@
 
             <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.ProficiencyBonus, Converter={StaticResource modifierConverter}}" Margin="10 5 10 0" />
             <TextBlock Grid.Row="1" Grid.Column="1" Text="Proficiency Bonus" Margin="20 5 0 0" />
-
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.LevelBonus, Converter={StaticResource modifierConverter}}" Margin="10 5 10 0" />
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="Level Bonus" Margin="20 5 0 0" />
-
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.TotalToHitAdjustment, Converter={StaticResource modifierConverter}}" Margin="10 5 10 0" />
-            <TextBlock Grid.Row="3" Grid.Column="1" Text="Total General Adjustment" Margin="20 5 0 0" />
-
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.WeaponSpecificToHitAdjustment, Converter={StaticResource modifierConverter}}" Margin="10 5 10 0" />
-            <TextBlock Grid.Row="4" Grid.Column="1" Text="Total Weapon-specific Adjustment" Margin="20 5 0 0" />
             
-            <Grid Grid.Row="5" Grid.Column="0" HorizontalAlignment="Stretch" Height="2" Background="Black" VerticalAlignment="Center" Margin="0 5 0 5" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.EnhancementBonus, Converter={StaticResource modifierConverter}}" Margin="10 5 10 0" />
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="Enhancement Bonus" Margin="20 5 0 0" />
 
-            <TextBlock Grid.Row="6" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.TotalToHitBonus, Converter={StaticResource modifierConverter}}" Margin="10 0 10 0" />
-            <TextBlock Grid.Row="6" Grid.Column="1" Text="Total" Margin="20 0 0 0" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.LevelBonus, Converter={StaticResource modifierConverter}}" Margin="10 5 10 0" />
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="Level Bonus" Margin="20 5 0 0" />
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.TotalToHitAdjustment, Converter={StaticResource modifierConverter}}" Margin="10 5 10 0" />
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="Total General Adjustment" Margin="20 5 0 0" />
+
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.WeaponSpecificToHitAdjustment, Converter={StaticResource modifierConverter}}" Margin="10 5 10 0" />
+            <TextBlock Grid.Row="5" Grid.Column="1" Text="Total Weapon-specific Adjustment" Margin="20 5 0 0" />
+            
+            <Grid Grid.Row="6" Grid.Column="0" HorizontalAlignment="Stretch" Height="2" Background="Black" VerticalAlignment="Center" Margin="0 5 0 5" />
+
+            <TextBlock Grid.Row="7" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.TotalToHitBonus, Converter={StaticResource modifierConverter}}" Margin="10 0 10 0" />
+            <TextBlock Grid.Row="7" Grid.Column="1" Text="Total" Margin="20 0 0 0" />
         </Grid>
         
         <Grid Grid.Row="2" Grid.Column="1">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -84,17 +89,20 @@
 
             <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.AttributeBonus, Converter={StaticResource modifierConverter}}" Margin="10 0 10 0" />
             <TextBlock Grid.Row="0" Grid.Column="1" Text="Attribute Bonus" Margin="20 0 0 0" />
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.EnhancementBonus, Converter={StaticResource modifierConverter}}" Margin="10 5 10 0" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="Enhancement Bonus" Margin="20 5 0 0" />
             
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.TotalDamageAdjustment, Converter={StaticResource modifierConverter}}" Margin="10 5 10 0" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="Total General Adjustment" Margin="20 5 0 0" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.TotalDamageAdjustment, Converter={StaticResource modifierConverter}}" Margin="10 5 10 0" />
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="Total General Adjustment" Margin="20 5 0 0" />
             
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.WeaponSpecificDamageAdjustment, Converter={StaticResource modifierConverter}}" Margin="10 5 10 0" />
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="Total Weapon-specific Adjustment" Margin="20 5 0 0" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.WeaponSpecificDamageAdjustment, Converter={StaticResource modifierConverter}}" Margin="10 5 10 0" />
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="Total Weapon-specific Adjustment" Margin="20 5 0 0" />
             
-            <Grid Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" Height="2" Background="Black" VerticalAlignment="Center" Margin="0 5 0 5" />
+            <Grid Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" Height="2" Background="Black" VerticalAlignment="Center" Margin="0 5 0 5" />
             
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.TotalDamageBonus, Converter={StaticResource modifierConverter}}" Margin="10 0 10 0" />
-            <TextBlock Grid.Row="4" Grid.Column="1" Text="Total" Margin="20 0 0 0" />
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="{Binding ElementName=ThisWindow, Path=WeaponSpec.TotalDamageBonus, Converter={StaticResource modifierConverter}}" Margin="10 0 10 0" />
+            <TextBlock Grid.Row="5" Grid.Column="1" Text="Total" Margin="20 0 0 0" />
         </Grid>
         
         <TextBlock Grid.Row="3" Grid.Column="0" Text="General Adjustments:" HorizontalAlignment="Left" Margin="0 5 0 0" />

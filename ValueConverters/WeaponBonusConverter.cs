@@ -28,6 +28,8 @@ namespace CharPad.ValueConverters
                 spec = player.WeaponSpec;
             else if (weapon == player.WeaponOffhand)
                 spec = player.WeaponOffhandSpec;
+            else if (weapon == player.RangedWeapon)
+                spec = player.RangedWeaponSpec;
             else
                 throw new InvalidOperationException("Weapon given does not match one of the weapons wielded by the player.");
 

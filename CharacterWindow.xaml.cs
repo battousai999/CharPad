@@ -23,18 +23,45 @@ namespace CharPad
     {
         #region Classes
 
-        public class InvItem
+        public class InvItem : INotifyPropertyChanged
         {
             public static InvItem NullItem = new InvItem(null);
 
-            public string DisplayName { get; set; }
-            public IInventoryItem Item { get; set; }
+            private string displayName;
+            private IInventoryItem item;
+
+            public string DisplayName { get { return displayName; } }
+            public IInventoryItem Item { get { return item; } }
 
             public InvItem(IInventoryItem item)
             {
-                this.DisplayName = (item == null ? "(none)" : item.Name);
-                this.Item = item;
+                this.displayName = (item == null ? "(none)" : item.Name);
+                this.item = item;
+
+                if (item != null)
+                    item.PropertyChanged += new PropertyChangedEventHandler(item_PropertyChanged);
             }
+
+            void item_PropertyChanged(object sender, PropertyChangedEventArgs e)
+            {
+                if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Name") == 0)
+                {
+                    displayName = item.Name;
+                    Notify("DisplayName");
+                }
+            }
+
+            #region INotifyPropertyChanged Members
+
+            private void Notify(string propertyName)
+            {
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            #endregion
         }
 
         #endregion
@@ -44,12 +71,14 @@ namespace CharPad
         private ObservableCollectionEx<IInventoryItem> inventory;
         private ObservableCollection<InvItem> mainWeapons;
         private ObservableCollection<InvItem> offhandWeapons;
+        private ObservableCollection<InvItem> rangedWeapons;
         private ObservableCollection<InvItem> armors;
         private ObservableCollection<InvItem> shields;
         private InvItem currentArmor;
         private InvItem currentShield;
         private InvItem currentMainWeapon;
         private InvItem currentOffhandWeapon;
+        private InvItem currentRangedWeapon;
         private bool ignorePlayerWeaponUpdating = false;
         private bool ignorePlayerArmorUpdating = false;
 
@@ -67,6 +96,7 @@ namespace CharPad
 
             mainWeapons = new ObservableCollection<InvItem>();
             offhandWeapons = new ObservableCollection<InvItem>();
+            rangedWeapons = new ObservableCollection<InvItem>();
             armors = new ObservableCollection<InvItem>();
             shields = new ObservableCollection<InvItem>();
 
@@ -74,6 +104,7 @@ namespace CharPad
 
             currentMainWeapon = mainWeapons.FirstOrDefault(x => x.Item == player.Weapon);
             currentOffhandWeapon = offhandWeapons.FirstOrDefault(x => x.Item == player.WeaponOffhand);
+            currentRangedWeapon = rangedWeapons.FirstOrDefault(x => x.Item == player.RangedWeapon);
             currentArmor = armors.FirstOrDefault(x => x.Item == player.Armor);
             currentShield = shields.FirstOrDefault(x => x.Item == player.Shield);
 
@@ -198,15 +229,21 @@ namespace CharPad
             {
                 mainWeapons.Clear();
                 mainWeapons.Add(InvItem.NullItem);
-                player.Inventory.Where(x => (x is Weapon) && (x != player.WeaponOffhand)).ToList().ForEach(x => mainWeapons.Add(new InvItem(x)));
+                player.Inventory.Where(x => (x is Weapon) && (x != player.WeaponOffhand) && (x != player.RangedWeapon) && !((Weapon)x).IsRanged).ToList().ForEach(x => mainWeapons.Add(new InvItem(x)));
                 currentMainWeapon = mainWeapons.FirstOrDefault(x => x.Item == player.Weapon);
                 Notify("CurrentMainWeapon");
 
                 offhandWeapons.Clear();
                 offhandWeapons.Add(InvItem.NullItem);
-                player.Inventory.Where(x => (x is Weapon) && (x != player.Weapon)).ToList().ForEach(x => offhandWeapons.Add(new InvItem(x)));
+                player.Inventory.Where(x => (x is Weapon) && (x != player.Weapon) && (x != player.RangedWeapon) && !((Weapon)x).IsRanged).ToList().ForEach(x => offhandWeapons.Add(new InvItem(x)));
                 currentOffhandWeapon = offhandWeapons.FirstOrDefault(x => x.Item == player.WeaponOffhand);
                 Notify("CurrentOffhandWeapon");
+
+                rangedWeapons.Clear();
+                rangedWeapons.Add(InvItem.NullItem);
+                player.Inventory.Where(x => (x is Weapon) && (x != player.Weapon) && (x != player.WeaponOffhand) && ((Weapon)x).IsRanged).ToList().ForEach(x => rangedWeapons.Add(new InvItem(x)));
+                currentRangedWeapon = rangedWeapons.FirstOrDefault(x => x.Item == player.RangedWeapon);
+                Notify("CurrentRangedWeapon");
             }
             finally
             {
@@ -280,6 +317,20 @@ namespace CharPad
             }
         }
 
+        public InvItem CurrentRangedWeapon
+        {
+            get { return currentRangedWeapon; }
+            set
+            {
+                currentRangedWeapon = value;
+
+                if (!ignorePlayerWeaponUpdating)
+                    player.RangedWeapon = (Weapon)currentRangedWeapon.Item;
+
+                Notify("CurrentRangedWeapon");
+            }
+        }
+
         public ObservableCollectionEx<IInventoryItem> Inventory
         {
             get { return inventory; }
@@ -293,6 +344,11 @@ namespace CharPad
         public ObservableCollection<InvItem> OffhandWeapons
         {
             get { return offhandWeapons; }
+        }
+
+        public ObservableCollection<InvItem> RangedWeapons
+        {
+            get { return rangedWeapons; }
         }
 
         public ObservableCollection<InvItem> Armors
@@ -412,7 +468,7 @@ namespace CharPad
             if (player.Weapon == null)
                 return;
 
-            EditWeaponSpecWindow window = new EditWeaponSpecWindow(player.WeaponSpec);
+            EditWeaponSpecWindow window = new EditWeaponSpecWindow(player, player.WeaponSpec);
 
             window.ShowDialog(this);
 
@@ -424,11 +480,23 @@ namespace CharPad
             if (player.WeaponOffhand == null)
                 return;
 
-            EditWeaponSpecWindow window = new EditWeaponSpecWindow(player.WeaponOffhandSpec);
+            EditWeaponSpecWindow window = new EditWeaponSpecWindow(player, player.WeaponOffhandSpec);
 
             window.ShowDialog(this);
 
             BindingOperations.GetMultiBindingExpression(txtOffhandWeaponSpec, TextBlock.TextProperty).UpdateTarget();
+        }
+
+        private void btnRangedWeaponSpec_Click(object sender, RoutedEventArgs e)
+        {
+            if (player.RangedWeapon == null)
+                return;
+
+            EditWeaponSpecWindow window = new EditWeaponSpecWindow(player, player.RangedWeaponSpec);
+
+            window.ShowDialog(this);
+
+            BindingOperations.GetMultiBindingExpression(txtRangedWeaponSpec, TextBlock.TextProperty).UpdateTarget();
         }
 
         private void btnAddResistance_Click(object sender, RoutedEventArgs e)
@@ -634,6 +702,21 @@ namespace CharPad
                 player.WeaponOffhand.CopyValues(window.Weapon);
                 player.WeaponBonuses[player.WeaponOffhand].CopyValues(window.ToHitAdjustments, window.DamageAdjustments);
                 BindingOperations.GetMultiBindingExpression(txtOffhandWeaponSpec, TextBlock.TextProperty).UpdateTarget();
+            }
+        }
+
+        private void btnInvRangedWeapon_Click(object sender, RoutedEventArgs e)
+        {
+            if (player.RangedWeapon == null)
+                return;
+
+            EditWeaponWindow window = new EditWeaponWindow(player, player.RangedWeapon);
+
+            if (window.ShowDialog(this))
+            {
+                player.RangedWeapon.CopyValues(window.Weapon);
+                player.WeaponBonuses[player.RangedWeapon].CopyValues(window.ToHitAdjustments, window.DamageAdjustments);
+                BindingOperations.GetMultiBindingExpression(txtRangedWeaponSpec, TextBlock.TextProperty).UpdateTarget();
             }
         }
 

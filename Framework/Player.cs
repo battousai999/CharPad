@@ -59,10 +59,12 @@ namespace CharPad.Framework
         private Shield shield;
         private Weapon weapon;
         private Weapon weaponOffhand;
+        private Weapon rangedWeapon;
         private ObservableCollectionEx<IInventoryItem> inventory;
         private WeaponBonusList weaponBonuses;
         private WeaponSpecValue weaponSpec;
         private WeaponSpecValue weaponOffhandSpec;
+        private WeaponSpecValue rangedWeaponSpec;
 
         public string CharacterName { get { return characterName; } set { characterName = value; Notify("CharacterName"); } }
         public string PlayerName { get { return playerName; } set { playerName = value; Notify("PlayerName"); } }
@@ -113,6 +115,7 @@ namespace CharPad.Framework
         public WeaponBonusList WeaponBonuses { get { return weaponBonuses; } }
         public WeaponSpecValue WeaponSpec { get { return weaponSpec; } }
         public WeaponSpecValue WeaponOffhandSpec { get { return weaponOffhandSpec; } }
+        public WeaponSpecValue RangedWeaponSpec { get { return rangedWeaponSpec; } }
 
         public Armor Armor 
         { 
@@ -248,6 +251,9 @@ namespace CharPad.Framework
                 if (weaponOffhand != null)
                     weaponOffhand.PropertyChanged += new PropertyChangedEventHandler(weaponOffhand_PropertyChanged);
 
+                if (WeaponBonuses[weaponOffhand] == null)
+                    weaponBonuses.Add(weaponOffhand, new WeaponBonusValue());
+
                 Notify("WeaponOffhand");
                 Notify("WeaponOffhandSpec");
             }
@@ -257,6 +263,36 @@ namespace CharPad.Framework
         {
             Notify("WeaponOffhand");
             Notify("WeaponOffhandSpec");
+        }
+
+        public Weapon RangedWeapon
+        {
+            get { return rangedWeapon; }
+            set
+            {
+                if ((value != null) && !inventory.Contains(value))
+                    throw new InvalidOperationException("Cannot specify a ranged weapon that is not in your inventory.");
+
+                if (rangedWeapon != null)
+                    rangedWeapon.PropertyChanged -= new PropertyChangedEventHandler(rangedWeapon_PropertyChanged);
+
+                rangedWeapon = value;
+
+                if (rangedWeapon != null)
+                    rangedWeapon.PropertyChanged += new PropertyChangedEventHandler(rangedWeapon_PropertyChanged);
+
+                if (WeaponBonuses[rangedWeapon] == null)
+                    weaponBonuses.Add(rangedWeapon, new WeaponBonusValue());
+
+                Notify("RangedWeapon");
+                Notify("RangedWeaponSpec");
+            }
+        }
+
+        void rangedWeapon_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("RangedWeapon");
+            Notify("RangedWeaponSpec");
         }
 
         public List<IInventoryItem> WieldedItems
@@ -329,6 +365,7 @@ namespace CharPad.Framework
             this.weaponBonuses = new WeaponBonusList();
             this.weaponSpec = new WeaponSpecValue(this, true);
             this.weaponOffhandSpec = new WeaponSpecValue(this, false);
+            this.rangedWeaponSpec = new WeaponSpecValue(this, true, true);
             this.surgesPerDay = new SurgesPerDayValue(this);
 
             hitPoints.PropertyChanged += new PropertyChangedEventHandler(hitPoints_PropertyChanged);

@@ -52,10 +52,11 @@ namespace CharPad.Framework
 
         public Player Player { get { return player; } }
         public bool IsMainWeapon { get { return isMainWeapon; } }
+        public bool AsRanged { get { return asRanged; } }
         public BasicAdjustmentList ToHitAdjustments { get { return toHitAdjustments; } }
         public BasicAdjustmentList DamageAdjustments { get { return damageAdjustments; } }
 
-        public Weapon Weapon { get { return (isMainWeapon ? player.Weapon : player.WeaponOffhand); } }
+        public Weapon Weapon { get { return (asRanged ? player.RangedWeapon : (isMainWeapon ? player.Weapon : player.WeaponOffhand)); } }
 
         public int TotalToHitBonus
         {
@@ -64,7 +65,7 @@ namespace CharPad.Framework
                 if (Weapon == null)
                     return 0;
 
-                return AttributeBonus + ProficiencyBonus + LevelBonus + TotalToHitAdjustment + WeaponSpecificToHitAdjustment;
+                return AttributeBonus + EnhancementBonus + ProficiencyBonus + LevelBonus + TotalToHitAdjustment + WeaponSpecificToHitAdjustment;
             }
         }
 
@@ -86,7 +87,7 @@ namespace CharPad.Framework
                 if (Weapon == null)
                     return 0;
 
-                return AttributeBonus + TotalDamageAdjustment + WeaponSpecificDamageAdjustment;
+                return AttributeBonus + EnhancementBonus + TotalDamageAdjustment + WeaponSpecificDamageAdjustment;
             }
         }
 
@@ -169,6 +170,11 @@ namespace CharPad.Framework
         public int ProficiencyBonus
         {
             get { return (Weapon == null ? 0 : Weapon.ProficiencyBonus); }
+        }
+
+        public int EnhancementBonus
+        {
+            get { return (Weapon == null ? 0 : Weapon.EnhancementBonus); }
         }
 
         public int TotalToHitAdjustment
@@ -277,7 +283,8 @@ namespace CharPad.Framework
         void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if ((StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Weapon") == 0) ||
-                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "WeaponOffhand") == 0))
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "WeaponOffhand") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "RangedWeapon") == 0))
             {
                 if (playerWeapon != Weapon)
                 {
@@ -301,6 +308,7 @@ namespace CharPad.Framework
                     Notify("DamageSpec");
                     Notify("AttributeBonus");
                     Notify("ProficiencyBonus");
+                    Notify("EnhancementBonus");
                     Notify("WeaponSpecificToHitAdjustments");
                     Notify("WeaponSpecificDamageAdjustments");
                     Notify("TotalToHitBonus");
@@ -327,6 +335,7 @@ namespace CharPad.Framework
             Notify("DamageSpec");
             Notify("AttributeBonus");
             Notify("ProficiencyBonus");
+            Notify("EnhancementBonus");
             Notify("WeaponSpecificToHitAdjustments");
             Notify("WeaponSpecificDamageAdjustments");
             Notify("TotalToHitBonus");
