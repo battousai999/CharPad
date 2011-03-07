@@ -142,6 +142,10 @@ namespace CharPad
             {
                 UpdateInventoryItems();
             }
+
+            BindingOperations.GetMultiBindingExpression(txtWeaponSpec, TextBlock.TextProperty).UpdateTarget();
+            BindingOperations.GetMultiBindingExpression(txtOffhandWeaponSpec, TextBlock.TextProperty).UpdateTarget();
+            BindingOperations.GetMultiBindingExpression(txtRangedWeaponSpec, TextBlock.TextProperty).UpdateTarget();
         }
 
         private void UpdateInventoryItems()

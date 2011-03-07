@@ -60,11 +60,13 @@ namespace CharPad.Framework
         private Weapon weapon;
         private Weapon weaponOffhand;
         private Weapon rangedWeapon;
+        private Weapon implement;
         private ObservableCollectionEx<IInventoryItem> inventory;
         private WeaponBonusList weaponBonuses;
         private WeaponSpecValue weaponSpec;
         private WeaponSpecValue weaponOffhandSpec;
         private WeaponSpecValue rangedWeaponSpec;
+        private WeaponSpecValue implementSpec;
 
         public string CharacterName { get { return characterName; } set { characterName = value; Notify("CharacterName"); } }
         public string PlayerName { get { return playerName; } set { playerName = value; Notify("PlayerName"); } }
@@ -116,6 +118,7 @@ namespace CharPad.Framework
         public WeaponSpecValue WeaponSpec { get { return weaponSpec; } }
         public WeaponSpecValue WeaponOffhandSpec { get { return weaponOffhandSpec; } }
         public WeaponSpecValue RangedWeaponSpec { get { return rangedWeaponSpec; } }
+        public WeaponSpecValue ImplementSpec { get { return implementSpec; } }
 
         public Armor Armor 
         { 
@@ -295,6 +298,38 @@ namespace CharPad.Framework
             Notify("RangedWeaponSpec");
         }
 
+        public Weapon Implement
+        {
+            get { return implement; }
+            set
+            {
+                if ((value != null) && !inventory.Contains(value))
+                    throw new InvalidOperationException("Cannot equipt an implement that is not in your inventory.");
+
+                if (implement != null)
+                    implement.PropertyChanged -= new PropertyChangedEventHandler(implement_PropertyChanged);
+
+                implement = value;
+
+                if (implement != null)
+                    implement.PropertyChanged += new PropertyChangedEventHandler(implement_PropertyChanged);
+
+                WeaponBonusValue bonus = WeaponBonuses[implement];
+
+                if (bonus == null)
+                    WeaponBonuses.Add(implement, new WeaponBonusValue());
+
+                Notify("Implement");
+                Notify("ImplementSpec");
+            }
+        }
+
+        void implement_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("Implement");
+            Notify("ImplementSpec");
+        }
+
         public List<IInventoryItem> WieldedItems
         {
             get
@@ -363,9 +398,10 @@ namespace CharPad.Framework
             this.resistances = new ObservableCollectionEx<ResistanceValue>();
             this.inventory = new ObservableCollectionEx<IInventoryItem>();
             this.weaponBonuses = new WeaponBonusList();
-            this.weaponSpec = new WeaponSpecValue(this, true);
-            this.weaponOffhandSpec = new WeaponSpecValue(this, false);
-            this.rangedWeaponSpec = new WeaponSpecValue(this, true, true);
+            this.weaponSpec = new WeaponSpecValue(this, WeaponSlot.MainWeapon);
+            this.weaponOffhandSpec = new WeaponSpecValue(this, WeaponSlot.OffhandWeapon);
+            this.rangedWeaponSpec = new WeaponSpecValue(this, WeaponSlot.RangedWeapon);
+            this.implementSpec = new WeaponSpecValue(this, WeaponSlot.Implement);
             this.surgesPerDay = new SurgesPerDayValue(this);
 
             hitPoints.PropertyChanged += new PropertyChangedEventHandler(hitPoints_PropertyChanged);
@@ -389,7 +425,19 @@ namespace CharPad.Framework
             weaponBonuses.CollectionChanged += new NotifyCollectionChangedEventHandler(weaponBonuses_CollectionChanged);
             weaponSpec.PropertyChanged += new PropertyChangedEventHandler(weaponSpec_PropertyChanged);
             weaponOffhandSpec.PropertyChanged += new PropertyChangedEventHandler(weaponOffhandSpec_PropertyChanged);
+            rangedWeaponSpec.PropertyChanged += new PropertyChangedEventHandler(rangedWeaponSpec_PropertyChanged);
+            implementSpec.PropertyChanged += new PropertyChangedEventHandler(implementSpec_PropertyChanged);
             surgesPerDay.PropertyChanged += new PropertyChangedEventHandler(surgesPerDay_PropertyChanged);
+        }
+
+        void implementSpec_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("ImplementSpec");
+        }
+
+        void rangedWeaponSpec_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("RangedWeaponSpec");
         }
 
         void surgesPerDay_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -517,6 +565,37 @@ namespace CharPad.Framework
         public static int GetAttributeModifier(int attributeValue)
         {
             return (attributeValue >= 10 ? (attributeValue - 10) / 2 : (attributeValue - 11) / 2);
+        }
+
+        public int GetAttributeModifier(AttributeType attribute)
+        {
+            int attributeValue;
+
+            switch (attribute)
+            {
+                case AttributeType.Strength:     
+                    attributeValue = str; 
+                    break;
+                case AttributeType.Constitution: 
+                    attributeValue = con; 
+                    break;
+                case AttributeType.Dexterity: 
+                    attributeValue = dex; 
+                    break;
+                case AttributeType.Intelligence:
+                    attributeValue = _int;
+                    break;
+                case AttributeType.Wisdom:
+                    attributeValue = wis;
+                    break;
+                case AttributeType.Charisma:
+                    attributeValue = cha;
+                    break;
+                default:
+                    throw new InvalidOperationException("Unexpected attribute value: " + Enum.Format(typeof(AttributeType), attribute, "G"));
+            }
+
+            return GetAttributeModifier(attributeValue);
         }
 
         public int LevelBonus

@@ -220,5 +220,10 @@ namespace CharPad.Framework
         {
             return String.Format("{0}d{1}", number, diceBase);
         }
+
+        public Dice GetDice(int multiplier)
+        {
+            return Dice.Get(this.Number * multiplier, this.Base);
+        }
     }
 }

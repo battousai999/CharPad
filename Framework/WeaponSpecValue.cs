@@ -11,21 +11,18 @@ namespace CharPad.Framework
         private Player player;
         private Weapon playerWeapon;
         private WeaponBonusValue weaponBonus;
-        private bool isMainWeapon;
-        private bool asRanged;
         private BasicAdjustmentList toHitAdjustments;
         private BasicAdjustmentList damageAdjustments;
+        private WeaponSlot slot;
 
-        public WeaponSpecValue(Player player, bool isMainWeapon)
-            : this(player, isMainWeapon, false)
-        {
-        }
+        private bool isMainWeapon { get { return (slot == WeaponSlot.MainWeapon); } }
+        private bool asRanged { get { return (slot == WeaponSlot.RangedWeapon); } }
+        private bool asImplementSlot { get { return (slot == WeaponSlot.Implement); } }
 
-        public WeaponSpecValue(Player player, bool isMainWeapon, bool asRanged)
+        public WeaponSpecValue(Player player, WeaponSlot slot)
         {
             this.player = player;
-            this.isMainWeapon = isMainWeapon;
-            this.asRanged = asRanged;
+            this.slot = slot;
             this.toHitAdjustments = new BasicAdjustmentList();
             this.damageAdjustments = new BasicAdjustmentList();
 
@@ -51,12 +48,31 @@ namespace CharPad.Framework
         }
 
         public Player Player { get { return player; } }
-        public bool IsMainWeapon { get { return isMainWeapon; } }
-        public bool AsRanged { get { return asRanged; } }
+        public WeaponSlot Slot { get { return slot; } }
+        //public bool IsMainWeapon { get { return isMainWeapon; } }
+        //public bool AsRanged { get { return asRanged; } }
         public BasicAdjustmentList ToHitAdjustments { get { return toHitAdjustments; } }
         public BasicAdjustmentList DamageAdjustments { get { return damageAdjustments; } }
 
-        public Weapon Weapon { get { return (asRanged ? player.RangedWeapon : (isMainWeapon ? player.Weapon : player.WeaponOffhand)); } }
+        public Weapon Weapon
+        {
+            get
+            {
+                switch (slot)
+                {
+                    case WeaponSlot.MainWeapon:
+                        return player.Weapon;
+                    case WeaponSlot.OffhandWeapon:
+                        return player.WeaponOffhand;
+                    case WeaponSlot.RangedWeapon:
+                        return player.RangedWeapon;
+                    case WeaponSlot.Implement:
+                        return player.Implement;
+                    default:
+                        throw new InvalidOperationException("Unexpected slot value: " + Enum.Format(typeof(WeaponSlot), slot, "G"));
+                }
+            }
+        }
 
         public int TotalToHitBonus
         {
@@ -160,7 +176,9 @@ namespace CharPad.Framework
                 if (Weapon == null)
                     return 0;
 
-                if (Weapon.IsRanged)
+                if (slot == WeaponSlot.Implement)
+                    return 0;
+                else if (Weapon.IsRanged)
                     return player.DexModifier;
                 else
                     return player.StrModifier;
@@ -169,7 +187,7 @@ namespace CharPad.Framework
 
         public int ProficiencyBonus
         {
-            get { return (Weapon == null ? 0 : Weapon.ProficiencyBonus); }
+            get { return ((Weapon == null) || (slot == WeaponSlot.Implement) ? 0 : Weapon.ProficiencyBonus); }
         }
 
         public int EnhancementBonus
@@ -284,7 +302,8 @@ namespace CharPad.Framework
         {
             if ((StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Weapon") == 0) ||
                 (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "WeaponOffhand") == 0) ||
-                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "RangedWeapon") == 0))
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "RangedWeapon") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Implement") == 0))
             {
                 if (playerWeapon != Weapon)
                 {

@@ -134,6 +134,7 @@
     <Compile Include="Framework\Utility.cs" />
     <Compile Include="Framework\WeaponBonusValue.cs" />
     <Compile Include="Framework\WeaponDefinitions.cs" />
+    <Compile Include="Framework\WeaponSlot.cs" />
     <Compile Include="Framework\WeaponSpecValue.cs" />
     <Compile Include="ImageSelector.xaml.cs">
       <DependentUpon>ImageSelector.xaml</DependentUpon>
