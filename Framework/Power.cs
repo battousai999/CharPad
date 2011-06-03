@@ -17,8 +17,8 @@ namespace CharPad.Framework
         private int level;
         private string description; // displays next to name
         private string notes;       // displays in tooltip w/ image
-        private bool isAttack;
-        private WeaponSlot attackType;
+        private PowerAttackType attackType;
+        private WeaponSlot attackWeapon;
         private AttributeType attackAttribute;
         private DefenseType defenseType;
         private BasicAdjustmentList attackModifiers;
@@ -38,8 +38,8 @@ namespace CharPad.Framework
             this.level = 1;
             this.description = "";
             this.notes = "";
-            this.isAttack = true;
-            this.attackType = WeaponSlot.MainWeapon;
+            this.attackType = PowerAttackType.Weapon;
+            this.attackWeapon = WeaponSlot.MainWeapon;
             this.attackAttribute = AttributeType.Strength;
             this.defenseType = DefenseType.AC;
             this.weaponDamageMultiplier = 1;
@@ -89,9 +89,9 @@ namespace CharPad.Framework
         void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "LevelBonus") == 0)
-                Notify("LevelBonus");
+                Notify("LevelBonus", "TotalToHitBonus");
             else if ((new string[] { "StrModifier", "ConModifier", "DexModifier", "IntModifier", "WisModifier", "ChaModifier" }).Contains(e.PropertyName, StringComparer.CurrentCultureIgnoreCase))
-                Notify("AttributeBonus", "AttributeDamageBonus");
+                Notify("AttributeBonus", "AttributeDamageBonus", "TotalToHitBonus", "TotalDamageBonus", "FullDamageText");
             else if ((new string[] { "Weapon", "WeaponOffhand", "RangedWeapon", "Implement" }).Contains(e.PropertyName, StringComparer.CurrentCultureIgnoreCase))
             {
                 Notify("Weapon", "WeaponProficiencyBonus", "WeaponEnhancementBonus", "TotalToHitBonus", "DamageText", "FullDamageText");
@@ -116,8 +116,8 @@ namespace CharPad.Framework
         public int Level { get { return level; } set { level = value; Notify("Level"); } }
         public string Description { get { return description; } set { description = value; Notify("Description"); } }
         public string Notes { get { return notes; } set { notes = value; Notify("Notes"); } }
-        public bool IsAttack { get { return isAttack; } set { isAttack = value; Notify("IsAttack"); } }
-        public WeaponSlot AttackType { get { return attackType; } set { attackType = value; Notify("AttackType", "Weapon", "WeaponProficiencyBonus", "WeaponEnhancementBonus" ); } }
+        public PowerAttackType AttackType { get { return attackType; } set { attackType = value; Notify("AttackType"); } }
+        public WeaponSlot AttackWeapon { get { return attackWeapon; } set { attackWeapon = value; Notify("AttackWeapon", "Weapon", "WeaponProficiencyBonus", "WeaponEnhancementBonus" ); } }
         public AttributeType AttackAttribute { get { return attackAttribute; } set { attackAttribute = value; Notify("AttackAttribute"); } }
         public DefenseType DefenseType { get { return defenseType; } set { defenseType = value; Notify("DefenseType"); } }
         public BasicAdjustmentList AttackModifiers { get { return attackModifiers; } }
@@ -132,7 +132,7 @@ namespace CharPad.Framework
         {
             get
             {
-                switch (attackType)
+                switch (attackWeapon)
                 {
                     case WeaponSlot.MainWeapon:
                         return player.Weapon;
@@ -143,14 +143,14 @@ namespace CharPad.Framework
                     case WeaponSlot.Implement:
                         return (player.Implement != null ? player.Implement : ((player.Weapon != null) && player.Weapon.IsImplement ? player.Weapon : null));
                     default:
-                        throw new InvalidOperationException("Unexpected slot value: " + Enum.Format(typeof(WeaponSlot), attackType, "G"));
+                        throw new InvalidOperationException("Unexpected slot value: " + Enum.Format(typeof(WeaponSlot), attackWeapon, "G"));
                 }
             }
         }
 
         public int LevelBonus { get { return player.LevelBonus; } }
         public int AttributeBonus { get { return player.GetAttributeModifier(attackAttribute); } }
-        public int WeaponProficiencyBonus { get { return ((Weapon == null) || (attackType == WeaponSlot.Implement) ? 0 : Weapon.ProficiencyBonus); } }
+        public int WeaponProficiencyBonus { get { return ((Weapon == null) || (attackWeapon == WeaponSlot.Implement) ? 0 : Weapon.ProficiencyBonus); } }
         public int WeaponEnhancementBonus { get { return (Weapon == null ? 0 : Weapon.EnhancementBonus); } }
         public int TotalAttackAdjustment { get { return attackModifiers.TotalAdjustment; } }
 
@@ -174,7 +174,7 @@ namespace CharPad.Framework
         {
             get
             {
-                if (attackType == WeaponSlot.Implement)
+                if (attackWeapon == WeaponSlot.Implement)
                     return (damage == null ? "(n/a)" : damage.DisplayString);
                 else
                     return (Weapon == null ? Dice.Get(2) : Weapon.Damage).GetDice(weaponDamageMultiplier).DisplayString;
@@ -192,12 +192,46 @@ namespace CharPad.Framework
             }
         }
 
+        public string FullDescription
+        {
+            get
+            {
+                if (AttackType == PowerAttackType.None)
+                    return Description;
+                else
+                {
+                    Weapon weapon = Weapon;
+
+                    if ((AttackType == PowerAttackType.Implement) && (AttackWeapon != WeaponSlot.Implement) && !weapon.IsImplement)
+                        return "Invalid power settings";
+
+                    if ((AttackType == PowerAttackType.Weapon) && ((AttackWeapon == WeaponSlot.Implement) || (weapon == null)))
+                        return "Invalid power settings.";
+
+                    WeaponSpecValue spec = player.GetWeaponSpec(AttackWeapon);
+                    int attackBonus = spec.TotalToHitBonus - (AttackType == PowerAttackType.Implement ? spec.ProficiencyBonus : 0) + attackModifiers.TotalAdjustment;
+                    string damageString = (String.IsNullOrWhiteSpace(damageType) ? "damage" : (damageType + " damage"));
+
+                    string tempString = String.Format("{0} vs {1}, {2} {3}",
+                        (attackBonus >= 0 ? "+" + attackBonus.ToString() : attackBonus.ToString()),
+                        Enum.Format(typeof(DefenseType), defenseType, "G"),
+                        FullDamageText,
+                        damageString);
+
+                    return (String.IsNullOrWhiteSpace(Description) ? tempString : String.Format("{0} ({1})", tempString, Description));
+                }
+            }
+        }
+
         #region INotifyPropertyChanged Members
 
         private void Notify(params string[] propertyNames)
         {
             if (PropertyChanged != null)
             {
+                // This is just easier for now...
+                PropertyChanged(this, new PropertyChangedEventArgs("FullDescription"));
+
                 foreach (string propertyName in propertyNames)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs(propertyName));

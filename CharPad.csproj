@@ -71,6 +71,7 @@
     <Compile Include="BasicAdjustmentGrid.xaml.cs">
       <DependentUpon>BasicAdjustmentGrid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BindableEnum.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="EditArmorWindow.xaml.cs">
       <DependentUpon>EditArmorWindow.xaml</DependentUpon>
@@ -92,6 +93,9 @@
     </Compile>
     <Compile Include="EditInitiativeWindow.xaml.cs">
       <DependentUpon>EditInitiativeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditPowerWindow.xaml.cs">
+      <DependentUpon>EditPowerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="EditShieldWindow.xaml.cs">
       <DependentUpon>EditShieldWindow.xaml</DependentUpon>
@@ -127,6 +131,8 @@
     <Compile Include="Framework\ListAdapter.cs" />
     <Compile Include="Framework\Power.cs" />
     <Compile Include="Framework\PowerActionType.cs" />
+    <Compile Include="Framework\PowerAttackType.cs" />
+    <Compile Include="Framework\PowerCollection.cs" />
     <Compile Include="Framework\PowerType.cs" />
     <Compile Include="Framework\SurgesPerDayValue.cs" />
     <Compile Include="Framework\WeaponBonusList.cs" />
@@ -139,9 +145,13 @@
     <Compile Include="ImageSelector.xaml.cs">
       <DependentUpon>ImageSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PowerGrid.xaml.cs">
+      <DependentUpon>PowerGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ValueConverters\AbbreviatedAttributeTypeConverter.cs" />
     <Compile Include="ValueConverters\BoolToXConverter.cs" />
     <Compile Include="ValueConverters\DisplayLongNoteConverter.cs" />
+    <Compile Include="ValueConverters\HasPictureConverter.cs" />
     <Compile Include="ValueConverters\HideZeroModifierConverter.cs" />
     <Compile Include="ValueConverters\InventoryTabOkButtonConverter.cs" />
     <Compile Include="ValueConverters\ListViewLastColumnWidthConverter.cs" />
@@ -151,6 +161,10 @@
     <Compile Include="ValueConverters\CreatureSizeConverter.cs" />
     <Compile Include="ValueConverters\EmptyCollectionToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\NullToBoolConverter.cs" />
+    <Compile Include="ValueConverters\PowerActionTypeConverter.cs" />
+    <Compile Include="ValueConverters\PowerAttackTypeConverter.cs" />
+    <Compile Include="ValueConverters\PowerDamageLabelConverter.cs" />
+    <Compile Include="ValueConverters\PowerTypeColorConverter.cs" />
     <Compile Include="ValueConverters\SkillNameConverter.cs" />
     <Compile Include="ValueConverters\WeaponBonusConverter.cs" />
     <Compile Include="ValueConverters\OneToBoolConverter.cs" />
@@ -206,6 +220,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EditInitiativeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditPowerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -303,6 +321,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PowerGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

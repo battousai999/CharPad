@@ -46,7 +46,7 @@ namespace CharPad.Framework
 
         public ListAdapter(System.Collections.IEnumerable nativeListParameter)
         {
-            nativeList = nativeListParameter;
+            nativeList = (nativeListParameter == null ? new List<T>() : nativeListParameter);
         }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()

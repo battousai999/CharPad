@@ -1,0 +1,131 @@
+﻿<Window x:Class="CharPad.EditPowerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:conv="clr-namespace:CharPad.ValueConverters"
+        xmlns:local="clr-namespace:CharPad"
+        Name="ThisWindow"
+        Title="Edit Power" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight" ShowInTaskbar="False"
+        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FocusManager.FocusedElement="{Binding ElementName=txtName}">
+    <Window.Resources>
+        <conv:PowerDamageLabelConverter x:Key="powerDamageLabelConverter" />
+    </Window.Resources>
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="Col1" />
+                <ColumnDefinition Width="200" SharedSizeGroup="Col2" />
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Name:" VerticalAlignment="Center" Margin="0 0 10 0" />
+            <TextBox Name="txtName" Grid.Row="0" Grid.Column="1" />
+            
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Level:" VerticalAlignment="Center" Margin="0 5 10 0" />
+            <TextBox Name="txtLevel" Grid.Row="1" Grid.Column="1" Width="60" HorizontalAlignment="Left" Margin="0 5 0 0" />
+            
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Description:" VerticalAlignment="Top" Margin="0 5 10 0" />
+            <TextBox Name="txtDescription" Grid.Row="2" Grid.Column="1" Height="40" Margin="0 5 0 0" />
+            
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Power Type:" VerticalAlignment="Center" Margin="0 5 10 0" />
+            <ComboBox Name="cboPowerType" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ElementName=ThisWindow, Path=PowerTypes}" DisplayMemberPath="Name" Width="180" HorizontalAlignment="Left" Margin="0 5 0 0" />
+            
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Action:" VerticalAlignment="Center" Margin="0 5 10 0" />
+            <ComboBox Name="cboActionType" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ElementName=ThisWindow, Path=ActionTypes}" DisplayMemberPath="Name" Width="180" HorizontalAlignment="Left" Margin="0 5 0 0" />
+            
+            <GroupBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="{Binding ElementName=chkIsActionPower, Path=IsChecked}">
+                <GroupBox.Header>
+                    <CheckBox Name="chkIsActionPower" Content="Attack Power" />
+                </GroupBox.Header>
+                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Col1" />
+                        <ColumnDefinition Width="200" SharedSizeGroup="Col2" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Attack Type:" VerticalAlignment="Center" Margin="0 0 10 0" />
+                    <ComboBox Name="cboAttackType" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding ElementName=ThisWindow, Path=AttackTypes}" DisplayMemberPath="Name" Width="180" HorizontalAlignment="Left" />
+                    
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Weapon:" VerticalAlignment="Center" Margin="0 5 10 0" />
+                    <ComboBox Name="cboWeapon" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding ElementName=ThisWindow, Path=AttackWeaponValues}" DisplayMemberPath="Name" Width="180" HorizontalAlignment="Left" Margin="0 5 0 0" />
+                    
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Attack Attribute:" VerticalAlignment="Center" Margin="0 5 10 0" />
+                    <ComboBox Name="cboAttackAttr" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ElementName=ThisWindow, Path=AttackAttributeValues}" DisplayMemberPath="Name" Width="180" HorizontalAlignment="Left" Margin="0 5 0 0" />
+                    
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Defense Type:" VerticalAlignment="Center" Margin="0 5 10 0" />
+                    <ComboBox Name="cboDefenseType" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ElementName=ThisWindow, Path=DefenseTypeValues}" DisplayMemberPath="Name" Width="180" HorizontalAlignment="Left" Margin="0 5 0 0" />
+                    
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Damage:" VerticalAlignment="Center" Margin="0 5 10 0" />
+                    <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 5 0 0">
+                        <TextBox Name="txtDamage" Width="110" VerticalAlignment="Center" />
+                        <TextBlock Text="[W]" Visibility="{Binding ElementName=txtDamage, Path=Text, Converter={StaticResource powerDamageLabelConverter}}" />
+                    </StackPanel>
+                    <TextBlock Grid.Row="5" Grid.Column="1" Text="Ex: 2d6" Margin="5 0 0 0" />
+                    
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Damage Type:" VerticalAlignment="Center" Margin="0 5 10 0" />
+                    <TextBox Name="txtDamageType" Grid.Row="6" Grid.Column="1" Width="180" HorizontalAlignment="Left" Margin="0 5 0 0" />
+                    <TextBlock Grid.Row="7" Grid.Column="1" Text="(blank = normal)" HorizontalAlignment="Left" Margin="5 0 0 0" />
+                    
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Bonus Damage Attr:" VerticalAlignment="Center" Margin="0 5 10 0" />
+                    <ComboBox Name="cboBonusDamageAttr" Grid.Row="8" Grid.Column="1" ItemsSource="{Binding ElementName=ThisWindow, Path=BonusDamageAttributeValues}" DisplayMemberPath="Name" Width="180" HorizontalAlignment="Left" Margin="0 5 0 0" />
+                    
+                    <TextBlock Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Text="Attack Adjustments:" Margin="0 10 0 0" />
+                    <local:BasicAdjustmentGrid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Height="100" List="{Binding ElementName=ThisWindow, Path=AttackAdjustments}" />
+                    
+                    <TextBlock Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" Text="Damage Adjustments:" Margin="0 10 0 0" />
+                    <local:BasicAdjustmentGrid Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2" Height="100" List="{Binding ElementName=ThisWindow, Path=DamageAdjustments}" />
+                </Grid>
+            </GroupBox>
+        </Grid>
+        
+        <Grid Grid.Row="0" Grid.Column="1" Margin="10 0 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <local:ImageSelector Grid.Row="0" Width="300" Height="300" VerticalAlignment="Top" MainImage="{Binding ElementName=ThisWindow, Path=WeaponImage, Mode=TwoWay}" />
+
+            <TextBlock Grid.Row="1" Text="Notes:" Margin="0 10 0 0" />
+            <TextBox Name="txtNotes" Grid.Row="2" AcceptsReturn="True" TextWrapping="WrapWithOverflow" VerticalScrollBarVisibility="Auto" MinHeight="100" />
+        </Grid>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
+            <Button Content="OK" MinWidth="75" MinHeight="23" Margin="0 0 10 0" Click="btnOk_Click" />
+            <Button Content="Cancel" IsCancel="True" MinWidth="75" MinHeight="23" />
+        </StackPanel>
+    </Grid>
+</Window>

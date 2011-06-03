@@ -474,7 +474,35 @@
                     </Grid>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Powers"></TabItem>
+            <TabItem Header="Powers">
+                <ScrollViewer>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="150" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="150" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="150" />
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Row="0" Text="At-will Powers:" FontWeight="Bold" />
+                        <local:PowerGrid Grid.Row="1" List="{Binding ElementName=ThisWindow, Path=Player.Powers.AtWillPowers}" />
+                        
+                        <GridSplitter Grid.Row="2" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                        
+                        <TextBlock Grid.Row="3" Text="Encounter Powers:" FontWeight="Bold" />
+                        <local:PowerGrid Grid.Row="4" List="{Binding ElementName=ThisWindow, Path=Player.Powers.EncounterPowers}" />
+                        
+                        <GridSplitter Grid.Row="5" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                        
+                        <TextBlock Grid.Row="6" Text="Daily Powers:" FontWeight="Bold" />
+                        <local:PowerGrid Grid.Row="7" List="{Binding ElementName=ThisWindow, Path=Player.Powers.DailyPowers}" />
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
             <TabItem Header="Inventory">
                 <Grid>
                     <Grid.RowDefinitions>

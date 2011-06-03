@@ -108,6 +108,13 @@ namespace CharPad
             player.Weapon = (Weapon)player.Inventory[0];
             player.Armor = (Armor)player.Inventory[4];
 
+            Power power = new Power(player);
+            power.Level = 1;
+            power.Name = "Cleave";
+            power.Notes = "do 2 damage to adjacent mob";
+
+            player.Powers.Add(power);
+
             Party.Members.Add(player);
 
             player = new Player();

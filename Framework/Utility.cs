@@ -130,5 +130,18 @@ namespace CharPad.Framework
                     return Enum.Format(typeof(WeaponProperties), property, "G");
             }
         }
+
+        public static string GetPowerActionTypeName(PowerActionType actionType)
+        {
+            switch (actionType)
+            {
+                case PowerActionType.ImmediateInterrupt:
+                    return "Immediate Interrupt";
+                case PowerActionType.ImmediateReaction:
+                    return "Immediate Reaction";
+                default:
+                    return Enum.Format(typeof(PowerActionType), actionType, "G");
+            }
+        }
     }
 }

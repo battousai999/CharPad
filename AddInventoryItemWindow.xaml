@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:conv="clr-namespace:CharPad.ValueConverters"
         Name="ThisWindow"
-        Title="Add Feature" Width="700" Height="500" ResizeMode="CanResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
+        Title="Add Inventory Item" Width="700" Height="500" ResizeMode="CanResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False"
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
     <Window.Resources>
         <conv:ModifierConverter x:Key="modifierConverter" />

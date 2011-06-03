@@ -55,6 +55,7 @@ namespace CharPad.Framework
         private ObservableCollectionEx<FeatureValue> destinyFeatures;
         private ObservableCollectionEx<FeatureValue> feats;
         private ObservableCollectionEx<ResistanceValue> resistances;
+        private PowerCollection powers;
         private Armor armor;
         private Shield shield;
         private Weapon weapon;
@@ -114,6 +115,7 @@ namespace CharPad.Framework
         public ObservableCollectionEx<FeatureValue> Feats { get { return feats; } }
         public ObservableCollectionEx<ResistanceValue> Resistances { get { return resistances; } }
         public ObservableCollectionEx<IInventoryItem> Inventory { get { return inventory; } }
+        public PowerCollection Powers { get { return powers; } }
         public WeaponBonusList WeaponBonuses { get { return weaponBonuses; } }
         public WeaponSpecValue WeaponSpec { get { return weaponSpec; } }
         public WeaponSpecValue WeaponOffhandSpec { get { return weaponOffhandSpec; } }
@@ -397,6 +399,7 @@ namespace CharPad.Framework
             this.feats = new ObservableCollectionEx<FeatureValue>();
             this.resistances = new ObservableCollectionEx<ResistanceValue>();
             this.inventory = new ObservableCollectionEx<IInventoryItem>();
+            this.powers = new PowerCollection();
             this.weaponBonuses = new WeaponBonusList();
             this.weaponSpec = new WeaponSpecValue(this, WeaponSlot.MainWeapon);
             this.weaponOffhandSpec = new WeaponSpecValue(this, WeaponSlot.OffhandWeapon);
@@ -421,6 +424,8 @@ namespace CharPad.Framework
             resistances.CollectionChanged += new NotifyCollectionChangedEventHandler(resistances_CollectionChanged);
             inventory.ContainedElementChanged += new PropertyChangedEventHandler(inventory_ContainedElementChanged);
             inventory.CollectionChanged += new NotifyCollectionChangedEventHandler(inventory_CollectionChanged);
+            powers.ContainedElementChanged += new PropertyChangedEventHandler(powers_ContainedElementChanged);
+            powers.CollectionChanged += new NotifyCollectionChangedEventHandler(powers_CollectionChanged);
             weaponBonuses.ContainedElementChanged += new PropertyChangedEventHandler(weaponBonuses_ContainedElementChanged);
             weaponBonuses.CollectionChanged += new NotifyCollectionChangedEventHandler(weaponBonuses_CollectionChanged);
             weaponSpec.PropertyChanged += new PropertyChangedEventHandler(weaponSpec_PropertyChanged);
@@ -428,6 +433,16 @@ namespace CharPad.Framework
             rangedWeaponSpec.PropertyChanged += new PropertyChangedEventHandler(rangedWeaponSpec_PropertyChanged);
             implementSpec.PropertyChanged += new PropertyChangedEventHandler(implementSpec_PropertyChanged);
             surgesPerDay.PropertyChanged += new PropertyChangedEventHandler(surgesPerDay_PropertyChanged);
+        }
+
+        void powers_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Notify("Powers");
+        }
+
+        void powers_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Notify("Powers");
         }
 
         void implementSpec_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -629,6 +644,23 @@ namespace CharPad.Framework
                     return WillDefense;
                 default:
                     throw new InvalidOperationException("Unexpected defense type value: " + Enum.Format(typeof(DefenseType), defenseType, "G"));
+            }
+        }
+
+        public WeaponSpecValue GetWeaponSpec(WeaponSlot slot)
+        {
+            switch (slot)
+            {
+                case WeaponSlot.MainWeapon:
+                    return WeaponSpec;
+                case WeaponSlot.OffhandWeapon:
+                    return WeaponOffhandSpec;
+                case WeaponSlot.RangedWeapon:
+                    return RangedWeaponSpec;
+                case WeaponSlot.Implement:
+                    return ImplementSpec;
+                default:
+                    return null;
             }
         }
 

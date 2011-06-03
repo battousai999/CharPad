@@ -17,6 +17,12 @@ namespace CharPad.Framework
             this.note = note;
         }
 
+        public BasicAdjustment(BasicAdjustment adjustment)
+        {
+            this.modifier = adjustment.modifier;
+            this.note = adjustment.note;
+        }
+
         public int Modifier { get { return modifier; } set { modifier = value; Notify("Modifier"); } }
         public string Note { get { return note; } set { note = value; Notify("Note"); } }
 
