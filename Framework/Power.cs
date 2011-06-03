@@ -25,7 +25,7 @@ namespace CharPad.Framework
         private Dice damage;
         private int weaponDamageMultiplier;
         private string damageType;
-        private AttributeType bonusDamageAttribute;
+        private AttributeType? bonusDamageAttribute;
         private BasicAdjustmentList damageModifiers;
         private Image picture;
 
@@ -44,7 +44,7 @@ namespace CharPad.Framework
             this.defenseType = DefenseType.AC;
             this.weaponDamageMultiplier = 1;
             this.damageType = "";
-            this.bonusDamageAttribute = AttributeType.Strength;
+            this.bonusDamageAttribute = null;
             this.attackModifiers = new BasicAdjustmentList();
             this.damageModifiers = new BasicAdjustmentList();
 
@@ -124,7 +124,7 @@ namespace CharPad.Framework
         public Dice Damage { get { return damage; } set { damage = value; Notify("Damage"); } }
         public int WeaponDamamgeMultiplier { get { return weaponDamageMultiplier; } set { weaponDamageMultiplier = value; Notify("WeaponDamageMultiplier"); } }
         public string DamageType { get { return damageType; } set { damageType = value; Notify("DamageType"); } }
-        public AttributeType BonusDamageAttribute { get { return bonusDamageAttribute; } set { bonusDamageAttribute = value; Notify("BonusDamageAttribute"); } }
+        public AttributeType? BonusDamageAttribute { get { return bonusDamageAttribute; } set { bonusDamageAttribute = value; Notify("BonusDamageAttribute"); } }
         public BasicAdjustmentList DamageModifiers { get { return damageModifiers; } }
         public Image Picture { get { return picture; } set { picture = value; Notify("Picture"); } }
         
@@ -162,7 +162,7 @@ namespace CharPad.Framework
             }
         }
 
-        public int AttributeDamageBonus { get { return player.GetAttributeModifier(bonusDamageAttribute); } }
+        public int AttributeDamageBonus { get { return (bonusDamageAttribute == null ? 0 : player.GetAttributeModifier(bonusDamageAttribute.Value)); } }
         public int TotalDamageAdjustment { get { return damageModifiers.TotalAdjustment; } }
 
         public int TotalDamageBonus

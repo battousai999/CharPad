@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace CharPad.Framework
 {
@@ -17,6 +18,7 @@ namespace CharPad.Framework
         private static Dictionary<string, Dice> dieCache = new Dictionary<string, Dice>();
         private static Random _rand = new Random();
         private static object randLock = new object();
+        private static Regex parser = new Regex(@"^\s*(\d*)d(\d+)\s*$", RegexOptions.IgnoreCase);
 
         private int number;
         private int _base;
@@ -224,6 +226,21 @@ namespace CharPad.Framework
         public Dice GetDice(int multiplier)
         {
             return Dice.Get(this.Number * multiplier, this.Base);
+        }
+
+        public static bool IsValidString(string text)
+        {
+            return parser.IsMatch(text);
+        }
+
+        public static Dice GetFromString(string text)
+        {
+            Match match = parser.Match(text);
+
+            if (!match.Success)
+                throw new ArgumentException("Not a valid dice string: " + (text == null ? "(null)" : text));
+
+            return Dice.Get(String.IsNullOrWhiteSpace(match.Groups[1].Value) ? 1 : Convert.ToInt32(match.Groups[1].Value), Convert.ToInt32(match.Groups[2].Value));
         }
     }
 }

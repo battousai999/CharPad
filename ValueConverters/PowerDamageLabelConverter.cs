@@ -16,7 +16,7 @@ namespace CharPad.ValueConverters
 
             string str = (string)value;
 
-            if (!String.IsNullOrWhiteSpace(str) && (str.Length <= 2) && Char.IsDigit(str[0]) && Char.IsDigit(str[1]))
+            if (!String.IsNullOrWhiteSpace(str) && (str.Length <= 2) && Char.IsDigit(str[0]) && ((str.Length == 1) || Char.IsDigit(str[1])))
                 return Visibility.Visible;
             else
                 return Visibility.Collapsed;

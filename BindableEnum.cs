@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CharPad
 {
-    public class BindableEnum<T> where T : Enum
+    public class BindableEnum<T> where T : struct
     {
         private string name = null;
         private T value;
@@ -17,6 +17,9 @@ namespace CharPad
 
         public BindableEnum(string name, T value)
         {
+            if (!typeof(T).IsEnum)
+                throw new InvalidOperationException("Cannot create this class on a type that is not an enum.");
+
             this.name = name;
             this.value = value;
         }
@@ -33,6 +36,11 @@ namespace CharPad
         }
 
         public T Value { get { return value; } }
+
+        public static List<BindableEnum<T>> BuildValues()
+        {
+            return BuildValues(null);
+        }
 
         public static List<BindableEnum<T>> BuildValues(Dictionary<T, string> names)
         {

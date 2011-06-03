@@ -63,11 +63,27 @@ namespace CharPad
 
             if (power == null)
                 return;
+
+            EditPowerWindow window = new EditPowerWindow(power);
+
+            if (window.ShowDialog(Application.Current.MainWindow))
+            {
+                window.UpdatePower(power);
+            }
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            EditPowerWindow window = new EditPowerWindow(null);
 
+            if (window.ShowDialog(Application.Current.MainWindow))
+            {
+                Power power = new Power(Player);
+
+                window.UpdatePower(power);
+
+                Player.Powers.Add(power);
+            }
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)

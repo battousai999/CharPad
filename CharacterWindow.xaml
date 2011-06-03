@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:conv="clr-namespace:CharPad.ValueConverters"
         xmlns:local="clr-namespace:CharPad"
+        xmlns:fw="clr-namespace:CharPad.Framework"
         Name="ThisWindow" ShowInTaskbar="False"
         Title="CharacterWindow" Height="600" Width="500" WindowStartupLocation="CenterScreen" MinWidth="370" MinHeight="450"
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
@@ -489,17 +490,17 @@
                         </Grid.RowDefinitions>
                         
                         <TextBlock Grid.Row="0" Text="At-will Powers:" FontWeight="Bold" />
-                        <local:PowerGrid Grid.Row="1" List="{Binding ElementName=ThisWindow, Path=Player.Powers.AtWillPowers}" />
+                        <local:PowerGrid Grid.Row="1" List="{Binding ElementName=ThisWindow, Path=Player.Powers.AtWillPowers}" Player="{Binding ElementName=ThisWindow, Path=Player}" PowerType="{x:Static fw:PowerType.AtWill}" />
                         
                         <GridSplitter Grid.Row="2" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                         
                         <TextBlock Grid.Row="3" Text="Encounter Powers:" FontWeight="Bold" />
-                        <local:PowerGrid Grid.Row="4" List="{Binding ElementName=ThisWindow, Path=Player.Powers.EncounterPowers}" />
+                        <local:PowerGrid Grid.Row="4" List="{Binding ElementName=ThisWindow, Path=Player.Powers.EncounterPowers}" Player="{Binding ElementName=ThisWindow, Path=Player}" PowerType="{x:Static fw:PowerType.Encounter}" />
                         
                         <GridSplitter Grid.Row="5" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                         
                         <TextBlock Grid.Row="6" Text="Daily Powers:" FontWeight="Bold" />
-                        <local:PowerGrid Grid.Row="7" List="{Binding ElementName=ThisWindow, Path=Player.Powers.DailyPowers}" />
+                        <local:PowerGrid Grid.Row="7" List="{Binding ElementName=ThisWindow, Path=Player.Powers.DailyPowers}" Player="{Binding ElementName=ThisWindow, Path=Player}" PowerType="{x:Static fw:PowerType.Daily}" />
                     </Grid>
                 </ScrollViewer>
             </TabItem>
