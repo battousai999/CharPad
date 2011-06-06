@@ -7,7 +7,7 @@ namespace CharPad.Framework
 {
     public class ListAdapter<T> : IEnumerable<T>
     {
-        public class NativeListEnumerator<T> : IEnumerator<T>
+        public class NativeListEnumerator : IEnumerator<T>
         {
             private System.Collections.IEnumerator nativeEnumerator;
 
@@ -51,7 +51,7 @@ namespace CharPad.Framework
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            return new NativeListEnumerator<T>(GetEnumerator());
+            return new NativeListEnumerator(GetEnumerator());
         }
 
         public System.Collections.IEnumerator GetEnumerator()

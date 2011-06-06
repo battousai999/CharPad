@@ -83,7 +83,7 @@ namespace CharPad.Framework
 
         void playerWeapon_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            Notify("Weapon", "WeaponProficiencyBonus", "WeaponEnhancementBonus", "TotalToHitBonus", "DamageText", "FullDamageText");
+            Notify("Weapon", "WeaponProficiencyBonus", "WeaponEnhancementBonus", "TotalToHitBonus", "DamageText", "FullDamageText", "WeaponToHitBonus", "WeaponDamageBonus", "TotalDamageBonus");
         }
 
         void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -94,7 +94,7 @@ namespace CharPad.Framework
                 Notify("AttributeBonus", "AttributeDamageBonus", "TotalToHitBonus", "TotalDamageBonus", "FullDamageText");
             else if ((new string[] { "Weapon", "WeaponOffhand", "RangedWeapon", "Implement" }).Contains(e.PropertyName, StringComparer.CurrentCultureIgnoreCase))
             {
-                Notify("Weapon", "WeaponProficiencyBonus", "WeaponEnhancementBonus", "TotalToHitBonus", "DamageText", "FullDamageText");
+                Notify("Weapon", "WeaponProficiencyBonus", "WeaponEnhancementBonus", "TotalToHitBonus", "DamageText", "FullDamageText", "WeaponToHitBonus", "WeaponDamageBonus", "TotalDamageBonus");
 
                 if (playerWeapon != Weapon)
                 {
@@ -152,22 +152,41 @@ namespace CharPad.Framework
         public int AttributeBonus { get { return player.GetAttributeModifier(attackAttribute); } }
         public int WeaponProficiencyBonus { get { return ((Weapon == null) || (attackWeapon == WeaponSlot.Implement) ? 0 : Weapon.ProficiencyBonus); } }
         public int WeaponEnhancementBonus { get { return (Weapon == null ? 0 : Weapon.EnhancementBonus); } }
+
+        public int WeaponToHitBonus
+        {
+            get
+            {
+                WeaponSpecValue spec = (Weapon == null ? null : player.GetWeaponSpec(AttackWeapon));
+                return (spec == null ? 0 : (spec.TotalToHitAdjustment + spec.WeaponSpecificToHitAdjustment));
+            }
+        }
+
         public int TotalAttackAdjustment { get { return attackModifiers.TotalAdjustment; } }
 
         public int TotalToHitBonus
         {
             get
             {
-                return LevelBonus + AttributeBonus + WeaponProficiencyBonus + WeaponEnhancementBonus + TotalAttackAdjustment;
+                return LevelBonus + AttributeBonus + WeaponProficiencyBonus + WeaponEnhancementBonus + WeaponToHitBonus + TotalAttackAdjustment;
             }
         }
 
         public int AttributeDamageBonus { get { return (bonusDamageAttribute == null ? 0 : player.GetAttributeModifier(bonusDamageAttribute.Value)); } }
         public int TotalDamageAdjustment { get { return damageModifiers.TotalAdjustment; } }
 
+        public int WeaponDamageBonus
+        {
+            get
+            {
+                WeaponSpecValue spec = (Weapon == null ? null : player.GetWeaponSpec(AttackWeapon);
+                return (spec == null ? 0 : (spec.TotalDamageAdjustment + spec.WeaponSpecificDamageAdjustment));
+            }
+        }
+
         public int TotalDamageBonus
         {
-            get { return AttributeDamageBonus + TotalDamageAdjustment; }
+            get { return AttributeDamageBonus + WeaponEnhancementBonus + WeaponDamageBonus + TotalDamageAdjustment; }
         }
 
         public string DamageText
@@ -208,12 +227,10 @@ namespace CharPad.Framework
                     if ((AttackType == PowerAttackType.Weapon) && ((AttackWeapon == WeaponSlot.Implement) || (weapon == null)))
                         return "Invalid power settings.";
 
-                    WeaponSpecValue spec = player.GetWeaponSpec(AttackWeapon);
-                    int attackBonus = spec.TotalToHitBonus - (AttackType == PowerAttackType.Implement ? spec.ProficiencyBonus : 0) + attackModifiers.TotalAdjustment;
                     string damageString = (String.IsNullOrWhiteSpace(damageType) ? "damage" : (damageType + " damage"));
 
                     string tempString = String.Format("{0} vs {1}, {2} {3}",
-                        (attackBonus >= 0 ? "+" + attackBonus.ToString() : attackBonus.ToString()),
+                        (TotalToHitBonus >= 0 ? "+" + TotalToHitBonus.ToString() : TotalToHitBonus.ToString()),
                         Enum.Format(typeof(DefenseType), defenseType, "G"),
                         FullDamageText,
                         damageString);

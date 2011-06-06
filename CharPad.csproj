@@ -153,6 +153,7 @@
     <Compile Include="ValueConverters\DisplayLongNoteConverter.cs" />
     <Compile Include="ValueConverters\HasPictureConverter.cs" />
     <Compile Include="ValueConverters\HideZeroModifierConverter.cs" />
+    <Compile Include="ValueConverters\ImplementDisableConverter.cs" />
     <Compile Include="ValueConverters\InventoryTabOkButtonConverter.cs" />
     <Compile Include="ValueConverters\ListViewLastColumnWidthConverter.cs" />
     <Compile Include="ValueConverters\ModifierConverter.cs" />

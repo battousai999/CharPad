@@ -85,11 +85,11 @@ namespace CharPad.Framework
         public WeaponGroup Group { get { return group; } set { group = value; Notify("Group"); } }
         public WeaponProperties Properties { get { return properties; } set { properties = value; Notify("Properties"); } }
         public int BasePrice { get { return basePrice; } set { basePrice = value; Notify("BasePrice"); } }
-        public WeaponCategory Category { get { return category; } set { category = value; Notify("Category"); } }
+        public WeaponCategory Category { get { return category; } set { category = value; Notify("Category"); Notify("IsImplement"); } }
         public bool IsTwoHanded { get { return isTwoHanded; } set { isTwoHanded = value; Notify("IsTwoHanded"); } }
         public Image Picture { get { return picture; } set { picture = value; Notify("Picture"); } }
         public string Notes { get { return notes; } set { notes = value; Notify("Notes"); } }
-        public bool IsImplement { get { return isImplement; } set { isImplement = value; Notify("IsImplement"); } }
+        public bool IsImplement { get { return (isImplement || (category == WeaponCategory.PureImplement)); } set { isImplement = value; Notify("IsImplement"); } }
 
         public int TotalBonus { get { return proficiencyBonus + enhancementBonus; } }
 

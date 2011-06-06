@@ -350,6 +350,9 @@ namespace CharPad.Framework
                 if (shield != null)
                     list.Add(shield);
 
+                if (implement != null)
+                    list.Add(implement);
+
                 return list;
             }
         }
@@ -493,6 +496,9 @@ namespace CharPad.Framework
 
             if ((shield != null) && !inventory.Contains(shield))
                 Shield = null;
+
+            if ((implement != null) && !inventory.Contains(implement))
+                Implement = null;
 
             Notify("Inventory");
         }

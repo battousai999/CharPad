@@ -49,31 +49,38 @@ namespace CharPad
         private BasicAdjustmentList toHitAdjustments;
         private BasicAdjustmentList damageAdjustments;
 
-        public EditWeaponWindow(Player player, Weapon weapon)
+        public EditWeaponWindow(Player player, Weapon weapon, bool allowImplementSwitch)
         {
             this.originalWeapon = weapon;
 
             weaponCategories = new List<CategoryItem>();
-            weaponCategories.Add(new CategoryItem(WeaponCategory.SimpleMelee));
-            weaponCategories.Add(new CategoryItem(WeaponCategory.SimpleRanged));
-            weaponCategories.Add(new CategoryItem(WeaponCategory.MilitaryMelee));
-            weaponCategories.Add(new CategoryItem(WeaponCategory.MilitaryRanged));
-            weaponCategories.Add(new CategoryItem(WeaponCategory.SuperiorMelee));
-            weaponCategories.Add(new CategoryItem(WeaponCategory.SuperiorRanged));
+
+            if ((weapon.Category == WeaponCategory.PureImplement) || allowImplementSwitch)
+                weaponCategories.Add(new CategoryItem(WeaponCategory.PureImplement));
+
+            if ((weapon.Category != WeaponCategory.PureImplement) || allowImplementSwitch)
+            {
+                weaponCategories.Add(new CategoryItem(WeaponCategory.SimpleMelee));
+                weaponCategories.Add(new CategoryItem(WeaponCategory.SimpleRanged));
+                weaponCategories.Add(new CategoryItem(WeaponCategory.MilitaryMelee));
+                weaponCategories.Add(new CategoryItem(WeaponCategory.MilitaryRanged));
+                weaponCategories.Add(new CategoryItem(WeaponCategory.SuperiorMelee));
+                weaponCategories.Add(new CategoryItem(WeaponCategory.SuperiorRanged));
+            }
 
             InitializeComponent();
 
             txtName.Text = weapon.Name;
             txtProficiencyBonus.Text = weapon.ProficiencyBonus.ToString();
             txtEnhancementBonus.Text = weapon.EnhancementBonus.ToString();
-            txtDamage.Text = weapon.Damage.DisplayString;
+            txtDamage.Text = (weapon.Damage == null ? "" : weapon.Damage.DisplayString);
             txtRange.Text = weapon.Range;
             WeaponGroup = weapon.Group;
             Properties = weapon.Properties;
             txtPrice.Text = weapon.BasePrice.ToString();
             cboCategory.SelectedItem = weaponCategories.Find(x => x.Category == weapon.Category);
             chkIsTwoHanded.IsChecked = weapon.IsTwoHanded;
-            txtNotes.Text = weapon.Notes;
+            txtNotes.Text = (weapon.Notes == null ? "" : weapon.Notes);
             chkIsImplement.IsChecked = weapon.IsImplement;
             WeaponImage = BuildBitmapImage(weapon.Picture);
 
@@ -232,7 +239,9 @@ namespace CharPad
                 return;
             }
 
-            if (chkIsImplement.IsChecked.Value && String.IsNullOrWhiteSpace(txtDamage.Text))
+            WeaponCategory weaponCategory = ((CategoryItem)cboCategory.SelectedItem).Category;
+
+            if (weaponCategory == WeaponCategory.PureImplement)
             {
                 weapon = Weapon.CreateImplement(txtName.Text, price);
             }
@@ -264,7 +273,7 @@ namespace CharPad
                     txtRange.Text,
                     weaponGroup,
                     properties,
-                    ((CategoryItem)cboCategory.SelectedItem).Category,
+                    weaponCategory,
                     price,
                     chkIsTwoHanded.IsChecked.Value);
 

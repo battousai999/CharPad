@@ -67,7 +67,7 @@ namespace CharPad
 
         private void btnWeapon_Click(object sender, RoutedEventArgs e)
         {
-            EditWeaponWindow window = new EditWeaponWindow(player, weaponSpec.Weapon);
+            EditWeaponWindow window = new EditWeaponWindow(player, weaponSpec.Weapon, false);
 
             if (window.ShowDialog(this))
             {

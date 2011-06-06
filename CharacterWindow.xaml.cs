@@ -74,11 +74,13 @@ namespace CharPad
         private ObservableCollection<InvItem> rangedWeapons;
         private ObservableCollection<InvItem> armors;
         private ObservableCollection<InvItem> shields;
+        private ObservableCollection<InvItem> implements;
         private InvItem currentArmor;
         private InvItem currentShield;
         private InvItem currentMainWeapon;
         private InvItem currentOffhandWeapon;
         private InvItem currentRangedWeapon;
+        private InvItem currentImplement;
         private bool ignorePlayerWeaponUpdating = false;
         private bool ignorePlayerArmorUpdating = false;
 
@@ -99,6 +101,7 @@ namespace CharPad
             rangedWeapons = new ObservableCollection<InvItem>();
             armors = new ObservableCollection<InvItem>();
             shields = new ObservableCollection<InvItem>();
+            implements = new ObservableCollection<InvItem>();
 
             UpdateItemCollections();
 
@@ -107,6 +110,7 @@ namespace CharPad
             currentRangedWeapon = rangedWeapons.FirstOrDefault(x => x.Item == player.RangedWeapon);
             currentArmor = armors.FirstOrDefault(x => x.Item == player.Armor);
             currentShield = shields.FirstOrDefault(x => x.Item == player.Shield);
+            currentImplement = implements.FirstOrDefault(x => x.Item == player.Implement);
 
             InitializeComponent();
 
@@ -130,13 +134,17 @@ namespace CharPad
         void player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if ((StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Weapon") == 0) ||
-                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "WeaponOffhand") == 0))
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "WeaponOffhand") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "RangedWeapon") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Implement") == 0))
             {
                 UpdateWeaponCollections();
             }
 
             if ((StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Weapon") == 0) ||
                 (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "WeaponOffhand") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "RangedWeapon") == 0) ||
+                (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Implement") == 0) ||
                 (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Armor") == 0) ||
                 (StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "Shield") == 0))
             {
@@ -233,21 +241,27 @@ namespace CharPad
             {
                 mainWeapons.Clear();
                 mainWeapons.Add(InvItem.NullItem);
-                player.Inventory.Where(x => (x is Weapon) && (x != player.WeaponOffhand) && (x != player.RangedWeapon) && !((Weapon)x).IsRanged).ToList().ForEach(x => mainWeapons.Add(new InvItem(x)));
+                player.Inventory.Where(x => (x is Weapon) && (x != player.WeaponOffhand) && (x != player.RangedWeapon) && (x != player.Implement) && !((Weapon)x).IsRanged).ToList().ForEach(x => mainWeapons.Add(new InvItem(x)));
                 currentMainWeapon = mainWeapons.FirstOrDefault(x => x.Item == player.Weapon);
                 Notify("CurrentMainWeapon");
 
                 offhandWeapons.Clear();
                 offhandWeapons.Add(InvItem.NullItem);
-                player.Inventory.Where(x => (x is Weapon) && (x != player.Weapon) && (x != player.RangedWeapon) && !((Weapon)x).IsRanged).ToList().ForEach(x => offhandWeapons.Add(new InvItem(x)));
+                player.Inventory.Where(x => (x is Weapon) && (x != player.Weapon) && (x != player.RangedWeapon) && (x != player.Implement) && !((Weapon)x).IsRanged).ToList().ForEach(x => offhandWeapons.Add(new InvItem(x)));
                 currentOffhandWeapon = offhandWeapons.FirstOrDefault(x => x.Item == player.WeaponOffhand);
                 Notify("CurrentOffhandWeapon");
 
                 rangedWeapons.Clear();
                 rangedWeapons.Add(InvItem.NullItem);
-                player.Inventory.Where(x => (x is Weapon) && (x != player.Weapon) && (x != player.WeaponOffhand) && ((Weapon)x).IsRanged).ToList().ForEach(x => rangedWeapons.Add(new InvItem(x)));
+                player.Inventory.Where(x => (x is Weapon) && (x != player.Weapon) && (x != player.WeaponOffhand) && (x != player.Implement) && ((Weapon)x).IsRanged).ToList().ForEach(x => rangedWeapons.Add(new InvItem(x)));
                 currentRangedWeapon = rangedWeapons.FirstOrDefault(x => x.Item == player.RangedWeapon);
                 Notify("CurrentRangedWeapon");
+
+                implements.Clear();
+                implements.Add(InvItem.NullItem);
+                player.Inventory.Where(x => (x is Weapon) && (x != player.Weapon) && (x != player.WeaponOffhand) && (x != player.RangedWeapon) && ((Weapon)x).IsImplement).ToList().ForEach(x => implements.Add(new InvItem(x)));
+                currentImplement = implements.FirstOrDefault(x => x.Item == player.Implement);
+                Notify("CurrentImplement");
             }
             finally
             {
@@ -335,6 +349,20 @@ namespace CharPad
             }
         }
 
+        public InvItem CurrentImplement
+        {
+            get { return currentImplement; }
+            set
+            {
+                currentImplement = value;
+
+                if (!ignorePlayerWeaponUpdating)
+                    player.Implement = (Weapon)currentImplement.Item;
+
+                Notify("CurrentImplement");
+            }
+        }
+
         public ObservableCollectionEx<IInventoryItem> Inventory
         {
             get { return inventory; }
@@ -353,6 +381,11 @@ namespace CharPad
         public ObservableCollection<InvItem> RangedWeapons
         {
             get { return rangedWeapons; }
+        }
+
+        public ObservableCollection<InvItem> Implements
+        {
+            get { return implements; }
         }
 
         public ObservableCollection<InvItem> Armors
@@ -503,6 +536,16 @@ namespace CharPad
             BindingOperations.GetMultiBindingExpression(txtRangedWeaponSpec, TextBlock.TextProperty).UpdateTarget();
         }
 
+        private void btnInvImplement_Click(object sender, RoutedEventArgs e)
+        {
+            if (player.Implement == null)
+                return;
+
+            EditWeaponSpecWindow window = new EditWeaponSpecWindow(player, player.ImplementSpec);
+
+            window.ShowDialog(this);
+        }
+
         private void btnAddResistance_Click(object sender, RoutedEventArgs e)
         {
             AddResistanceValueWindow window = new AddResistanceValueWindow(null);
@@ -599,7 +642,7 @@ namespace CharPad
             if (item is Weapon)
             {
                 Weapon weapon = (Weapon)item;
-                EditWeaponWindow window1 = new EditWeaponWindow(player, weapon);
+                EditWeaponWindow window1 = new EditWeaponWindow(player, weapon, true);
 
                 if (window1.ShowDialog(this))
                 {
@@ -684,7 +727,7 @@ namespace CharPad
             if (player.Weapon == null)
                 return;
 
-            EditWeaponWindow window = new EditWeaponWindow(player, player.Weapon);
+            EditWeaponWindow window = new EditWeaponWindow(player, player.Weapon, false);
 
             if (window.ShowDialog(this))
             {
@@ -699,7 +742,7 @@ namespace CharPad
             if (player.WeaponOffhand == null)
                 return;
 
-            EditWeaponWindow window = new EditWeaponWindow(player, player.WeaponOffhand);
+            EditWeaponWindow window = new EditWeaponWindow(player, player.WeaponOffhand, false);
 
             if (window.ShowDialog(this))
             {
@@ -714,7 +757,7 @@ namespace CharPad
             if (player.RangedWeapon == null)
                 return;
 
-            EditWeaponWindow window = new EditWeaponWindow(player, player.RangedWeapon);
+            EditWeaponWindow window = new EditWeaponWindow(player, player.RangedWeapon, false);
 
             if (window.ShowDialog(this))
             {

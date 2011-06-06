@@ -100,7 +100,7 @@ namespace CharPad
                     cboWeapon.SelectedItem = attackWeaponValues.Find(x => x.Value == power.AttackWeapon);
                     cboAttackAttr.SelectedItem = attackAttributeValues.Find(x => x.Value == power.AttackAttribute);
                     cboDefenseType.SelectedItem = defenseTypeValues.Find(x => x.Value == power.DefenseType);
-                    txtDamage.Text = (power.AttackWeapon == WeaponSlot.Implement ? power.Damage.DisplayString : power.WeaponDamamgeMultiplier.ToString());
+                    txtDamage.Text = (power.AttackWeapon == WeaponSlot.Implement ? (power.Damage == null ? "" : power.Damage.DisplayString) : power.WeaponDamamgeMultiplier.ToString());
                     txtDamageType.Text = power.DamageType;
 
                     if (power.BonusDamageAttribute == null)
