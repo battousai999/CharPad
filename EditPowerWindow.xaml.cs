@@ -88,7 +88,7 @@ namespace CharPad
                 cboPowerType.SelectedItem = powerTypes.Find(x => x.Value == power.PowerType);
                 cboActionType.SelectedItem = actionTypes.Find(x => x.Value == power.ActionType);
                 txtNotes.Text = power.Notes;
-                PowerImage = BuildBitmapImage(power.Picture);
+                PowerImage = Common.BuildBitmapImage(power.Picture);
 
                 if (power.AttackType == PowerAttackType.None)
                     chkIsActionPower.IsChecked = false;
@@ -181,7 +181,7 @@ namespace CharPad
             power.PowerType = ((BindableEnum<PowerType>)cboPowerType.SelectedItem).Value;
             power.ActionType = ((BindableEnum<PowerActionType>)cboActionType.SelectedItem).Value;
             power.Notes = txtNotes.Text;
-            power.Picture = ConvertToBitmap(powerImage);
+            power.Picture = Common.ConvertToBitmap(powerImage);
             power.AttackType = (!chkIsActionPower.IsChecked.Value ? PowerAttackType.None : ((BindableEnum<PowerAttackType>)cboAttackType.SelectedItem).Value);
 
             if (power.AttackType != PowerAttackType.None)
@@ -213,50 +213,6 @@ namespace CharPad
                 {
                     power.DamageModifiers.Add(new BasicAdjustment(adjustment));
                 }
-            }
-        }
-
-        private BitmapImage BuildBitmapImage(System.Drawing.Image image)
-        {
-            if (image == null)
-                return null;
-
-            if (!(image is System.Drawing.Bitmap))
-                throw new InvalidOperationException("Cannot handle non-bitmap images.");
-
-            System.Drawing.Bitmap bitmap = (System.Drawing.Bitmap)image;
-
-            using (MemoryStream stream = new MemoryStream())
-            {
-                System.Drawing.Bitmap copyBitmap = new System.Drawing.Bitmap(bitmap);
-
-                copyBitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
-                stream.Position = 0;
-
-                BitmapImage bitmapImage = new BitmapImage();
-
-                bitmapImage.BeginInit();
-                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapImage.StreamSource = stream;
-                bitmapImage.EndInit();
-                bitmapImage.Freeze();
-
-                return bitmapImage;
-            }
-        }
-
-        private System.Drawing.Image ConvertToBitmap(BitmapSource image)
-        {
-            if (image == null)
-                return null;
-
-            using (MemoryStream stream = new MemoryStream())
-            {
-                System.Windows.Media.Imaging.BmpBitmapEncoder encoder = new BmpBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(image));
-                encoder.Save(stream);
-
-                return new System.Drawing.Bitmap(stream);
             }
         }
 

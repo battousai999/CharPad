@@ -129,6 +129,7 @@
     </Compile>
     <Compile Include="Framework\ArmorDefinitions.cs" />
     <Compile Include="Framework\ListAdapter.cs" />
+    <Compile Include="Framework\PlayerDataAdapter.cs" />
     <Compile Include="Framework\Power.cs" />
     <Compile Include="Framework\PowerActionType.cs" />
     <Compile Include="Framework\PowerAttackType.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="ValueConverters\CreatureSizeConverter.cs" />
     <Compile Include="ValueConverters\EmptyCollectionToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\NullToBoolConverter.cs" />
+    <Compile Include="ValueConverters\PictureConverter.cs" />
     <Compile Include="ValueConverters\PowerActionTypeConverter.cs" />
     <Compile Include="ValueConverters\PowerAttackTypeConverter.cs" />
     <Compile Include="ValueConverters\PowerDamageLabelConverter.cs" />

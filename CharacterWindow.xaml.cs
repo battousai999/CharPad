@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using CharPad.Framework;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace CharPad
 {
@@ -83,11 +84,14 @@ namespace CharPad
         private InvItem currentImplement;
         private bool ignorePlayerWeaponUpdating = false;
         private bool ignorePlayerArmorUpdating = false;
+        private BitmapSource characterImage;
 
         public CharacterWindow(Player player, bool isNew)
         {
             this.player = player;
             this.isNew = isNew;
+
+            characterImage = Common.BuildBitmapImage(player.Picture);
 
             List<IInventoryItem> wieldedItems = player.WieldedItems;
 
@@ -405,6 +409,7 @@ namespace CharPad
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
+            player.Picture = Common.ConvertToBitmap(characterImage);
             DialogResult = true;
             Close();
         }
@@ -425,7 +430,12 @@ namespace CharPad
             EditCharacterRaceWindow window = new EditCharacterRaceWindow(player.Race);
 
             if (window.ShowDialog(this))
-                player.Race.CopyValues(window.Race);
+            {
+                if (player.Race == null)
+                    player.Race = window.Race;
+                else
+                    player.Race.CopyValues(window.Race);
+            }
         }
 
         private void btnClass_Click(object sender, RoutedEventArgs e)
@@ -433,7 +443,12 @@ namespace CharPad
             EditCharacterClassWindow window = new EditCharacterClassWindow(player.Class);
 
             if (window.ShowDialog(this))
-                player.Class.CopyValues(window.Class);
+            {
+                if (player.Class == null)
+                    player.Class = window.Class;
+                else
+                    player.Class.CopyValues(window.Class);
+            }
         }
 
         private void btnLevel_Click(object sender, RoutedEventArgs e)

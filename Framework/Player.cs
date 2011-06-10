@@ -5,6 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Drawing;
 
 namespace CharPad.Framework
 {
@@ -68,6 +69,7 @@ namespace CharPad.Framework
         private WeaponSpecValue weaponOffhandSpec;
         private WeaponSpecValue rangedWeaponSpec;
         private WeaponSpecValue implementSpec;
+        private Image picture;
 
         public string CharacterName { get { return characterName; } set { characterName = value; Notify("CharacterName"); } }
         public string PlayerName { get { return playerName; } set { playerName = value; Notify("PlayerName"); } }
@@ -121,6 +123,7 @@ namespace CharPad.Framework
         public WeaponSpecValue WeaponOffhandSpec { get { return weaponOffhandSpec; } }
         public WeaponSpecValue RangedWeaponSpec { get { return rangedWeaponSpec; } }
         public WeaponSpecValue ImplementSpec { get { return implementSpec; } }
+        public Image Picture { get { return picture; } set { picture = value; Notify("Picture"); } }
 
         public Armor Armor 
         { 

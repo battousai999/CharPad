@@ -9,22 +9,23 @@
         MinHeight="400" MinWidth="300">
     <Window.Resources>
         <conv:EmptyCollectionToVisibilityConverter x:Key="emptyCollectionToVisibilityConverter" />
+        <conv:PictureConverter x:Key="pictureConverter" />
     </Window.Resources>
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
                     <MenuItem Header="_New Party" Command="{x:Static local:MainWindow.NewPartyCommand}" />
-                    <MenuItem Header="_Load Party..." />
-                    <MenuItem Header="_Save Party" />
-                    <MenuItem Header="Save Party _As..." />
+                    <MenuItem Header="_Load Party..." Command="{x:Static local:MainWindow.LoadPartyCommand}" />
+                    <MenuItem Header="_Save Party" Command="{x:Static local:MainWindow.SavePartyCommand}" />
+                    <MenuItem Header="Save Party _As..." Command="{x:Static local:MainWindow.SavePartyAsCommand}" />
                     <Separator />
-                    <MenuItem Header="E_xit" />
+                    <MenuItem Header="E_xit" Command="{x:Static local:MainWindow.ExitCommand}" />
                 </MenuItem>
                 <MenuItem Header="_Character">
                     <MenuItem Header="_New Character..." Command="{x:Static local:MainWindow.NewCharacterCommand}" />
-                    <MenuItem Header="_Load Character..." />
-                    <MenuItem Name="menuSaveCharacter" Header="_Save Character" />
+                    <MenuItem Header="_Load Character..." Command="{x:Static local:MainWindow.LoadCharacterCommand}" />
+                    <MenuItem Header="_Save Character" Command="{x:Static local:MainWindow.SaveCharacterCommand}" />
                 </MenuItem>
             </Menu>
             
@@ -68,8 +69,7 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <!-- <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" HorizontalAlignment="Center" Margin="5 5 10 5" /> -->
-                                        <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" HorizontalAlignment="Center" Margin="5 5 10 5" Background="LimeGreen" Height="50" Width="50" />
+                                        <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" HorizontalAlignment="Center" Margin="5 5 10 5" Height="50" Width="50" Source="{Binding Path=Picture, Converter={StaticResource pictureConverter}}" />
 
                                         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding CharacterName}" FontWeight="Bold" FontSize="16" />
                                         <TextBlock Grid.Row="1" Grid.Column="1">

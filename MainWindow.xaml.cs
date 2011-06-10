@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using CharPad.Framework;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Microsoft.Win32;
 
 namespace CharPad
 {
@@ -25,8 +26,15 @@ namespace CharPad
         public static RoutedCommand NewPartyCommand = new RoutedCommand();
         public static RoutedCommand NewCharacterCommand = new RoutedCommand();
         public static RoutedCommand EditCharacterCommand = new RoutedCommand();
+        public static RoutedCommand LoadPartyCommand = new RoutedCommand();
+        public static RoutedCommand SavePartyCommand = new RoutedCommand();
+        public static RoutedCommand SavePartyAsCommand = new RoutedCommand();
+        public static RoutedCommand ExitCommand = new RoutedCommand();
+        public static RoutedCommand LoadCharacterCommand = new RoutedCommand();
+        public static RoutedCommand SaveCharacterCommand = new RoutedCommand();
 
         private Party party;
+        private string partyFilename;
 
         public MainWindow()
         {
@@ -37,8 +45,14 @@ namespace CharPad
             InitializeComponent();
 
             this.CommandBindings.Add(new CommandBinding(NewPartyCommand, new ExecutedRoutedEventHandler(NewPartyCommand_Executed)));
+            this.CommandBindings.Add(new CommandBinding(LoadPartyCommand, new ExecutedRoutedEventHandler(LoadPartyCommand_Executed)));
+            this.CommandBindings.Add(new CommandBinding(SavePartyCommand, new ExecutedRoutedEventHandler(SavePartyCommand_Executed)));
+            this.CommandBindings.Add(new CommandBinding(SavePartyAsCommand, new ExecutedRoutedEventHandler(SavePartyAsCommand_Executed)));
             this.CommandBindings.Add(new CommandBinding(NewCharacterCommand, new ExecutedRoutedEventHandler(NewCharacterCommand_Executed)));
             this.CommandBindings.Add(new CommandBinding(EditCharacterCommand, new ExecutedRoutedEventHandler(EditCharacterCommand_Executed)));
+            this.CommandBindings.Add(new CommandBinding(LoadCharacterCommand, new ExecutedRoutedEventHandler(LoadCharacterCommand_Executed)));
+            this.CommandBindings.Add(new CommandBinding(SaveCharacterCommand, new ExecutedRoutedEventHandler(SaveCharacterCommand_Executed)));
+            this.CommandBindings.Add(new CommandBinding(ExitCommand, new ExecutedRoutedEventHandler(ExitCommand_Executed)));
 
             charPanel.ItemsSource = party.Members;
         }
@@ -57,6 +71,7 @@ namespace CharPad
             }
 
             Party.Members.Clear();
+            partyFilename = null;
         }
 
         private void NewCharacterCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -81,6 +96,86 @@ namespace CharPad
             CharacterWindow window = new CharacterWindow(player, false);
 
             window.ShowDialog(this);
+        }
+
+        private void LoadPartyCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (Party.IsDirty)
+            {
+                // TODO: Add logic for saving a dirty party before loading a new one...
+            }
+
+            OpenFileDialog dialog = new OpenFileDialog();
+
+            dialog.AddExtension = true;
+            dialog.CheckFileExists = true;
+            dialog.DefaultExt = ".cpd";
+            dialog.Filter = "CharPad Data File|*.cpd|All Files|*.*";
+            dialog.Multiselect = false;
+            dialog.Title = "Open Party File";
+
+            if (dialog.ShowDialog(this) == true)
+            {
+                Party tempParty = PlayerDataAdapter.LoadParty(dialog.FileName);
+
+                Party.Members.Clear();
+
+                foreach (Player player in tempParty.Members)
+                {
+                    Party.Members.Add(player);
+                }
+
+                partyFilename = dialog.FileName;
+            }
+        }
+
+        private void SavePartyCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (String.IsNullOrEmpty(partyFilename))
+                SavePartyAsCommand_Executed(sender, e);
+            else
+                PlayerDataAdapter.SaveParty(partyFilename, Party);
+        }
+
+        private void SavePartyAsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+
+            dialog.AddExtension = true;
+            dialog.CreatePrompt = false;
+            dialog.DefaultExt = ".cpd";
+
+            if (!String.IsNullOrEmpty(partyFilename))
+                dialog.FileName = partyFilename;
+
+            dialog.Filter = "CharPad Data File|*.cpd|All Files|*.*";
+            dialog.OverwritePrompt = true;
+            dialog.Title = "Save Party File";
+            dialog.ValidateNames = true;
+
+            if (dialog.ShowDialog(this) == true)
+            {
+                PlayerDataAdapter.SaveParty(dialog.FileName, Party);
+                partyFilename = dialog.FileName;
+            }
+        }
+
+        private void LoadCharacterCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+        }
+
+        private void SaveCharacterCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+        }
+
+        private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (Party.IsDirty)
+            {
+                // TODO: Add logic to prompt whether to save the party before exiting...
+            }
+
+            Close();
         }
 
         private void InitializeTestParty()

@@ -64,7 +64,7 @@ namespace CharPad
             txtSpecialProperty.Text = armor.SpecialProperty;
             txtMinEnhanceBonus.Text = armor.MinEnhancementBonus.ToString();
             txtNotes.Text = armor.Notes;
-            ArmorImage = BuildBitmapImage(armor.Picture);
+            ArmorImage = Common.BuildBitmapImage(armor.Picture);
         }
 
         public BitmapSource ArmorImage
@@ -81,35 +81,6 @@ namespace CharPad
         public List<ArmorTypeItem> ArmorTypes
         {
             get { return armorTypes; }
-        }
-
-        private BitmapImage BuildBitmapImage(System.Drawing.Image image)
-        {
-            if (image == null)
-                return null;
-
-            if (!(image is System.Drawing.Bitmap))
-                throw new InvalidOperationException("Cannot handle non-bitmap images.");
-
-            System.Drawing.Bitmap bitmap = (System.Drawing.Bitmap)image;
-
-            using (MemoryStream stream = new MemoryStream())
-            {
-                System.Drawing.Bitmap copyBitmap = new System.Drawing.Bitmap(bitmap);
-
-                copyBitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
-                stream.Position = 0;
-
-                BitmapImage bitmapImage = new BitmapImage();
-
-                bitmapImage.BeginInit();
-                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapImage.StreamSource = stream;
-                bitmapImage.EndInit();
-                bitmapImage.Freeze();
-
-                return bitmapImage;
-            }
         }
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
@@ -193,25 +164,10 @@ namespace CharPad
                 minEnhanceBonus,
                 enhancementBonus);
 
-            armor.Picture = ConvertToBitmap(armorImage);
+            armor.Picture = Common.ConvertToBitmap(armorImage);
             armor.Notes = txtNotes.Text;
 
             DialogResult = true;
-        }
-
-        private System.Drawing.Image ConvertToBitmap(BitmapSource image)
-        {
-            if (image == null)
-                return null;
-
-            using (MemoryStream stream = new MemoryStream())
-            {
-                System.Windows.Media.Imaging.BmpBitmapEncoder encoder = new BmpBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(image));
-                encoder.Save(stream);
-
-                return new System.Drawing.Bitmap(stream);
-            }
         }
 
         #region INotifyPropertyChanged Members

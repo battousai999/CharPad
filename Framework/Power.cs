@@ -179,7 +179,7 @@ namespace CharPad.Framework
         {
             get
             {
-                WeaponSpecValue spec = (Weapon == null ? null : player.GetWeaponSpec(AttackWeapon);
+                WeaponSpecValue spec = (Weapon == null ? null : player.GetWeaponSpec(AttackWeapon));
                 return (spec == null ? 0 : (spec.TotalDamageAdjustment + spec.WeaponSpecificDamageAdjustment));
             }
         }
