@@ -22,6 +22,10 @@ namespace CharPad.Framework
         private Image picture;
         private string notes;
 
+        public Armor()
+        {
+        }
+
         public Armor(string name, ArmorType armorType, int armorBonus, int skillModifier, int speedModifier, int basePrice, bool isHeavy, string specialProperty, int minEnhancementBonus)
             : this(name, armorType, armorBonus, skillModifier, speedModifier, basePrice, isHeavy, specialProperty, minEnhancementBonus, 0)
         {

@@ -18,6 +18,10 @@ namespace CharPad.Framework
         private string notes;
         private Image picture;
 
+        public Shield()
+        {
+        }
+
         public Shield(string name, ArmorType armorType, int armorBonus, int skillModifier, int basePrice)
             : this(name, armorType, armorBonus, skillModifier, basePrice, 0)
         {

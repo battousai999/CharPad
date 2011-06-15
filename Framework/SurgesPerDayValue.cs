@@ -36,12 +36,14 @@ namespace CharPad.Framework
 
         void miscAdjustments_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            Notify("MiscAdjustments");
             Notify("TotalMiscAdjustment");
             Notify("Value");
         }
 
         void miscAdjustments_ContainedElementChanged(object sender, PropertyChangedEventArgs e)
         {
+            Notify("MiscAdjustments");
             Notify("TotalMiscAdjustment");
             Notify("Value");
         }
@@ -85,6 +87,11 @@ namespace CharPad.Framework
         public int ConModifier
         {
             get { return player.ConModifier; }
+        }
+
+        public BasicAdjustmentList MiscAdjustments
+        {
+            get { return miscAdjustments; }
         }
 
         public int TotalMiscAdjustment

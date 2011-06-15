@@ -23,6 +23,10 @@ namespace CharPad.Framework
         private string notes;
         private bool isImplement;
 
+        public Weapon()
+        {
+        }
+
         public Weapon(string name, int proficiencyBonus, Dice damage, string range, WeaponGroup group, WeaponProperties properties, WeaponCategory category)
             : this(name, proficiencyBonus, damage, range, group, properties, 0, category, false, 0)
         {

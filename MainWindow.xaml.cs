@@ -116,7 +116,24 @@ namespace CharPad
 
             if (dialog.ShowDialog(this) == true)
             {
-                Party tempParty = PlayerDataAdapter.LoadParty(dialog.FileName);
+                Party tempParty;
+
+                try
+                {
+                    tempParty = PlayerDataAdapter.LoadParty(dialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(String.Format("Error loading party: ({0}) {1}{2}{3}",
+                        ex.GetType().Name,
+                        ex.Message,
+                        Environment.NewLine,
+                        ex.StackTrace),
+                        "Eror loading party",
+                        MessageBoxButton.OK);
+
+                    return;
+                }
 
                 Party.Members.Clear();
 
@@ -134,7 +151,24 @@ namespace CharPad
             if (String.IsNullOrEmpty(partyFilename))
                 SavePartyAsCommand_Executed(sender, e);
             else
-                PlayerDataAdapter.SaveParty(partyFilename, Party);
+            {
+                try
+                {
+                    PlayerDataAdapter.SaveParty(partyFilename, Party);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(String.Format("Error saving party: ({0}) {1}{2}{3}",
+                        ex.GetType().Name,
+                        ex.Message,
+                        Environment.NewLine,
+                        ex.StackTrace),
+                        "Error saving party",
+                        MessageBoxButton.OK);
+
+                    return;
+                }
+            }
         }
 
         private void SavePartyAsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -155,7 +189,23 @@ namespace CharPad
 
             if (dialog.ShowDialog(this) == true)
             {
-                PlayerDataAdapter.SaveParty(dialog.FileName, Party);
+                try
+                {
+                    PlayerDataAdapter.SaveParty(dialog.FileName, Party);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(String.Format("Error saving party: ({0}) {1}{2}{3}",
+                        ex.GetType().Name,
+                        ex.Message,
+                        Environment.NewLine,
+                        ex.StackTrace),
+                        "Error saving party",
+                        MessageBoxButton.OK);
+
+                    return;
+                }
+
                 partyFilename = dialog.FileName;
             }
         }
