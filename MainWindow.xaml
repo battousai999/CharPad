@@ -26,6 +26,7 @@
                     <MenuItem Header="_New Character..." Command="{x:Static local:MainWindow.NewCharacterCommand}" />
                     <MenuItem Header="_Load Character..." Command="{x:Static local:MainWindow.LoadCharacterCommand}" />
                     <MenuItem Header="_Save Character" Command="{x:Static local:MainWindow.SaveCharacterCommand}" />
+                    <MenuItem Header="_Remove Character..." Command="{x:Static local:MainWindow.RemoveCharacterCommand}" />
                 </MenuItem>
             </Menu>
             

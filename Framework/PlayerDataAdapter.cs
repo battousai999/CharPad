@@ -55,9 +55,9 @@ namespace CharPad.Framework
             LoadPlayerClass(conn, player, playerId);
             LoadPlayerRace(conn, player, playerId);
 
-            LoadBasicAdjustmentList(conn, player.HitPoints.MiscAdjustments, Convert.ToInt32(row["HitPoints_AdjustListId"]));
-            LoadBasicAdjustmentList(conn, player.SurgeValue.MiscAdjustments, Convert.ToInt32(row["Surge_AdjustListId"]));
-            LoadBasicAdjustmentList(conn, player.SurgesPerDay.MiscAdjustments, Convert.ToInt32(row["SurgesPerDay_AdjustListId"]));
+            LoadBasicAdjustmentList(conn, player.HitPoints.MiscAdjustments, row["HitPoints_AdjustListId"]);
+            LoadBasicAdjustmentList(conn, player.SurgeValue.MiscAdjustments, row["Surge_AdjustListId"]);
+            LoadBasicAdjustmentList(conn, player.SurgesPerDay.MiscAdjustments, row["SurgesPerDay_AdjustListId"]);
 
             LoadSkill(conn, player.Acrobatics, row);
             LoadSkill(conn, player.Arcana, row);
@@ -77,20 +77,159 @@ namespace CharPad.Framework
             LoadSkill(conn, player.Streetwise, row);
             LoadSkill(conn, player.Thievery, row);
 
-            LoadBasicAdjustmentList(conn, player.Initiative.MiscAdjustments, Convert.ToInt32(row["Initiative_AdjustListId"]));
-            LoadBasicAdjustmentList(conn, player.AcDefense.MiscAdjustments, Convert.ToInt32(row["AcDefense_AdjustListId"]));
-            LoadBasicAdjustmentList(conn, player.FortDefense.MiscAdjustments, Convert.ToInt32(row["FortDefense_AdjustListId"]));
-            LoadBasicAdjustmentList(conn, player.ReflexDefense.MiscAdjustments, Convert.ToInt32(row["ReflexDefense_AdjustListId"]));
-            LoadBasicAdjustmentList(conn, player.WillDefense.MiscAdjustments, Convert.ToInt32(row["WillDefense_AdjustListId"]));
-            LoadBasicAdjustmentList(conn, player.Speed.MiscAdjustments, Convert.ToInt32(row["Speed_AdjustListId"]));
+            LoadBasicAdjustmentList(conn, player.Initiative.MiscAdjustments, row["Initiative_AdjustListId"]);
+            LoadBasicAdjustmentList(conn, player.AcDefense.MiscAdjustments, row["AcDefense_AdjustListId"]);
+            LoadBasicAdjustmentList(conn, player.FortDefense.MiscAdjustments, row["FortDefense_AdjustListId"]);
+            LoadBasicAdjustmentList(conn, player.ReflexDefense.MiscAdjustments, row["ReflexDefense_AdjustListId"]);
+            LoadBasicAdjustmentList(conn, player.WillDefense.MiscAdjustments, row["WillDefense_AdjustListId"]);
+            LoadBasicAdjustmentList(conn, player.Speed.MiscAdjustments, row["Speed_AdjustListId"]);
 
             Dictionary<int, IInventoryItem> itemMap = BuildLoadingItemMap(conn);
 
-            player.Armor = (row.IsNull("ArmorId") ? null : (Armor)itemMap[Convert.ToInt32(row["ArmorId"]));
-            player.Shield = (row.IsNull("ShieldId") ? null : (Shield)itemMap[Convert.ToInt32(row["ArmorId"]));
-            player.Weapon = (row.IsNull("WeaponId")
+            foreach (int key in itemMap.Keys)
+            {
+                player.Inventory.Add(itemMap[key]);
+            }
+
+            LoadPlayerWeaponBonuses(conn, player, playerId, itemMap);
+
+            player.Armor = (row.IsNull("ArmorId") ? null : (Armor)itemMap[Convert.ToInt32(row["ArmorId"])]);
+            player.Shield = (row.IsNull("ShieldId") ? null : (Shield)itemMap[Convert.ToInt32(row["ArmorId"])]);
+            player.Weapon = (row.IsNull("WeaponId") ? null : (Weapon)itemMap[Convert.ToInt32(row["WeaponId"])]);
+            player.WeaponOffhand = (row.IsNull("OffhandWeaponId") ? null : (Weapon)itemMap[Convert.ToInt32(row["OffhandWeaponId"])]);
+            player.RangedWeapon = (row.IsNull("RangedWeaponId") ? null : (Weapon)itemMap[Convert.ToInt32(row["RangedWeaponId"])]);
+            player.Implement = (row.IsNull("ImplementId") ? null : (Weapon)itemMap[Convert.ToInt32(row["ImplementId"])]);
+
+            LoadWeaponSpec(conn, player.WeaponSpec, Convert.ToInt32(row["WeaponSpecId"]));
+            LoadWeaponSpec(conn, player.WeaponOffhandSpec, Convert.ToInt32(row["OffhandWeaponSpecId"]));
+            LoadWeaponSpec(conn, player.RangedWeaponSpec, Convert.ToInt32(row["OffhandWeaponSpecId"]));
+            LoadWeaponSpec(conn, player.ImplementSpec, Convert.ToInt32(row["ImplementSpecId"]));
+
+            LoadFeatures(conn, playerId, player.Feats, 1);
+            LoadFeatures(conn, playerId, player.RaceFeatures, 2);
+            LoadFeatures(conn, playerId, player.ClassFeatures, 3);
+            LoadFeatures(conn, playerId, player.ParagonFeatures, 4);
+            LoadFeatures(conn, playerId, player.DestinyFeatures, 5);
+
+            LoadPowers(conn, playerId, player, player.Powers);
+            LoadResistanceValues(conn, playerId, player.Resistances);
 
             return player;
+        }
+
+        private static void LoadResistanceValues(SqlCeConnection conn, int playerId, ObservableCollectionEx<ResistanceValue> list)
+        {
+            string sqlText = "select * from ResistanceValue where PlayerId = " + playerId.ToString() + " order by sequence";
+            DataTable data = new DataTable();
+
+            using (SqlCeDataAdapter adapter = new SqlCeDataAdapter(sqlText, conn))
+            {
+                adapter.Fill(data);
+            }
+
+            foreach (DataRow row in data.Rows)
+            {
+                list.Add(new ResistanceValue(Convert.ToInt32(row["Modifier"]),
+                    Convert.ToString(row["DamageType"]),
+                    (row.IsNull("Description") ? "" : Convert.ToString(row["Description"]))));
+            }
+        }
+
+        private static void LoadPowers(SqlCeConnection conn, int playerId, Player player, PowerCollection powers)
+        {
+            string sqlText = "select * from PlayerPower where PlayerId = " + playerId.ToString() + " order by Sequence";
+            DataTable data = new DataTable();
+
+            using (SqlCeDataAdapter adapter = new SqlCeDataAdapter(sqlText, conn))
+            {
+                adapter.Fill(data);
+            }
+
+            foreach (DataRow row in data.Rows)
+            {
+                Power power = new Power(player);
+
+                power.Name = Convert.ToString(row["Name"]);
+                power.PowerType = (PowerType)Convert.ToInt32(row["PowerType"]);
+                power.ActionType = (PowerActionType)Convert.ToInt32(row["ActionType"]);
+                power.Level = Convert.ToInt32(row["Level"]);
+                power.Description = Convert.ToString(row["Description"]);
+                power.Notes = (row.IsNull("Notes") ? "" : Convert.ToString(row["Notes"]));
+                power.AttackType = (PowerAttackType)Convert.ToInt32(row["AttackType"]);
+                power.AttackWeapon = (WeaponSlot)Convert.ToInt32(row["AttackWeapon"]);
+                power.AttackAttribute = (AttributeType)Convert.ToInt32(row["AttackAttribute"]);
+                power.DefenseType = (DefenseType)Convert.ToInt32(row["DefenseType"]);
+                power.Damage = (row.IsNull("Damage") ? null : Dice.GetFromString(Convert.ToString(row["Damage"])));
+                power.WeaponDamamgeMultiplier = Convert.ToInt32(row["WeaponDamageMultiplier"]);
+                power.DamageType = Convert.ToString(row["DamageType"]);
+                power.BonusDamageAttribute = (row.IsNull("BonusDamageAttribute") ? null : (AttributeType?)Convert.ToInt32(row["BonusDamageAttribute"]));
+                power.Picture = BuildPictureFromByteArray(row.IsNull("Picture") ? null : (byte[])row["Picture"]);
+
+                LoadBasicAdjustmentList(conn, power.AttackModifiers, row["AttackModifiers_AdjustListId"]);
+                LoadBasicAdjustmentList(conn, power.DamageModifiers, row["DamageModifiers_AdjustListId"]);
+
+                powers.Add(power);
+            }
+        }
+
+        private static void LoadFeatures(SqlCeConnection conn, int playerId, ObservableCollectionEx<FeatureValue> list, int featureType)
+        {
+            string sqlText = "select * from FeatureValue where PlayerId = " + playerId.ToString() + 
+                " and FeatureType = " + featureType.ToString() + " order by sequence";
+
+            DataTable data = new DataTable();
+
+            using (SqlCeDataAdapter adapter = new SqlCeDataAdapter(sqlText, conn))
+            {
+                adapter.Fill(data);
+            }
+
+            foreach (DataRow row in data.Rows)
+            {
+                list.Add(new FeatureValue(Convert.ToString(row["Name"]),
+                    (row.IsNull("ShortDescription") ? "" : Convert.ToString(row["ShortDescription"])),
+                    (row.IsNull("LongDescription") ? "" : Convert.ToString(row["LongDescription"]))));
+            }
+        }
+
+        private static void LoadWeaponSpec(SqlCeConnection conn, WeaponSpecValue spec, int specId)
+        {
+            string sqlText = "select * from WeaponSpec where id = " + specId.ToString();
+            DataTable data = new DataTable();
+
+            using (SqlCeDataAdapter adapter = new SqlCeDataAdapter(sqlText, conn))
+            {
+                adapter.Fill(data);
+            }
+
+            if ((data == null) || (data.Rows.Count == 0))
+                throw new InvalidOperationException("No weapon spec found for id: " + specId.ToString());
+
+            LoadBasicAdjustmentList(conn, spec.ToHitAdjustments, data.Rows[0]["ToHit_AdjustListId"]);
+            LoadBasicAdjustmentList(conn, spec.DamageAdjustments, data.Rows[0]["Damage_AdjustListId"]);
+        }
+
+        private static void LoadPlayerWeaponBonuses(SqlCeConnection conn, Player player, int playerId, Dictionary<int, IInventoryItem> itemMap)
+        {
+            string sqlText = "select * from WeaponBonus where PlayerId = " + playerId.ToString();
+            DataTable data = new DataTable();
+
+            using (SqlCeDataAdapter adapter = new SqlCeDataAdapter(sqlText, conn))
+            {
+                adapter.Fill(data);
+            }
+
+            foreach (DataRow row in data.Rows)
+            {
+                WeaponBonus bonus = new WeaponBonus();
+                bonus.Bonus = new WeaponBonusValue();
+
+                bonus.Weapon = (Weapon)itemMap[Convert.ToInt32(row["WeaponId"])];
+                LoadBasicAdjustmentList(conn, bonus.Bonus.ToHitAdjustments, row["ToHitAdjustListId"]);
+                LoadBasicAdjustmentList(conn, bonus.Bonus.DamageAdjustments, row["DamageAdjustListId"]);
+
+                player.WeaponBonuses.Add(bonus);
+            }
         }
 
         private static Dictionary<int, IInventoryItem> BuildLoadingItemMap(SqlCeConnection conn)
@@ -198,12 +337,16 @@ namespace CharPad.Framework
             string skillName = Enum.Format(typeof(Skill), skill.Skill, "G");
 
             skill.IsTrained = Convert.ToBoolean(row[skillName + "_IsTrained"]);
-            LoadBasicAdjustmentList(conn, skill.MiscAdjustments, Convert.ToInt32(row[skillName + "_AdjustListId"]));
+            LoadBasicAdjustmentList(conn, skill.MiscAdjustments, row[skillName + "_AdjustListId"]);
         }
 
-        private static void LoadBasicAdjustmentList(SqlCeConnection conn, BasicAdjustmentList list, int adjustListId)
+        private static void LoadBasicAdjustmentList(SqlCeConnection conn, BasicAdjustmentList list, object adjustListId)
         {
-            string sqlText = "select * from BasicAdjustmentList where ListId = " + adjustListId.ToString() + " order by sequence";
+            if ((adjustListId == null) || (adjustListId == DBNull.Value))
+                return;
+
+            int id = Convert.ToInt32(adjustListId);
+            string sqlText = "select * from BasicAdjustmentList where ListId = " + id.ToString() + " order by sequence";
             DataTable data = new DataTable();
 
             using (SqlCeDataAdapter adapter = new SqlCeDataAdapter(sqlText, conn))
@@ -369,6 +512,14 @@ namespace CharPad.Framework
             SaveWeaponBonuses(conn, playerId, player.WeaponBonuses, itemMap);
             SaveResistances(conn, playerId, player.Resistances);
 
+            SaveFeatures(conn, playerId, player.Feats, 1);
+            SaveFeatures(conn, playerId, player.RaceFeatures, 2);
+            SaveFeatures(conn, playerId, player.ClassFeatures, 3);
+            SaveFeatures(conn, playerId, player.ParagonFeatures, 4);
+            SaveFeatures(conn, playerId, player.DestinyFeatures, 5);
+
+            SavePowers(conn, playerId, player.Powers);
+
             string sqlText = "insert Player(Id, PlayerName, PersonName, PlayerClassId, PlayerRaceId, IsMale, Deity, Level, Str, Con, Dex, Int, Wis, Cha, " +
                 "HitPoints_AdjustListId, Surge_AdjustListId, SurgesPerDay_AdjustListId, Acrobatics_IsTrained, Acrobatics_AdjustListId, " +
                 "Arcana_IsTrained, Arcana_AdjustListId, Athletics_IsTrained, Athletics_AdjustListId, Bluff_IsTrained, Bluff_AdjustListId, " +
@@ -464,6 +615,72 @@ namespace CharPad.Framework
                 command.Parameters.AddWithValue("@ImplementSpecId", implementSpecId);
 
                 command.ExecuteNonQuery();
+            }
+        }
+
+        private static void SavePowers(SqlCeConnection conn, int playerId, PowerCollection powers)
+        {
+            string sqlText = "insert PlayerPower(PlayerId, Sequence, Name, PowerType, ActionType, Level, Description, Notes, AttackType, AttackWeapon, " +
+                "AttackAttribute, DefenseType, AttackModifiers_AdjustListId, Damage, WeaponDamageMultiplier, DamageType, BonusDamageAttribute, " +
+                "DamageModifiers_AdjustListId, Picture) " +
+                "values(@PlayerId, @Sequence, @Name, @PowerType, @ActionType, @Level, @Description, @Notes, @AttackType, @AttackWeapon, " +
+                "@AttackAttribute, @DefenseType, @AttackModifiers_AdjustListId, @Damage, @WeaponDamageMultiplier, @DamageType, @BonusDamageAttribute, " +
+                "@DamageModifiers_AdjustListId, @Picture)";
+
+            for (int i = 0; i < powers.Count; i++)
+            {
+                Power power = powers[i];
+
+                int? attackModifiers_AdjustListId = SaveBasicAdjustmentList(conn, power.AttackModifiers);
+                int? damageModifiers_AdjustListId = SaveBasicAdjustmentList(conn, power.DamageModifiers);
+
+                using (SqlCeCommand command = new SqlCeCommand(sqlText, conn))
+                {
+                    command.Parameters.AddWithValue("@PlayerId", playerId);
+                    command.Parameters.AddWithValue("@Sequence", i + 1);
+                    command.Parameters.AddWithValue("@Name", power.Name);
+                    command.Parameters.AddWithValue("@PowerType", (int)power.PowerType);
+                    command.Parameters.AddWithValue("@ActionType", (int)power.ActionType);
+                    command.Parameters.AddWithValue("@Level", power.Level);
+                    command.Parameters.AddWithValue("@Description", power.Description);
+                    command.Parameters.AddWithValue("@Notes", (String.IsNullOrEmpty(power.Notes) ? (object)DBNull.Value : (object)power.Notes));
+                    command.Parameters.AddWithValue("@AttackType", (int)power.AttackType);
+                    command.Parameters.AddWithValue("@AttackWeapon", (int)power.AttackWeapon);
+                    command.Parameters.AddWithValue("@AttackAttribute", (int)power.AttackAttribute);
+                    command.Parameters.AddWithValue("@DefenseType", (int)power.DefenseType);
+                    command.Parameters.AddWithValue("@AttackModifiers_AdjustListId", ConvertNull(attackModifiers_AdjustListId));
+                    command.Parameters.AddWithValue("@Damage", (power.Damage == null ? (object)DBNull.Value : (object)power.Damage.DisplayString));
+                    command.Parameters.AddWithValue("@WeaponDamageMultiplier", power.WeaponDamamgeMultiplier);
+                    command.Parameters.AddWithValue("@DamageType", power.DamageType);
+                    command.Parameters.AddWithValue("@BonusDamageAttribute", (power.BonusDamageAttribute == null ? (object)DBNull.Value : (object)power.BonusDamageAttribute.Value));
+                    command.Parameters.AddWithValue("@DamageModifiers_AdjustListId", ConvertNull(damageModifiers_AdjustListId));
+                    command.Parameters.AddWithValue("@Picture", ConvertNull(ConvertPictureToByteArray(power.Picture)));
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private static void SaveFeatures(SqlCeConnection conn, int playerId, ObservableCollectionEx<FeatureValue> list, int featureType)
+        {
+            string sqlText = "insert FeatureValue(PlayerId, FeatureType, Sequence, Name, ShortDescription, LongDescription) " +
+                "values(@PlayerId, @FeatureType, @Sequence, @Name, @ShortDescription, @LongDescription)";
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                FeatureValue feature = list[i];
+
+                using (SqlCeCommand command = new SqlCeCommand(sqlText, conn))
+                {
+                    command.Parameters.AddWithValue("@PlayerId", playerId);
+                    command.Parameters.AddWithValue("@FeatureType", featureType);
+                    command.Parameters.AddWithValue("@Sequence", i + 1);
+                    command.Parameters.AddWithValue("@Name", feature.Name);
+                    command.Parameters.AddWithValue("@ShortDescription", (String.IsNullOrEmpty(feature.ShortDescription) ? (object)DBNull.Value : (object)feature.ShortDescription));
+                    command.Parameters.AddWithValue("@LongDescription", (String.IsNullOrEmpty(feature.LongDescription) ? (object)DBNull.Value : (object)feature.LongDescription));
+
+                    command.ExecuteNonQuery();
+                }
             }
         }
 
@@ -686,7 +903,7 @@ namespace CharPad.Framework
             if (list.Count == 0)
                 return null;
 
-            int id = GetNextId(conn, "BasicAdjustmentList");
+            int id = GetNextId(conn, "BasicAdjustmentList", "ListId");
             string sqlText = "insert BasicAdjustmentList(ListId, Sequence, Modifier, Note) " +
                 "values(@ListId, @Sequence, @Modifier, @Note)";
 

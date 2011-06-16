@@ -86,6 +86,8 @@ namespace CharPad
         private bool ignorePlayerArmorUpdating = false;
         private BitmapSource characterImage;
 
+        public event EventHandler<EventArgs> RemoveCharacter;
+
         public CharacterWindow(Player player, bool isNew)
         {
             this.player = player;
@@ -806,6 +808,14 @@ namespace CharPad
             {
                 player.Shield.CopyValues(window.Shield);
             }
+        }
+
+        private void btnRemoveCharacter_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+
+            if (RemoveCharacter != null)
+                RemoveCharacter(this, EventArgs.Empty);
         }
     }
 }

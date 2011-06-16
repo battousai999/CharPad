@@ -16,6 +16,17 @@ namespace CharPad.Framework
         public CreatureSize Size { get { return size; } set { size = value; Notify("Size"); } }
         public int BaseSpeed { get { return baseSpeed; } set { baseSpeed = value; Notify("BaseSpeed"); } }
 
+        public PlayerRace()
+        {
+        }
+
+        public PlayerRace(string name, CreatureSize size, int baseSpeed)
+        {
+            this.name = name;
+            this.size = size;
+            this.baseSpeed = baseSpeed;
+        }
+
         #region INotifyPropertyChanged Members
 
         private void Notify(string propertyName)

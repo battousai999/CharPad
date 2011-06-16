@@ -364,6 +364,8 @@ namespace CharPad.Framework
         {
             this.characterName = "";
             this.playerName = "";
+            this._class = new PlayerClass("", 10, 4, 4);
+            this.race = new PlayerRace("", CreatureSize.Meduim, 6);
             this.deity = "";
             this.isMale = true;
             this.level = 1;

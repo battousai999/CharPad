@@ -82,6 +82,9 @@ namespace CharPad.Framework
 
         private int GetClassBonus()
         {
+            if (player.Class == null)
+                return 0;
+
             switch (defenseType)
             {
                 case DefenseType.Fortitude:
