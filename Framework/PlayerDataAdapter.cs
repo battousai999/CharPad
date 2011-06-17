@@ -51,6 +51,7 @@ namespace CharPad.Framework
             player.Wis = Convert.ToInt32(row["Wis"]);
             player.Cha = Convert.ToInt32(row["Cha"]);
             player.Picture = BuildPictureFromByteArray(row.IsNull("Picture") ? null : (byte[])row["Picture"]);
+            player.Notes = (row.IsNull("Notes") ? "" : Convert.ToString(row["Notes"]));
 
             LoadPlayerClass(conn, player, playerId);
             LoadPlayerRace(conn, player, playerId);
@@ -94,7 +95,7 @@ namespace CharPad.Framework
             LoadPlayerWeaponBonuses(conn, player, playerId, itemMap);
 
             player.Armor = (row.IsNull("ArmorId") ? null : (Armor)itemMap[Convert.ToInt32(row["ArmorId"])]);
-            player.Shield = (row.IsNull("ShieldId") ? null : (Shield)itemMap[Convert.ToInt32(row["ArmorId"])]);
+            player.Shield = (row.IsNull("ShieldId") ? null : (Shield)itemMap[Convert.ToInt32(row["ShieldId"])]);
             player.Weapon = (row.IsNull("WeaponId") ? null : (Weapon)itemMap[Convert.ToInt32(row["WeaponId"])]);
             player.WeaponOffhand = (row.IsNull("OffhandWeaponId") ? null : (Weapon)itemMap[Convert.ToInt32(row["OffhandWeaponId"])]);
             player.RangedWeapon = (row.IsNull("RangedWeaponId") ? null : (Weapon)itemMap[Convert.ToInt32(row["RangedWeaponId"])]);
@@ -418,47 +419,64 @@ namespace CharPad.Framework
 
         public static void SaveParty(string filename, Party party)
         {
+            string backupFilename = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileName(filename) + ".bak");
+
             // If file exists, rename (as a backup)
             if (File.Exists(filename))
             {
-                string backupFilename = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileName(filename) + ".bak");
-
                 File.Delete(backupFilename);
                 File.Move(filename, Path.Combine(Path.GetDirectoryName(filename), Path.GetFileName(filename) + ".bak"));
             }
 
             // Create database file...
-            using (SqlCeEngine engine = new SqlCeEngine("DataSource=\"" + filename + "\"; Password=\"charpad\""))
+            try
             {
-                engine.CreateDatabase();
-
-                List<string> scripts = GetBuildSchemaScripts();
-
-                if ((scripts == null) || (scripts.Count == 0))
-                    throw new InvalidOperationException("Invalid create script.");
-
-                // Build schema
-                using (SqlCeConnection conn = new SqlCeConnection(engine.LocalConnectionString))
+                using (SqlCeEngine engine = new SqlCeEngine("DataSource=\"" + filename + "\"; Password=\"charpad\""))
                 {
-                    conn.Open();
+                    engine.CreateDatabase();
 
-                    foreach (string script in scripts)
+                    List<string> scripts = GetBuildSchemaScripts();
+
+                    if ((scripts == null) || (scripts.Count == 0))
+                        throw new InvalidOperationException("Invalid create script.");
+
+                    // Build schema
+                    using (SqlCeConnection conn = new SqlCeConnection(engine.LocalConnectionString))
                     {
-                        if (String.IsNullOrWhiteSpace(script))
-                            continue;
+                        conn.Open();
 
-                        using (SqlCeCommand command = new SqlCeCommand(script, conn))
+                        foreach (string script in scripts)
                         {
-                            command.ExecuteNonQuery();
+                            if (String.IsNullOrWhiteSpace(script))
+                                continue;
+
+                            using (SqlCeCommand command = new SqlCeCommand(script, conn))
+                            {
+                                command.ExecuteNonQuery();
+                            }
+                        }
+
+                        // Save each party member
+                        foreach (Player player in party.Members)
+                        {
+                            SavePlayer(conn, player);
                         }
                     }
-
-                    // Save each party member
-                    foreach (Player player in party.Members)
-                    {
-                        SavePlayer(conn, player);
-                    }
                 }
+            }
+            catch (Exception)
+            {
+                try
+                {
+                    File.Delete(filename);
+                    File.Move(backupFilename, filename);
+                }
+                catch (Exception)
+                {
+                    // Consume exception...
+                }
+
+                throw;
             }
         }
 
@@ -530,7 +548,7 @@ namespace CharPad.Framework
                 "Streetwise_IsTrained, Streetwise_AdjustListId, Thievery_IsTrained, Thievery_AdjustListId, Initiative_AdjustListId, " +
                 "AcDefense_AdjustListId, FortDefense_AdjustListId, ReflexDefense_AdjustListId, WillDefense_AdjustListId, Speed_AdjustListId, " +
                 "ArmorId, ShieldId, WeaponId, OffhandWeaponId, RangedWeaponId, ImplementId, Picture, WeaponSpecId, OffhandWeaponSpecId, " +
-                "RangedWeaponSpecId, ImplementSpecId) " +
+                "RangedWeaponSpecId, ImplementSpecId, Notes) " +
                 "values(@Id, @PlayerName, @PersonName, @PlayerClassId, @PlayerRaceId, @IsMale, @Deity, @Level, @Str, @Con, @Dex, @Int, @Wis, @Cha, " +
                 "@HitPoints_AdjustListId, @Surge_AdjustListId, @SurgesPerDay_AdjustListId, @Acrobatics_IsTrained, @Acrobatics_AdjustListId, " +
                 "@Arcana_IsTrained, @Arcana_AdjustListId, @Athletics_IsTrained, @Athletics_AdjustListId, @Bluff_IsTrained, @Bluff_AdjustListId, " +
@@ -541,7 +559,7 @@ namespace CharPad.Framework
                 "@Streetwise_IsTrained, @Streetwise_AdjustListId, @Thievery_IsTrained, @Thievery_AdjustListId, @Initiative_AdjustListId, " +
                 "@AcDefense_AdjustListId, @FortDefense_AdjustListId, @ReflexDefense_AdjustListId, @WillDefense_AdjustListId, @Speed_AdjustListId, " +
                 "@ArmorId, @ShieldId, @WeaponId, @OffhandWeaponId, @RangedWeaponId, @ImplementId, @Picture, @WeaponSpecId, @OffhandWeaponSpecId, " +
-                "@RangedWeaponSpecId, @ImplementSpecId)";
+                "@RangedWeaponSpecId, @ImplementSpecId, @Notes)";
 
             using (SqlCeCommand command = new SqlCeCommand(sqlText, conn))
             {
@@ -613,6 +631,7 @@ namespace CharPad.Framework
                 command.Parameters.AddWithValue("@OffhandWeaponSpecId", offhandWeaponSpecId);
                 command.Parameters.AddWithValue("@RangedWeaponSpecId", rangedWeaponSpecId);
                 command.Parameters.AddWithValue("@ImplementSpecId", implementSpecId);
+                command.Parameters.AddWithValue("@Notes", (String.IsNullOrEmpty(player.Notes) ? (object)DBNull.Value : (object)player.Notes));
 
                 command.ExecuteNonQuery();
             }
@@ -716,6 +735,9 @@ namespace CharPad.Framework
                 int? toHit_AdjustListId = SaveBasicAdjustmentList(conn, bonus.Bonus.ToHitAdjustments);
                 int? damage_AdjustListId = SaveBasicAdjustmentList(conn, bonus.Bonus.DamageAdjustments);
 
+                if ((bonus.Weapon == null) || !itemMap.ContainsKey(bonus.Weapon))
+                    continue;
+
                 using (SqlCeCommand command = new SqlCeCommand(sqlText, conn))
                 {
                     command.Parameters.AddWithValue("@PlayerId", playerId);
@@ -772,6 +794,9 @@ namespace CharPad.Framework
             {
                 IInventoryItem item = list[i];
                 int id = i + highItemId;
+
+                if (itemMap.ContainsKey(item))
+                    continue;
 
                 if (item is Armor)
                     SaveArmor(conn, id, (Armor)item);

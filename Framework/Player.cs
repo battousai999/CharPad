@@ -70,6 +70,7 @@ namespace CharPad.Framework
         private WeaponSpecValue rangedWeaponSpec;
         private WeaponSpecValue implementSpec;
         private Image picture;
+        private string notes;
 
         public string CharacterName { get { return characterName; } set { characterName = value; Notify("CharacterName"); } }
         public string PlayerName { get { return playerName; } set { playerName = value; Notify("PlayerName"); } }
@@ -124,6 +125,7 @@ namespace CharPad.Framework
         public WeaponSpecValue RangedWeaponSpec { get { return rangedWeaponSpec; } }
         public WeaponSpecValue ImplementSpec { get { return implementSpec; } }
         public Image Picture { get { return picture; } set { picture = value; Notify("Picture"); } }
+        public string Notes { get { return notes; } set { notes = value; Notify("Notes"); } }
 
         public Armor Armor 
         { 
@@ -226,7 +228,7 @@ namespace CharPad.Framework
 
                 WeaponBonusValue bonus = WeaponBonuses[weapon];
 
-                if (bonus == null)
+                if ((bonus == null) && (weapon != null))
                     WeaponBonuses.Add(weapon, new WeaponBonusValue());
 
                 Notify("Weapon");
@@ -259,7 +261,7 @@ namespace CharPad.Framework
                 if (weaponOffhand != null)
                     weaponOffhand.PropertyChanged += new PropertyChangedEventHandler(weaponOffhand_PropertyChanged);
 
-                if (WeaponBonuses[weaponOffhand] == null)
+                if ((WeaponBonuses[weaponOffhand] == null) && (weaponOffhand != null))
                     weaponBonuses.Add(weaponOffhand, new WeaponBonusValue());
 
                 Notify("WeaponOffhand");
@@ -289,7 +291,7 @@ namespace CharPad.Framework
                 if (rangedWeapon != null)
                     rangedWeapon.PropertyChanged += new PropertyChangedEventHandler(rangedWeapon_PropertyChanged);
 
-                if (WeaponBonuses[rangedWeapon] == null)
+                if ((WeaponBonuses[rangedWeapon] == null) && (rangedWeapon != null))
                     weaponBonuses.Add(rangedWeapon, new WeaponBonusValue());
 
                 Notify("RangedWeapon");
@@ -321,7 +323,7 @@ namespace CharPad.Framework
 
                 WeaponBonusValue bonus = WeaponBonuses[implement];
 
-                if (bonus == null)
+                if ((bonus == null) && (implement != null))
                     WeaponBonuses.Add(implement, new WeaponBonusValue());
 
                 Notify("Implement");
@@ -346,6 +348,9 @@ namespace CharPad.Framework
 
                 if (weaponOffhand != null)
                     list.Add(weaponOffhand);
+
+                if (rangedWeapon != null)
+                    list.Add(rangedWeapon);
 
                 if (armor != null)
                     list.Add(armor);

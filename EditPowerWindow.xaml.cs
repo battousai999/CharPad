@@ -121,6 +121,11 @@ namespace CharPad
             }
         }
 
+        public void SetPowerType(PowerType powerType)
+        {
+            cboPowerType.SelectedItem = powerTypes.Find(x => x.Value == powerType);
+        }
+
         public List<BindableEnum<PowerType>> PowerTypes { get { return powerTypes; } }
         public List<BindableEnum<PowerActionType>> ActionTypes { get { return actionTypes; } }
         public List<BindableEnum<PowerAttackType>> AttackTypes { get { return attackTypes; } }
@@ -132,7 +137,7 @@ namespace CharPad
         public BasicAdjustmentList AttackAdjustments { get { return attackAdjustments; } set { attackAdjustments = value; Notify("AttackAdjustments"); } }
         public BasicAdjustmentList DamageAdjustments { get { return damageAdjustments; } set { damageAdjustments = value; Notify("DamageAdjustments"); } }
 
-        public BitmapSource PowerImage { get { return powerImage; } set { powerImage = value; Notify("WeaponImage"); } }
+        public BitmapSource PowerImage { get { return powerImage; } set { powerImage = value; Notify("PowerImage"); } }
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {

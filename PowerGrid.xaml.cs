@@ -76,6 +76,8 @@ namespace CharPad
         {
             EditPowerWindow window = new EditPowerWindow(null);
 
+            window.SetPowerType(PowerType);
+
             if (window.ShowDialog(Application.Current.MainWindow))
             {
                 Power power = new Power(Player);
