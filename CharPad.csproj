@@ -73,6 +73,9 @@
       <DependentUpon>BasicAdjustmentGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="BindableEnum.cs" />
+    <Compile Include="CharacterViewWindow.xaml.cs">
+      <DependentUpon>CharacterViewWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common.cs" />
     <Compile Include="EditArmorWindow.xaml.cs">
       <DependentUpon>EditArmorWindow.xaml</DependentUpon>
@@ -192,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BasicAdjustmentGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CharacterViewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

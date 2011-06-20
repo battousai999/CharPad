@@ -85,7 +85,7 @@ namespace CharPad.Framework
             LoadBasicAdjustmentList(conn, player.WillDefense.MiscAdjustments, row["WillDefense_AdjustListId"]);
             LoadBasicAdjustmentList(conn, player.Speed.MiscAdjustments, row["Speed_AdjustListId"]);
 
-            Dictionary<int, IInventoryItem> itemMap = BuildLoadingItemMap(conn);
+            Dictionary<int, IInventoryItem> itemMap = BuildLoadingItemMap(conn, playerId);
 
             foreach (int key in itemMap.Keys)
             {
@@ -233,10 +233,10 @@ namespace CharPad.Framework
             }
         }
 
-        private static Dictionary<int, IInventoryItem> BuildLoadingItemMap(SqlCeConnection conn)
+        private static Dictionary<int, IInventoryItem> BuildLoadingItemMap(SqlCeConnection conn, int playerId)
         {
             Dictionary<int, IInventoryItem> map = new Dictionary<int, IInventoryItem>();
-            string sqlText = "select * from {0}";
+            string sqlText = "select * from {0} where PlayerId = " + playerId.ToString();
             DataTable data = new DataTable();
 
             using (SqlCeDataAdapter adapter = new SqlCeDataAdapter(String.Format(sqlText, "Armor"), conn))
@@ -513,7 +513,7 @@ namespace CharPad.Framework
             int? willDefense_AdjustListId = SaveBasicAdjustmentList(conn, player.WillDefense.MiscAdjustments);
             int? speed_AdjustListId = SaveBasicAdjustmentList(conn, player.Speed.MiscAdjustments);
 
-            Dictionary<IInventoryItem, int> itemMap = BuildItemMap(conn, player.Inventory);
+            Dictionary<IInventoryItem, int> itemMap = BuildItemMap(conn, player.Inventory, playerId);
 
             int? armorId = (player.Armor == null ? null : (int?)itemMap[player.Armor]);
             int? shieldId = (player.Shield == null ? null : (int?)itemMap[player.Shield]);
@@ -782,7 +782,7 @@ namespace CharPad.Framework
             return (value == null ? (object)DBNull.Value : (object)value);
         }
 
-        private static Dictionary<IInventoryItem, int> BuildItemMap(SqlCeConnection conn, ObservableCollectionEx<IInventoryItem> list)
+        private static Dictionary<IInventoryItem, int> BuildItemMap(SqlCeConnection conn, ObservableCollectionEx<IInventoryItem> list, int playerId)
         {
             int highItemId = GetNextId(conn, "Armor");
             highItemId = Math.Max(highItemId, GetNextId(conn, "Shield"));
@@ -799,11 +799,11 @@ namespace CharPad.Framework
                     continue;
 
                 if (item is Armor)
-                    SaveArmor(conn, id, (Armor)item);
+                    SaveArmor(conn, id, (Armor)item, playerId);
                 else if (item is Shield)
-                    SaveShield(conn, id, (Shield)item);
+                    SaveShield(conn, id, (Shield)item, playerId);
                 else if (item is Weapon)
-                    SaveWeapon(conn, id, (Weapon)item);
+                    SaveWeapon(conn, id, (Weapon)item, playerId);
                 else
                     throw new InvalidOperationException("Unexpected type of inventory item: " + item.GetType().Name);
 
@@ -813,16 +813,17 @@ namespace CharPad.Framework
             return itemMap;
         }
 
-        private static void SaveArmor(SqlCeConnection conn, int id, Armor armor)
+        private static void SaveArmor(SqlCeConnection conn, int id, Armor armor, int playerId)
         {
-            string sqlText = "insert Armor(Id, Name, ArmorType, EnhancementBonus, ArmorBonus, SkillModifier, SpeedModifier, BasePrice, IsHeavy, SpecialProperty, MinEnhancementBonus, Picture, Notes) " +
-                "values(@Id, @Name, @ArmorType, @EnhancementBonus, @ArmorBonus, @SkillModifier, @SpeedModifier, @BasePrice, @IsHeavy, @SpecialProperty, @MinEnhancementBonus, @Picture, @Notes)";
+            string sqlText = "insert Armor(Id, PlayerId, Name, ArmorType, EnhancementBonus, ArmorBonus, SkillModifier, SpeedModifier, BasePrice, IsHeavy, SpecialProperty, MinEnhancementBonus, Picture, Notes) " +
+                "values(@Id, @PlayerId, @Name, @ArmorType, @EnhancementBonus, @ArmorBonus, @SkillModifier, @SpeedModifier, @BasePrice, @IsHeavy, @SpecialProperty, @MinEnhancementBonus, @Picture, @Notes)";
 
             using (SqlCeCommand command = new SqlCeCommand(sqlText, conn))
             {
                 byte[] pictureBytes = ConvertPictureToByteArray(armor.Picture);
 
                 command.Parameters.AddWithValue("@Id", id);
+                command.Parameters.AddWithValue("@PlayerId", playerId);
                 command.Parameters.AddWithValue("@Name", armor.Name);
                 command.Parameters.AddWithValue("@ArmorType", (int)armor.ArmorType);
                 command.Parameters.AddWithValue("@EnhancementBonus", armor.EnhancementBonus);
@@ -872,16 +873,17 @@ namespace CharPad.Framework
             }
         }
 
-        private static void SaveShield(SqlCeConnection conn, int id, Shield shield)
+        private static void SaveShield(SqlCeConnection conn, int id, Shield shield, int playerId)
         {
-            string sqlText = "insert Shield(Id, Name, ArmorType, EnhancementBonus, ArmorBonus, SkillModifier, BasePrice, Picture, Notes) " +
-                "values(@Id, @Name, @ArmorType, @EnhancementBonus, @ArmorBonus, @SkillModifier, @BasePrice, @Picture, @Notes)";
+            string sqlText = "insert Shield(Id, PlayerId, Name, ArmorType, EnhancementBonus, ArmorBonus, SkillModifier, BasePrice, Picture, Notes) " +
+                "values(@Id, @PlayerId, @Name, @ArmorType, @EnhancementBonus, @ArmorBonus, @SkillModifier, @BasePrice, @Picture, @Notes)";
 
             using (SqlCeCommand command = new SqlCeCommand(sqlText, conn))
             {
                 byte[] pictureBytes = ConvertPictureToByteArray(shield.Picture);
 
                 command.Parameters.AddWithValue("@Id", id);
+                command.Parameters.AddWithValue("@PlayerId", playerId);
                 command.Parameters.AddWithValue("@Name", shield.Name);
                 command.Parameters.AddWithValue("@ArmorType", (int)shield.ArmorType);
                 command.Parameters.AddWithValue("@EnhancementBonus", shield.EnhancementBonus);
@@ -895,16 +897,17 @@ namespace CharPad.Framework
             }
         }
 
-        private static void SaveWeapon(SqlCeConnection conn, int id, Weapon weapon)
+        private static void SaveWeapon(SqlCeConnection conn, int id, Weapon weapon, int playerId)
         {
-            string sqlText = "insert Weapon(Id, Name, ProficiencyBonus, EnhancementBonus, Damage, Range, [Group], Properties, BasePrice, Category, IsTwoHanded, IsImplement, Picture, Notes) " +
-                "values(@Id, @Name, @ProficiencyBonus, @EnhancementBonus, @Damage, @Range, @Group, @Properties, @BasePrice, @Category, @IsTwoHanded, @IsImplement, @Picture, @Notes)";
+            string sqlText = "insert Weapon(Id, PlayerId, Name, ProficiencyBonus, EnhancementBonus, Damage, Range, [Group], Properties, BasePrice, Category, IsTwoHanded, IsImplement, Picture, Notes) " +
+                "values(@Id, @Playerid, @Name, @ProficiencyBonus, @EnhancementBonus, @Damage, @Range, @Group, @Properties, @BasePrice, @Category, @IsTwoHanded, @IsImplement, @Picture, @Notes)";
 
             using (SqlCeCommand command = new SqlCeCommand(sqlText, conn))
             {
                 byte[] pictureBytes = ConvertPictureToByteArray(weapon.Picture);
 
                 command.Parameters.AddWithValue("@Id", id);
+                command.Parameters.AddWithValue("@PlayerId", playerId);
                 command.Parameters.AddWithValue("@Name", weapon.Name);
                 command.Parameters.AddWithValue("@ProficiencyBonus", weapon.ProficiencyBonus);
                 command.Parameters.AddWithValue("@EnhancementBonus", weapon.EnhancementBonus);

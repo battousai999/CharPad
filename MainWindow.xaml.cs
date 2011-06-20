@@ -41,7 +41,7 @@ namespace CharPad
         {
             Party = new Party();
 
-            InitializeTestParty();
+            //InitializeTestParty();
 
             InitializeComponent();
 
@@ -229,7 +229,15 @@ namespace CharPad
         {
             if (Party.IsDirty)
             {
-                // TODO: Add logic to prompt whether to save the party before exiting...
+                MessageBoxResult result = MessageBox.Show("Do you want to save the party before exiting?", "Save Party?", MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
+
+                if (result == MessageBoxResult.Cancel)
+                    return;
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    SavePartyCommand_Executed(this, null);
+                }
             }
 
             Close();
