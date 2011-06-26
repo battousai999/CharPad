@@ -7,10 +7,15 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <TextBlock TextDecorations="Underline">
-                    <ContentPresenter />
-                        </TextBlock>
+                        <ContentPresenter />
                     </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=Content}" TextDecorations="Underline" />
+                    </DataTemplate>
                 </Setter.Value>
             </Setter>
             <Setter Property="Foreground" Value="Blue" />
