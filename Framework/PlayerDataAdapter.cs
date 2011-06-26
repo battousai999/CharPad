@@ -41,6 +41,8 @@ namespace CharPad.Framework
 
             player.CharacterName = Convert.ToString(row["PlayerName"]);
             player.PlayerName = Convert.ToString(row["PersonName"]);
+            player.ParagonPath = Convert.ToString(row["ParagonPath"]);
+            player.EpicDestiny = Convert.ToString(row["EpicDestiny"]);
             player.IsMale = Convert.ToBoolean(row["IsMale"]);
             player.Deity = Convert.ToString(row["Deity"]);
             player.Level = Convert.ToInt32(row["Level"]);
@@ -538,7 +540,7 @@ namespace CharPad.Framework
 
             SavePowers(conn, playerId, player.Powers);
 
-            string sqlText = "insert Player(Id, PlayerName, PersonName, PlayerClassId, PlayerRaceId, IsMale, Deity, Level, Str, Con, Dex, Int, Wis, Cha, " +
+            string sqlText = "insert Player(Id, PlayerName, PersonName, PlayerClassId, PlayerRaceId, ParagonPath, EpicDestiny, IsMale, Deity, Level, Str, Con, Dex, Int, Wis, Cha, " +
                 "HitPoints_AdjustListId, Surge_AdjustListId, SurgesPerDay_AdjustListId, Acrobatics_IsTrained, Acrobatics_AdjustListId, " +
                 "Arcana_IsTrained, Arcana_AdjustListId, Athletics_IsTrained, Athletics_AdjustListId, Bluff_IsTrained, Bluff_AdjustListId, " +
                 "Diplomacy_IsTrained, Diplomacy_AdjustListId, Dungeoneering_IsTrained, Dungeoneering_AdjustListId, " +
@@ -549,7 +551,7 @@ namespace CharPad.Framework
                 "AcDefense_AdjustListId, FortDefense_AdjustListId, ReflexDefense_AdjustListId, WillDefense_AdjustListId, Speed_AdjustListId, " +
                 "ArmorId, ShieldId, WeaponId, OffhandWeaponId, RangedWeaponId, ImplementId, Picture, WeaponSpecId, OffhandWeaponSpecId, " +
                 "RangedWeaponSpecId, ImplementSpecId, Notes) " +
-                "values(@Id, @PlayerName, @PersonName, @PlayerClassId, @PlayerRaceId, @IsMale, @Deity, @Level, @Str, @Con, @Dex, @Int, @Wis, @Cha, " +
+                "values(@Id, @PlayerName, @PersonName, @PlayerClassId, @PlayerRaceId, @ParagonPath, @EpicDestiny, @IsMale, @Deity, @Level, @Str, @Con, @Dex, @Int, @Wis, @Cha, " +
                 "@HitPoints_AdjustListId, @Surge_AdjustListId, @SurgesPerDay_AdjustListId, @Acrobatics_IsTrained, @Acrobatics_AdjustListId, " +
                 "@Arcana_IsTrained, @Arcana_AdjustListId, @Athletics_IsTrained, @Athletics_AdjustListId, @Bluff_IsTrained, @Bluff_AdjustListId, " +
                 "@Diplomacy_IsTrained, @Diplomacy_AdjustListId, @Dungeoneering_IsTrained, @Dungeoneering_AdjustListId, " +
@@ -568,6 +570,8 @@ namespace CharPad.Framework
                 command.Parameters.AddWithValue("@PersonName", player.PlayerName);
                 command.Parameters.AddWithValue("@PlayerClassId", playerClassId);
                 command.Parameters.AddWithValue("@PlayerRaceId", playerRaceId);
+                command.Parameters.AddWithValue("@ParagonPath", player.ParagonPath);
+                command.Parameters.AddWithValue("@EpicDestiny", player.EpicDestiny);
                 command.Parameters.AddWithValue("@IsMale", player.IsMale);
                 command.Parameters.AddWithValue("@Deity", player.Deity);
                 command.Parameters.AddWithValue("@Level", player.Level);

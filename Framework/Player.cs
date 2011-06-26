@@ -14,6 +14,8 @@ namespace CharPad.Framework
         private string characterName;
         private string playerName;
         private PlayerClass _class;
+        private string paragonPath;
+        private string epicDestiny;
         private PlayerRace race;
         private bool isMale;
         private string deity;
@@ -75,6 +77,8 @@ namespace CharPad.Framework
         public string CharacterName { get { return characterName; } set { characterName = value; Notify("CharacterName"); } }
         public string PlayerName { get { return playerName; } set { playerName = value; Notify("PlayerName"); } }
         public PlayerClass Class { get { return _class; } set { _class = value; Notify("Class"); } }
+        public string ParagonPath { get { return paragonPath; } set { paragonPath = value; Notify("ParagonPath"); } }
+        public string EpicDestiny { get { return epicDestiny; } set { epicDestiny = value; Notify("EpicDestiny"); } }
         public PlayerRace Race { get { return race; } set { race = value; Notify("Race"); } }
         public bool IsMale { get { return isMale; } set { isMale = value; Notify("IsMale"); } }
         public string Deity { get { return deity; } set { deity = value; Notify("Deity"); } }
