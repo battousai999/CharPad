@@ -167,6 +167,7 @@
     <Compile Include="ValueConverters\CreatureSizeConverter.cs" />
     <Compile Include="ValueConverters\EmptyCollectionToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\NullToBoolConverter.cs" />
+    <Compile Include="ValueConverters\ParenthasizeConverter.cs" />
     <Compile Include="ValueConverters\PictureConverter.cs" />
     <Compile Include="ValueConverters\PowerActionTypeConverter.cs" />
     <Compile Include="ValueConverters\PowerAttackTypeConverter.cs" />

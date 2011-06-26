@@ -33,6 +33,7 @@ namespace CharPad
         public static RoutedCommand LoadCharacterCommand = new RoutedCommand();
         public static RoutedCommand SaveCharacterCommand = new RoutedCommand();
         public static RoutedCommand RemoveCharacterCommand = new RoutedCommand();
+        public static RoutedCommand ViewCharacterCommand = new RoutedCommand();
 
         private Party party;
         private string partyFilename;
@@ -55,6 +56,7 @@ namespace CharPad
             this.CommandBindings.Add(new CommandBinding(SaveCharacterCommand, new ExecutedRoutedEventHandler(SaveCharacterCommand_Executed)));
             this.CommandBindings.Add(new CommandBinding(RemoveCharacterCommand, new ExecutedRoutedEventHandler(RemoveCharacterCommand_Executed)));
             this.CommandBindings.Add(new CommandBinding(ExitCommand, new ExecutedRoutedEventHandler(ExitCommand_Executed)));
+            this.CommandBindings.Add(new CommandBinding(ViewCharacterCommand, new ExecutedRoutedEventHandler(ViewCharacterCommand_Executed)));
 
             charPanel.ItemsSource = party.Members;
         }
@@ -85,6 +87,19 @@ namespace CharPad
             {
                 Party.Members.Add(player);
             }
+        }
+
+        private void ViewCharacterCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Button button = (e.OriginalSource as Button);
+
+            if ((button == null) || (button.Tag == null))
+                return;
+
+            Player player = (button.Tag as Player);
+            CharacterViewWindow window = new CharacterViewWindow(player);
+
+            window.ShowDialog(this);
         }
 
         private void EditCharacterCommand_Executed(object sender, ExecutedRoutedEventArgs e)

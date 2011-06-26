@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CharPad.Framework;
 
 namespace CharPad
 {
@@ -18,9 +19,11 @@ namespace CharPad
     /// </summary>
     public partial class CharacterViewWindow : Window
     {
-        public CharacterViewWindow()
+        public CharacterViewWindow(Player player)
         {
             InitializeComponent();
+
+            gridMain.DataContext = player;
         }
     }
 }
