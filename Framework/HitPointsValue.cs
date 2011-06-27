@@ -38,6 +38,11 @@ namespace CharPad.Framework
             }
         }
 
+        public int BloodiedAt
+        {
+            get { return (Value / 2); }
+        }
+
         public int BaseHealth
         {
             get { return player.Class.BaseHealth; }
@@ -68,6 +73,7 @@ namespace CharPad.Framework
                 Notify("HealthFromLevel");
                 Notify("BaseHealth");
                 Notify("Value");
+                Notify("BloodiedAt");
             }
 
             if ((StringComparer.CurrentCultureIgnoreCase.Compare(e.PropertyName, "ConModifier") == 0) ||
@@ -75,6 +81,7 @@ namespace CharPad.Framework
             {
                 Notify("HealthFromLevel");
                 Notify("Value");
+                Notify("BloodiedAt");
             }
         }
 
@@ -86,6 +93,7 @@ namespace CharPad.Framework
                 Notify("HealthFromLevel");
                 Notify("BaseHealth");
                 Notify("Value");
+                Notify("BloodiedAt");
             }
         }
 
@@ -93,12 +101,14 @@ namespace CharPad.Framework
         {
             Notify("TotalMiscAdjustment");
             Notify("Value");
+            Notify("BloodiedAt");
         }
 
         private void miscAdjustments_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             Notify("TotalMiscAdjustment");
             Notify("Value");
+            Notify("BloodiedAt");
         }
 
         #region INotifyPropertyChanged Members

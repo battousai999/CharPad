@@ -10,7 +10,19 @@ namespace CharPad.ValueConverters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string tempString = System.Convert.ToString(value);
+            string tempString;
+
+            if (value is int)
+            {
+                int tempInt = (int)value;
+
+                if (tempInt == 0)
+                    return "";
+                else
+                    tempString = (tempInt > 0 ? "+" : "") + System.Convert.ToString(value);
+            }
+            else
+                tempString = System.Convert.ToString(value);
 
             if (String.IsNullOrWhiteSpace(tempString))
                 return "";
