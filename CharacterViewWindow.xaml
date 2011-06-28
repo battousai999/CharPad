@@ -7,6 +7,8 @@
     <Window.Resources>
         <conv:ParenthasizeConverter x:Key="parenthasizeConverter" />
         <conv:BoolToGenderConverter x:Key="boolToGenderConverter" />
+        <conv:ModifierConverter x:Key="modifierConverter" />
+        <conv:WeaponBonusConverter x:Key="weaponBonusConverter" />
         
         <Style x:Key="LabelText" TargetType="TextBlock">
             <Setter Property="FontWeight" Value="Bold" />
@@ -267,7 +269,7 @@
             <TextBlock Grid.Column="1" Text="{Binding Speed.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
         </Grid>
         
-        <Grid Grid.Row="5" Grid.Column="3" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 0 0">
+        <Grid Grid.Row="5" Grid.Column="3" HorizontalAlignment="Stretch" Background="Black" Margin="0 6 0 0">
             <TextBlock Style="{StaticResource HeaderText}" Text="Senses" />
         </Grid>
 
@@ -290,5 +292,183 @@
             <TextBlock Grid.Column="0" Text="Passive Perception:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
             <TextBlock Grid.Column="1" Text="{Binding PassivePerception}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
         </Grid>
+        
+        <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
+            <TextBlock Style="{StaticResource HeaderText}" Text="Skills" />
+        </Grid>
+        
+        <Grid Grid.Row="10" Grid.Column="0" Margin="0 10 10 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Acrobatics:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Acrobatics.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Arcana:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Arcana.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Athletics:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Athletics.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Bluff:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Bluff.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Diplomacy:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Diplomacy.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Dungeoneering:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Dungeoneering.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="Endurance:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Endurance.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+            <TextBlock Grid.Row="7" Grid.Column="0" Text="Heal:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding Heal.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+            <TextBlock Grid.Row="8" Grid.Column="0" Text="History:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding History.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+        </Grid>
+        
+        <Grid Grid.Row="10" Grid.Column="1" Margin="0 10 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Insight:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Insight.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Intimidate:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Intimidate.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Nature:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Nature.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Perception:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Perception.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Religion:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Religion.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Stealth:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Stealth.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="Streetwise:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Streetwise.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+            <TextBlock Grid.Row="7" Grid.Column="0" Text="Thievery:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+            <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding Thievery.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+        </Grid>
+
+        <Grid Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
+            <TextBlock Style="{StaticResource HeaderText}" Text="Basic Attacks" />
+        </Grid>
+
+        <Grid Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="0 10 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Main Weapon:" Style="{StaticResource LabelText}" Margin="0 0 0 0" />
+                <TextBlock Grid.Row="1" Style="{StaticResource ValueText}">
+                <TextBlock.Text>
+                    <MultiBinding Mode="TwoWay" Converter="{StaticResource weaponBonusConverter}">
+                        <Binding Path="Weapon" />
+                        <Binding Path="." />
+                    </MultiBinding>
+                </TextBlock.Text>
+                </TextBlock>
+
+                <TextBlock Grid.Row="2" Text="Off-hand Weapon:" Style="{StaticResource LabelText}" Margin="0 5 0 0" />
+                <TextBlock Grid.Row="3" Style="{StaticResource ValueText}">
+                <TextBlock.Text>
+                    <MultiBinding Mode="TwoWay" Converter="{StaticResource weaponBonusConverter}">
+                        <Binding Path="WeaponOffhand" />
+                        <Binding Path="." />
+                    </MultiBinding>
+                </TextBlock.Text>
+                </TextBlock>
+
+                <TextBlock Grid.Row="4" Text="Ranged Weapon:" Style="{StaticResource LabelText}" Margin="0 5 0 0" />
+                <TextBlock Grid.Row="5" Style="{StaticResource ValueText}">
+                <TextBlock.Text>
+                    <MultiBinding Mode="TwoWay" Converter="{StaticResource weaponBonusConverter}">
+                        <Binding Path="RangedWeapon" />
+                        <Binding Path="." />
+                    </MultiBinding>
+                </TextBlock.Text>
+                </TextBlock>
+            </Grid>
+
+            <Grid Grid.Row="1" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Resistances" />
+            </Grid>
+            
+            <ItemsControl Grid.Row="2" ItemsSource="{Binding Resistances}" HorizontalAlignment="Stretch">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="ResistancesCol0" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBlock Grid.Column="0" VerticalAlignment="Top" Margin="0 0 10 0">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} {1}">
+                                        <Binding Path="Modifier" />
+                                        <Binding Path="DamageType" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            
+                            <TextBlock Grid.Column="1" Text="{Binding Description}" TextWrapping="Wrap" HorizontalAlignment="Stretch" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+
     </Grid>
 </Window>

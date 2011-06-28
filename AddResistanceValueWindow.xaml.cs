@@ -29,17 +29,17 @@ namespace CharPad
 
             damageTypes = new List<string>();
 
-            damageTypes.Add("Acid");
-            damageTypes.Add("Cold");
-            damageTypes.Add("Fire");
-            damageTypes.Add("Force");
-            damageTypes.Add("Lightning");
-            damageTypes.Add("Necrotic");
-            damageTypes.Add("Poison");
-            damageTypes.Add("Psychic");
-            damageTypes.Add("Radiant");
-            damageTypes.Add("Thunder");
-            damageTypes.Add("Normal");
+            damageTypes.Add("acid");
+            damageTypes.Add("cold");
+            damageTypes.Add("fire");
+            damageTypes.Add("force");
+            damageTypes.Add("lightning");
+            damageTypes.Add("necrotic");
+            damageTypes.Add("poison");
+            damageTypes.Add("psychic");
+            damageTypes.Add("radiant");
+            damageTypes.Add("thunder");
+            damageTypes.Add("normal");
 
             InitializeComponent();
 

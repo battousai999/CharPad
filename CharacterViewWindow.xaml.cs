@@ -19,11 +19,20 @@ namespace CharPad
     /// </summary>
     public partial class CharacterViewWindow : Window
     {
+        private Player player;
+
         public CharacterViewWindow(Player player)
         {
+            this.player = player;
+
             InitializeComponent();
 
             gridMain.DataContext = player;
+        }
+
+        public Player Player
+        {
+            get { return player; }
         }
     }
 }

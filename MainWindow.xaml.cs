@@ -37,6 +37,7 @@ namespace CharPad
 
         private Party party;
         private string partyFilename;
+        private List<CharacterViewWindow> characterViews = new List<CharacterViewWindow>();
 
         public MainWindow()
         {
@@ -45,6 +46,8 @@ namespace CharPad
             //InitializeTestParty();
 
             InitializeComponent();
+
+            this.Closed += (sender, e) => { characterViews.ForEach(x => x.Close()); };
 
             this.CommandBindings.Add(new CommandBinding(NewPartyCommand, new ExecutedRoutedEventHandler(NewPartyCommand_Executed)));
             this.CommandBindings.Add(new CommandBinding(LoadPartyCommand, new ExecutedRoutedEventHandler(LoadPartyCommand_Executed)));
@@ -97,9 +100,21 @@ namespace CharPad
                 return;
 
             Player player = (button.Tag as Player);
-            CharacterViewWindow window = new CharacterViewWindow(player);
+            CharacterViewWindow window = characterViews.Find(x => x.Player == player);
 
-            window.ShowDialog(this);
+            if (window != null)
+            {
+                window.Activate();
+                return;
+            }
+           
+            window = new CharacterViewWindow(player);
+
+            characterViews.Add(window);
+
+            window.Closed += ((sender2, e2) => { characterViews.RemoveAll(x => x.Player == player); });
+            
+            window.Show();
         }
 
         private void EditCharacterCommand_Executed(object sender, ExecutedRoutedEventArgs e)
