@@ -156,6 +156,17 @@ namespace CharPad.Framework
             }
         }
 
+        public string ImplementDamageSpec
+        {
+            get
+            {
+                if (Weapon == null)
+                    return "";
+
+                return (TotalDamageBonus < 0 ? TotalDamageBonus.ToString() : "+" + TotalDamageBonus.ToString());
+            }
+        }
+
         public string ThrownDamageSpec
         {
             get
@@ -325,6 +336,7 @@ namespace CharPad.Framework
 
                     Notify("ToHitSpec");
                     Notify("DamageSpec");
+                    Notify("ImplementDamageSpec");
                     Notify("AttributeBonus");
                     Notify("ProficiencyBonus");
                     Notify("EnhancementBonus");
@@ -352,6 +364,7 @@ namespace CharPad.Framework
         {
             Notify("ToHitSpec");
             Notify("DamageSpec");
+            Notify("ImplementDamageSpec");
             Notify("AttributeBonus");
             Notify("ProficiencyBonus");
             Notify("EnhancementBonus");

@@ -28,6 +28,15 @@ namespace CharPad
             InitializeComponent();
 
             gridMain.DataContext = player;
+
+            Title = String.Format("{0}{1} [Level {2}, {3} {4}{5}{6}]",
+                player.CharacterName,
+                (String.IsNullOrEmpty(player.PlayerName) ? "" : " (" + player.PlayerName + ")"),
+                player.Level.ToString(),
+                player.Race.Name,
+                player.Class.Name,
+                (String.IsNullOrEmpty(player.ParagonPath) ? "" : " (" + player.ParagonPath + ")"),
+                (String.IsNullOrEmpty(player.EpicDestiny) ? "" : " (" + player.EpicDestiny + ")"));
         }
 
         public Player Player

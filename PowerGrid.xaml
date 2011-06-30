@@ -13,6 +13,7 @@
         <conv:NullToBoolConverter x:Key="nullToBoolConverter" />
         <conv:PowerTypeColorConverter x:Key="powerTypeColorConverter" />
         <conv:HasPictureConverter x:Key="hasPictureConverter" />
+        <conv:PictureConverter x:Key="pictureConverter" />
     </UserControl.Resources>
     
     <Grid>
@@ -29,7 +30,9 @@
                             <DataTemplate>
                                 <Rectangle Width="15" Height="15" Fill="{Binding PowerType, Converter={StaticResource powerTypeColorConverter}}" ToolTipService.IsEnabled="{Binding Picture, Converter={StaticResource hasPictureConverter}}">
                                     <Rectangle.ToolTip>
-                                        <Image Source="{Binding Picture}" />  
+                                        <ToolTip>
+                                            <Image Source="{Binding Picture, Converter={StaticResource pictureConverter}}" />
+                                        </ToolTip>
                                     </Rectangle.ToolTip>
                                 </Rectangle>                                
                             </DataTemplate>

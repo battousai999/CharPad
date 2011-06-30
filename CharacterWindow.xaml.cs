@@ -280,6 +280,12 @@ namespace CharPad
             get { return player; }
         }
 
+        public BitmapSource CharacterImage
+        {
+            get { return characterImage; }
+            set { characterImage = value; Notify("CharacterImage"); }
+        }
+
         public ObservableCollectionEx<ResistanceValue> Resistances
         {
             get { return player.Resistances; }

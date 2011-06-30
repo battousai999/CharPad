@@ -9,6 +9,9 @@
         <conv:BoolToGenderConverter x:Key="boolToGenderConverter" />
         <conv:ModifierConverter x:Key="modifierConverter" />
         <conv:WeaponBonusConverter x:Key="weaponBonusConverter" />
+        <conv:PowerTypeColorConverter x:Key="powerTypeColorConverter" />
+        <conv:PowerActionTypeConverter x:Key="powerActionTypeConverter" />
+        <conv:PictureConverter x:Key="pictureConverter" />
         
         <Style x:Key="LabelText" TargetType="TextBlock">
             <Setter Property="FontWeight" Value="Bold" />
@@ -25,41 +28,52 @@
             <Setter Property="Typography.Capitals" Value="SmallCaps" />
         </Style>
     </Window.Resources>
-    <Grid Name="gridMain" Margin="5" HorizontalAlignment="Stretch" Grid.IsSharedSizeScope="True">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        
-        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal">
-            <TextBlock FontSize="16" FontWeight="Bold" Margin="0 0 10 0">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <Grid Name="gridMain" Margin="5" HorizontalAlignment="Stretch" Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" MinHeight="20" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal">
+                <TextBlock FontSize="16" FontWeight="Bold" Margin="0 0 10 0">
                 <Run Text="{Binding CharacterName}" />
                 <Run Text="{Binding PlayerName, Converter={StaticResource parenthasizeConverter}}" />
-            </TextBlock>
-            <TextBlock FontSize="12" VerticalAlignment="Bottom">
+                </TextBlock>
+                <TextBlock FontSize="12" VerticalAlignment="Bottom">
                 <Run>
                     <Run.Text>
                         <MultiBinding StringFormat="Level {0}, {1} {2} {3} {4}">
@@ -71,332 +85,327 @@
                         </MultiBinding>
                     </Run.Text>
                 </Run>
-            </TextBlock>
-        </StackPanel>
-        
-        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" Margin="0 5 0 0">
-            <TextBlock Style="{StaticResource LabelText}" Text="Gender:" Margin="0 0 5 0" />
-            <TextBlock Style="{StaticResource ValueText}" Text="{Binding IsMale, Converter={StaticResource boolToGenderConverter}}" Margin="0 0 20 0" />
-            <TextBlock Style="{StaticResource LabelText}" Text="Deity:" Margin="0 0 5 0" />
-            <TextBlock Style="{StaticResource ValueText}" Text="{Binding Deity}" />
-        </StackPanel>
-        
-        <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
-            <TextBlock Style="{StaticResource HeaderText}" Text="Ability Scores" />
-        </Grid>
+                </TextBlock>
+            </StackPanel>
 
-        <Grid Grid.Row="3" Grid.Column="0" Margin="0 5 10 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol1" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol2" />
-            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" Margin="0 5 0 0">
+                <TextBlock Style="{StaticResource LabelText}" Text="Gender:" Margin="0 0 5 0" />
+                <TextBlock Style="{StaticResource ValueText}" Text="{Binding IsMale, Converter={StaticResource boolToGenderConverter}}" Margin="0 0 20 0" />
+                <TextBlock Style="{StaticResource LabelText}" Text="Deity:" Margin="0 0 5 0" />
+                <TextBlock Style="{StaticResource ValueText}" Text="{Binding Deity}" />
+            </StackPanel>
 
-            <TextBlock Grid.Column="0" Text="STR:" Style="{StaticResource LabelText}" />
-            <TextBlock Grid.Column="1" Text="{Binding Str}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" Margin="10 0 10 0" />
-            <TextBlock Grid.Column="2" Text="{Binding StrModifier, Converter={StaticResource parenthasizeConverter}}" />
-        </Grid>
+            <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Ability Scores" />
+            </Grid>
 
-        <Grid Grid.Row="4" Grid.Column="0" Margin="0 5 10 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol1" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol2" />
-            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="3" Grid.Column="0" Margin="0 5 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol1" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol2" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="CON:" Style="{StaticResource LabelText}" />
-            <TextBlock Grid.Column="1" Text="{Binding Con}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" Margin="10 0 10 0" />
-            <TextBlock Grid.Column="2" Text="{Binding ConModifier, Converter={StaticResource parenthasizeConverter}}" />
-        </Grid>
+                <TextBlock Grid.Column="0" Text="STR:" Style="{StaticResource LabelText}" />
+                <TextBlock Grid.Column="1" Text="{Binding Str}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" Margin="10 0 10 0" />
+                <TextBlock Grid.Column="2" Text="{Binding StrModifier, Converter={StaticResource parenthasizeConverter}}" />
+            </Grid>
 
-        <Grid Grid.Row="5" Grid.Column="0" Margin="0 5 10 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol1" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol2" />
-            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="4" Grid.Column="0" Margin="0 5 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol1" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol2" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="DEX:" Style="{StaticResource LabelText}" />
-            <TextBlock Grid.Column="1" Text="{Binding Dex}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" Margin="10 0 10 0" />
-            <TextBlock Grid.Column="2" Text="{Binding DexModifier, Converter={StaticResource parenthasizeConverter}}" />
-        </Grid>
+                <TextBlock Grid.Column="0" Text="CON:" Style="{StaticResource LabelText}" />
+                <TextBlock Grid.Column="1" Text="{Binding Con}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" Margin="10 0 10 0" />
+                <TextBlock Grid.Column="2" Text="{Binding ConModifier, Converter={StaticResource parenthasizeConverter}}" />
+            </Grid>
 
-        <Grid Grid.Row="6" Grid.Column="0" Margin="0 5 10 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol1" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol2" />
-            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="5" Grid.Column="0" Margin="0 5 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol1" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol2" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="INT:" Style="{StaticResource LabelText}" />
-            <TextBlock Grid.Column="1" Text="{Binding Int}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" Margin="10 0 10 0" />
-            <TextBlock Grid.Column="2" Text="{Binding IntModifier, Converter={StaticResource parenthasizeConverter}}" />
-        </Grid>
+                <TextBlock Grid.Column="0" Text="DEX:" Style="{StaticResource LabelText}" />
+                <TextBlock Grid.Column="1" Text="{Binding Dex}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" Margin="10 0 10 0" />
+                <TextBlock Grid.Column="2" Text="{Binding DexModifier, Converter={StaticResource parenthasizeConverter}}" />
+            </Grid>
 
-        <Grid Grid.Row="7" Grid.Column="0" Margin="0 5 10 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol1" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol2" />
-            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="6" Grid.Column="0" Margin="0 5 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol1" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol2" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="WIS:" Style="{StaticResource LabelText}" />
-            <TextBlock Grid.Column="1" Text="{Binding Wis}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" Margin="10 0 10 0" />
-            <TextBlock Grid.Column="2" Text="{Binding WisModifier, Converter={StaticResource parenthasizeConverter}}" />
-        </Grid>
+                <TextBlock Grid.Column="0" Text="INT:" Style="{StaticResource LabelText}" />
+                <TextBlock Grid.Column="1" Text="{Binding Int}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" Margin="10 0 10 0" />
+                <TextBlock Grid.Column="2" Text="{Binding IntModifier, Converter={StaticResource parenthasizeConverter}}" />
+            </Grid>
 
-        <Grid Grid.Row="8" Grid.Column="0" Margin="0 5 10 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol1" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol2" />
-            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="7" Grid.Column="0" Margin="0 5 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol1" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol2" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="CHA:" Style="{StaticResource LabelText}" />
-            <TextBlock Grid.Column="1" Text="{Binding Cha}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" Margin="10 0 10 0" />
-            <TextBlock Grid.Column="2" Text="{Binding ChaModifier, Converter={StaticResource parenthasizeConverter}}" />
-        </Grid>
+                <TextBlock Grid.Column="0" Text="WIS:" Style="{StaticResource LabelText}" />
+                <TextBlock Grid.Column="1" Text="{Binding Wis}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" Margin="10 0 10 0" />
+                <TextBlock Grid.Column="2" Text="{Binding WisModifier, Converter={StaticResource parenthasizeConverter}}" />
+            </Grid>
 
-        <Grid Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
-            <TextBlock Style="{StaticResource HeaderText}" Text="Defenses" />
-        </Grid>
+            <Grid Grid.Row="8" Grid.Column="0" Margin="0 5 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol1" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="AbilityScoresCol2" />
+                </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="3" Grid.Column="1" Margin="0 5 10 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol1" />
-            </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="CHA:" Style="{StaticResource LabelText}" />
+                <TextBlock Grid.Column="1" Text="{Binding Cha}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" Margin="10 0 10 0" />
+                <TextBlock Grid.Column="2" Text="{Binding ChaModifier, Converter={StaticResource parenthasizeConverter}}" />
+            </Grid>
 
-            <TextBlock Grid.Column="0" Text="AC:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Column="1" Text="{Binding AcDefense.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
-        </Grid>
+            <Grid Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Defenses" />
+            </Grid>
 
-        <Grid Grid.Row="4" Grid.Column="1" Margin="0 5 10 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol1" />
-            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="3" Grid.Column="1" Margin="0 5 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol1" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="Fortitude:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Column="1" Text="{Binding FortDefense.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
-        </Grid>
+                <TextBlock Grid.Column="0" Text="AC:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Column="1" Text="{Binding AcDefense.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
+            </Grid>
 
-        <Grid Grid.Row="5" Grid.Column="1" Margin="0 5 10 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol1" />
-            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="4" Grid.Column="1" Margin="0 5 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol1" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="Reflex:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Column="1" Text="{Binding ReflexDefense.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
-        </Grid>
+                <TextBlock Grid.Column="0" Text="Fortitude:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Column="1" Text="{Binding FortDefense.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
+            </Grid>
 
-        <Grid Grid.Row="6" Grid.Column="1" Margin="0 5 10 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol1" />
-            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="5" Grid.Column="1" Margin="0 5 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol1" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="Will:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Column="1" Text="{Binding WillDefense.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
-        </Grid>
+                <TextBlock Grid.Column="0" Text="Reflex:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Column="1" Text="{Binding ReflexDefense.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
+            </Grid>
 
-        <Grid Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
-            <TextBlock Style="{StaticResource HeaderText}" Text="Hit Points" />
-        </Grid>
-        
-        <Grid Grid.Row="3" Grid.Column="2" Margin="0 5 10 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol1" />
-            </Grid.ColumnDefinitions>
-            
-            <TextBlock Grid.Column="0" Text="Max HP:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Column="1" Text="{Binding HitPoints.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
-        </Grid>
+            <Grid Grid.Row="6" Grid.Column="1" Margin="0 5 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="DefensesCol1" />
+                </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="4" Grid.Column="2" Margin="0 5 10 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol1" />
-            </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Will:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Column="1" Text="{Binding WillDefense.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
+            </Grid>
 
-            <TextBlock Grid.Column="0" Text="Bloodied:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Column="1" Text="{Binding HitPoints.BloodiedAt}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
-        </Grid>
+            <Grid Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Hit Points" />
+            </Grid>
 
-        <Grid Grid.Row="5" Grid.Column="2" Margin="0 5 10 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol1" />
-            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="3" Grid.Column="2" Margin="0 5 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol1" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="Surge Value:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Column="1" Text="{Binding SurgeValue.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
-        </Grid>
+                <TextBlock Grid.Column="0" Text="Max HP:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Column="1" Text="{Binding HitPoints.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
+            </Grid>
 
-        <Grid Grid.Row="6" Grid.Column="2" Margin="0 5 10 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol1" />
-            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="4" Grid.Column="2" Margin="0 5 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol1" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="Surges/Day:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Column="1" Text="{Binding SurgesPerDay.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
-        </Grid>
+                <TextBlock Grid.Column="0" Text="Bloodied:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Column="1" Text="{Binding HitPoints.BloodiedAt}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
+            </Grid>
 
-        <Grid Grid.Row="2" Grid.Column="3" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 0 0">
-            <TextBlock Style="{StaticResource HeaderText}" Text="Misc" />
-        </Grid>
-        
-        <Grid Grid.Row="3" Grid.Column="3" Margin="0 5 0 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="MiscCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="MiscCol1" />
-            </Grid.ColumnDefinitions>
-            
-            <TextBlock Grid.Column="0" Text="Initiative:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Column="1" Text="{Binding Initiative.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
-        </Grid>
+            <Grid Grid.Row="5" Grid.Column="2" Margin="0 5 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol1" />
+                </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="4" Grid.Column="3" Margin="0 5 0 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="MiscCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="MiscCol1" />
-            </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Surge Value:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Column="1" Text="{Binding SurgeValue.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
+            </Grid>
 
-            <TextBlock Grid.Column="0" Text="Speed:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Column="1" Text="{Binding Speed.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
-        </Grid>
-        
-        <Grid Grid.Row="5" Grid.Column="3" HorizontalAlignment="Stretch" Background="Black" Margin="0 6 0 0">
-            <TextBlock Style="{StaticResource HeaderText}" Text="Senses" />
-        </Grid>
+            <Grid Grid.Row="6" Grid.Column="2" Margin="0 5 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="HitPointsCol1" />
+                </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="6" Grid.Column="3" Margin="0 5 0 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="SensesCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="SensesCol1" />
-            </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Surges/Day:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Column="1" Text="{Binding SurgesPerDay.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
+            </Grid>
 
-            <TextBlock Grid.Column="0" Text="Passive Insight:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Column="1" Text="{Binding PassiveInsight}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
-        </Grid>
+            <Grid Grid.Row="2" Grid.Column="3" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 0 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Misc" />
+            </Grid>
 
-        <Grid Grid.Row="7" Grid.Column="3" Margin="0 5 0 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="SensesCol0" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="SensesCol1" />
-            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="3" Grid.Column="3" Margin="0 5 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="MiscCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="MiscCol1" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="Passive Perception:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Column="1" Text="{Binding PassivePerception}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
-        </Grid>
-        
-        <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
-            <TextBlock Style="{StaticResource HeaderText}" Text="Skills" />
-        </Grid>
-        
-        <Grid Grid.Row="10" Grid.Column="0" Margin="0 10 10 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Text="Initiative:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Column="1" Text="{Binding Initiative.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
+            </Grid>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Acrobatics:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Acrobatics.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+            <Grid Grid.Row="4" Grid.Column="3" Margin="0 5 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="MiscCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="MiscCol1" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Arcana:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Arcana.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+                <TextBlock Grid.Column="0" Text="Speed:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Column="1" Text="{Binding Speed.Value}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
+            </Grid>
 
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Athletics:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Athletics.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+            <Grid Grid.Row="5" Grid.Column="3" HorizontalAlignment="Stretch" Background="Black" Margin="0 6 0 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Senses" />
+            </Grid>
 
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="Bluff:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Bluff.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+            <Grid Grid.Row="6" Grid.Column="3" Margin="0 5 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="SensesCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="SensesCol1" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="Diplomacy:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Diplomacy.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+                <TextBlock Grid.Column="0" Text="Passive Insight:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Column="1" Text="{Binding PassiveInsight}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
+            </Grid>
 
-            <TextBlock Grid.Row="5" Grid.Column="0" Text="Dungeoneering:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Dungeoneering.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+            <Grid Grid.Row="7" Grid.Column="3" Margin="0 5 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="SensesCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="SensesCol1" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="6" Grid.Column="0" Text="Endurance:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Endurance.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+                <TextBlock Grid.Column="0" Text="Passive Perception:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Column="1" Text="{Binding PassivePerception}" Style="{StaticResource ValueText}" HorizontalAlignment="Right" />
+            </Grid>
 
-            <TextBlock Grid.Row="7" Grid.Column="0" Text="Heal:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding Heal.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+            <Grid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Skills" />
+            </Grid>
 
-            <TextBlock Grid.Row="8" Grid.Column="0" Text="History:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding History.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
-        </Grid>
-        
-        <Grid Grid.Row="10" Grid.Column="1" Margin="0 10 0 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Insight:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Insight.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
-
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Intimidate:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Intimidate.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
-
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Nature:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Nature.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
-
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="Perception:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Perception.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
-
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="Religion:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Religion.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
-
-            <TextBlock Grid.Row="5" Grid.Column="0" Text="Stealth:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Stealth.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
-
-            <TextBlock Grid.Row="6" Grid.Column="0" Text="Streetwise:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Streetwise.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
-
-            <TextBlock Grid.Row="7" Grid.Column="0" Text="Thievery:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
-            <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding Thievery.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
-        </Grid>
-
-        <Grid Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
-            <TextBlock Style="{StaticResource HeaderText}" Text="Basic Attacks" />
-        </Grid>
-
-        <Grid Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="0 10 0 0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0">
+            <Grid Grid.Row="10" Grid.Column="0" Margin="0 10 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Acrobatics:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Acrobatics.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Arcana:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Arcana.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Athletics:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Athletics.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Bluff:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Bluff.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Diplomacy:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Diplomacy.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Dungeoneering:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Dungeoneering.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="Endurance:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Endurance.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+                <TextBlock Grid.Row="7" Grid.Column="0" Text="Heal:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding Heal.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+                <TextBlock Grid.Row="8" Grid.Column="0" Text="History:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding History.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+            </Grid>
+
+            <Grid Grid.Row="10" Grid.Column="1" Margin="0 10 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Insight:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Insight.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Intimidate:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Intimidate.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Nature:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Nature.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Perception:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Perception.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Religion:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Religion.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Stealth:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Stealth.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="Streetwise:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Streetwise.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+
+                <TextBlock Grid.Row="7" Grid.Column="0" Text="Thievery:" Style="{StaticResource LabelText}" Margin="0 0 10 0" />
+                <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding Thievery.Value, Converter={StaticResource modifierConverter}}" Style="{StaticResource ValueText}" />
+            </Grid>
+
+            <Grid Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Basic Attacks" />
+            </Grid>
+
+            <Grid Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="0 10 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -434,13 +443,23 @@
                     </MultiBinding>
                 </TextBlock.Text>
                 </TextBlock>
+
+                <TextBlock Grid.Row="6" Text="Implement:" Style="{StaticResource LabelText}" Margin="0 5 0 0" />
+                <TextBlock Grid.Row="7" Style="{StaticResource ValueText}">
+                <TextBlock.Text>
+                    <MultiBinding Mode="TwoWay" Converter="{StaticResource weaponBonusConverter}">
+                        <Binding Path="Implement" />
+                        <Binding Path="." />
+                    </MultiBinding>
+                </TextBlock.Text>
+                </TextBlock>
             </Grid>
 
-            <Grid Grid.Row="1" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
-                <TextBlock Style="{StaticResource HeaderText}" Text="Resistances" />
+            <Grid Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Class Features" />
             </Grid>
-            
-            <ItemsControl Grid.Row="2" ItemsSource="{Binding Resistances}" HorizontalAlignment="Stretch">
+
+            <ItemsControl Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding ClassFeatures}" HorizontalAlignment="Stretch" Margin="0 0 10 0">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Vertical" />
@@ -448,12 +467,137 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid ToolTip="{Binding LongDescription}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="ClassFeaturesCol0" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Top" Margin="0 0 10 0" />
+                            <TextBlock Grid.Column="1" Text="{Binding ShortDescription}" TextWrapping="Wrap" HorizontalAlignment="Stretch" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Grid Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 0 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Race Features" />
+            </Grid>
+
+            <ItemsControl Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="2" ItemsSource="{Binding RaceFeatures}" HorizontalAlignment="Stretch">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ToolTip="{Binding LongDescription}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="RaceFeaturesCol0" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Top" Margin="0 0 10 0" />
+                            <TextBlock Grid.Column="1" Text="{Binding ShortDescription}" TextWrapping="Wrap" HorizontalAlignment="Stretch" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Grid Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Paragon Path Features" />
+            </Grid>
+
+            <ItemsControl Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding ParagonFeatures}" HorizontalAlignment="Stretch" Margin="0 0 10 0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ToolTip="{Binding LongDescription}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="ParagonFeaturesCol0" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Top" Margin="0 0 10 0" />
+                            <TextBlock Grid.Column="1" Text="{Binding ShortDescription}" TextWrapping="Wrap" HorizontalAlignment="Stretch" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Grid Grid.Row="13" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 0 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Epic Destiny Features" />
+            </Grid>
+
+            <ItemsControl Grid.Row="14" Grid.Column="2" Grid.ColumnSpan="2" ItemsSource="{Binding DestinyFeatures}" HorizontalAlignment="Stretch">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ToolTip="{Binding LongDescription}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="DestinyFeaturesCol0" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Top" Margin="0 0 10 0" />
+                            <TextBlock Grid.Column="1" Text="{Binding ShortDescription}" TextWrapping="Wrap" HorizontalAlignment="Stretch" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Grid Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 10 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Feats" />
+            </Grid>
+
+            <ItemsControl Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Feats}" HorizontalAlignment="Stretch" Margin="0 0 10 0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ToolTip="{Binding LongDescription}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="FeatFeaturesCol0" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Top" Margin="0 0 10 0" />
+                            <TextBlock Grid.Column="1" Text="{Binding ShortDescription}" TextWrapping="Wrap" HorizontalAlignment="Stretch" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Grid Grid.Row="15" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 0 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Resistances" />
+            </Grid>
+
+            <ItemsControl Grid.Row="16" Grid.Column="2" Grid.ColumnSpan="2" ItemsSource="{Binding Resistances}" HorizontalAlignment="Stretch">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ToolTip="{Binding Description}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="ResistancesCol0" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            
+
                             <TextBlock Grid.Column="0" VerticalAlignment="Top" Margin="0 0 10 0">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}{0} {1}">
@@ -462,13 +606,193 @@
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
-                            
+
                             <TextBlock Grid.Column="1" Text="{Binding Description}" TextWrapping="Wrap" HorizontalAlignment="Stretch" />
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </Grid>
 
-    </Grid>
+            <Grid Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" Background="Black" Margin="0 10 0 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Powers" />
+            </Grid>
+
+            <Grid Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Background="Gray" Margin="0 2 0 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="At-Will" />
+            </Grid>
+
+            <Grid Grid.Row="19" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" Margin="0 2 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol1" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol2" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Margin="0 0 10 0"><Underline>Level</Underline></TextBlock>
+                <TextBlock Grid.Column="1" Margin="0 0 10 0"><Underline>Name</Underline></TextBlock>
+                <TextBlock Grid.Column="2" Margin="0 0 10 0"><Underline>Action</Underline></TextBlock>
+                <TextBlock Grid.Column="3"><Underline>Description</Underline></TextBlock>
+            </Grid>
+
+            <ItemsControl Grid.Row="20" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" ItemsSource="{Binding Powers.AtWillPowers}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Stretch" Margin="0 5 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol0" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol1" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol2" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding Level}" HorizontalAlignment="Right" Margin="0 0 10 0" />
+
+                            <Grid Grid.Column="1" Background="{Binding PowerType, Converter={StaticResource powerTypeColorConverter}}" VerticalAlignment="Top" Margin="0 0 10 0">
+                                <Grid.ToolTip>
+                                    <ToolTip>
+                                        <Image Source="{Binding Picture, Converter={StaticResource pictureConverter}}" />
+                                    </ToolTip>
+                                </Grid.ToolTip>
+                                <TextBlock Text="{Binding Name}" Foreground="White" Margin="5 0 5 0" />
+                            </Grid>
+
+                            <TextBlock Grid.Column="2" Text="{Binding ActionType, Converter={StaticResource powerActionTypeConverter}}" Margin="0 0 10 0" />
+
+                            <TextBlock Grid.Column="3" Text="{Binding FullDescription}" TextWrapping="Wrap" HorizontalAlignment="Stretch" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Grid Grid.Row="21" Grid.Column="0" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Background="Gray" Margin="0 10 0 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Encounter" />
+            </Grid>
+
+            <Grid Grid.Row="22" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" Margin="0 2 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol1" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol2" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Margin="0 0 10 0"><Underline>Level</Underline></TextBlock>
+                <TextBlock Grid.Column="1" Margin="0 0 10 0"><Underline>Name</Underline></TextBlock>
+                <TextBlock Grid.Column="2" Margin="0 0 10 0"><Underline>Action</Underline></TextBlock>
+                <TextBlock Grid.Column="3"><Underline>Description</Underline></TextBlock>
+            </Grid>
+
+            <ItemsControl Grid.Row="23" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" ItemsSource="{Binding Powers.EncounterPowers}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Stretch" Margin="0 5 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol0" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol1" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol2" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding Level}" HorizontalAlignment="Right" Margin="0 0 10 0" />
+
+                            <Grid Grid.Column="1" Background="{Binding PowerType, Converter={StaticResource powerTypeColorConverter}}" VerticalAlignment="Top" Margin="0 0 10 0">
+                                <Grid.ToolTip>
+                                    <ToolTip>
+                                        <Image Source="{Binding Picture, Converter={StaticResource pictureConverter}}" />
+                                    </ToolTip>
+                                </Grid.ToolTip>
+                                <TextBlock Text="{Binding Name}" Foreground="White" Margin="5 0 5 0" />
+                            </Grid>
+
+                            <TextBlock Grid.Column="2" Text="{Binding ActionType, Converter={StaticResource powerActionTypeConverter}}" Margin="0 0 10 0" />
+
+                            <TextBlock Grid.Column="3" Text="{Binding FullDescription}" TextWrapping="Wrap" HorizontalAlignment="Stretch" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Grid Grid.Row="24" Grid.Column="0" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Background="Gray" Margin="0 10 0 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Daily" />
+            </Grid>
+
+            <Grid Grid.Row="25" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" Margin="0 2 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol0" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol1" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol2" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Margin="0 0 10 0"><Underline>Level</Underline></TextBlock>
+                <TextBlock Grid.Column="1" Margin="0 0 10 0"><Underline>Name</Underline></TextBlock>
+                <TextBlock Grid.Column="2" Margin="0 0 10 0"><Underline>Action</Underline></TextBlock>
+                <TextBlock Grid.Column="3"><Underline>Description</Underline></TextBlock>
+            </Grid>
+
+            <ItemsControl Grid.Row="26" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" ItemsSource="{Binding Powers.DailyPowers}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Stretch" Margin="0 5 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol0" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol1" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="PowerCol2" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding Level}" HorizontalAlignment="Right" Margin="0 0 10 0" />
+
+                            <Grid Grid.Column="1" Background="{Binding PowerType, Converter={StaticResource powerTypeColorConverter}}" VerticalAlignment="Top" Margin="0 0 10 0">
+                                <Grid.ToolTip>
+                                    <ToolTip>
+                                        <Image Source="{Binding Picture, Converter={StaticResource pictureConverter}}" />
+                                    </ToolTip>
+                                </Grid.ToolTip>
+                                <TextBlock Text="{Binding Name}" Foreground="White" Margin="5 0 5 0" />
+                            </Grid>
+
+                            <TextBlock Grid.Column="2" Text="{Binding ActionType, Converter={StaticResource powerActionTypeConverter}}" Margin="0 0 10 0" />
+
+                            <TextBlock Grid.Column="3" Text="{Binding FullDescription}" TextWrapping="Wrap" HorizontalAlignment="Stretch" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
+            <Grid Grid.Row="27" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" Background="black" Margin="0 10 0 0">
+                <TextBlock Style="{StaticResource HeaderText}" Text="Inventory" />
+            </Grid>
+            
+            <ItemsControl Grid.Row="28" Grid.Column="0" Grid.ColumnSpan="4" ItemsSource="{Binding Inventory}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+        </Grid>
+    </ScrollViewer>
 </Window>
