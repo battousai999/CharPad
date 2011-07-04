@@ -653,7 +653,7 @@
 
                             <TextBlock Grid.Column="0" Text="{Binding Level}" HorizontalAlignment="Right" Margin="0 0 10 0" />
 
-                            <Grid Grid.Column="1" Background="{Binding PowerType, Converter={StaticResource powerTypeColorConverter}}" VerticalAlignment="Top" Margin="0 0 10 0">
+                            <Grid Grid.Column="1" Background="{Binding PowerType, Converter={StaticResource powerTypeColorConverter}}" VerticalAlignment="Top" ToolTipService.ShowDuration="300000" Margin="0 0 10 0">
                                 <Grid.ToolTip>
                                     <ToolTip>
                                         <Image Source="{Binding Picture, Converter={StaticResource pictureConverter}}" />
@@ -706,7 +706,7 @@
 
                             <TextBlock Grid.Column="0" Text="{Binding Level}" HorizontalAlignment="Right" Margin="0 0 10 0" />
 
-                            <Grid Grid.Column="1" Background="{Binding PowerType, Converter={StaticResource powerTypeColorConverter}}" VerticalAlignment="Top" Margin="0 0 10 0">
+                            <Grid Grid.Column="1" Background="{Binding PowerType, Converter={StaticResource powerTypeColorConverter}}" VerticalAlignment="Top" ToolTipService.ShowDuration="300000" Margin="0 0 10 0">
                                 <Grid.ToolTip>
                                     <ToolTip>
                                         <Image Source="{Binding Picture, Converter={StaticResource pictureConverter}}" />
@@ -759,7 +759,7 @@
 
                             <TextBlock Grid.Column="0" Text="{Binding Level}" HorizontalAlignment="Right" Margin="0 0 10 0" />
 
-                            <Grid Grid.Column="1" Background="{Binding PowerType, Converter={StaticResource powerTypeColorConverter}}" VerticalAlignment="Top" Margin="0 0 10 0">
+                            <Grid Grid.Column="1" Background="{Binding PowerType, Converter={StaticResource powerTypeColorConverter}}" VerticalAlignment="Top" ToolTipService.ShowDuration="300000" Margin="0 0 10 0">
                                 <Grid.ToolTip>
                                     <ToolTip>
                                         <Image Source="{Binding Picture, Converter={StaticResource pictureConverter}}" />
