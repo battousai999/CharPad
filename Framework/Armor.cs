@@ -76,6 +76,26 @@ namespace CharPad.Framework
 
         public int TotalBonus { get { return ArmorBonus + EnhancementBonus; } }
 
+        public IInventoryItem Clone()
+        {
+            Armor armor = new Armor();
+
+            armor.name = this.name;
+            armor.armorType = this.armorType;
+            armor.enhancementBonus = this.enhancementBonus;
+            armor.armorBonus = this.armorBonus;
+            armor.skillModifier = this.skillModifier;
+            armor.speedModifier = this.speedModifier;
+            armor.basePrice = this.basePrice;
+            armor.isHeavy = this.isHeavy;
+            armor.specialProperty = this.specialProperty;
+            armor.minEnhancementBonus = this.minEnhancementBonus;
+            armor.picture = this.picture;
+            armor.notes = this.notes;
+
+            return armor;
+        }
+
         #region INotifyPropertyChanged Members
 
         private void Notify(string propertyName)

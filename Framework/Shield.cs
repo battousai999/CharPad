@@ -62,6 +62,22 @@ namespace CharPad.Framework
         public Image Picture { get { return picture; } set { picture = value; Notify("Picture"); } }
 
         public int TotalBonus { get { return ArmorBonus + EnhancementBonus; } }
+
+        public IInventoryItem Clone()
+        {
+            Shield shield = new Shield();
+
+            shield.name = this.name;
+            shield.armorType = this.armorType;
+            shield.enhancementBonus = this.enhancementBonus;
+            shield.armorBonus = this.armorBonus;
+            shield.skillModifier = this.skillModifier;
+            shield.basePrice = this.basePrice;
+            shield.notes = this.notes;
+            shield.picture = this.picture;
+
+            return shield;
+        }
         
         #region INotifyPropertyChanged Members
 

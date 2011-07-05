@@ -9,5 +9,7 @@ namespace CharPad.Framework
     public interface IInventoryItem : INotifyPropertyChanged
     {
         string Name { get; }
+
+        IInventoryItem Clone();
     }
 }

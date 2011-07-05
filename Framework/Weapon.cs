@@ -105,6 +105,27 @@ namespace CharPad.Framework
             return ((Properties & property) == property);
         }
 
+        public IInventoryItem Clone()
+        {
+            Weapon item = new Weapon();
+
+            item.name = this.name;
+            item.proficiencyBonus = this.proficiencyBonus;
+            item.enhancementBonus = this.enhancementBonus;
+            item.damage = Dice.GetFromString(this.damage.DisplayString);
+            item.range = this.range;
+            item.group = this.group;
+            item.properties = this.properties;
+            item.basePrice = this.basePrice;
+            item.category = this.category;
+            item.isTwoHanded = this.isTwoHanded;
+            item.picture = this.picture;
+            item.notes = this.notes;
+            item.isImplement = this.isImplement;
+
+            return item;
+        }
+
         #region INotifyPropertyChanged Members
 
         private void Notify(string propertyName)

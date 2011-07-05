@@ -58,7 +58,7 @@ namespace CharPad
 
         public IInventoryItem SelectedItem
         {
-            get { return selectedItem; }
+            get { return selectedItem.Clone(); }
         }
 
         public bool EditItem

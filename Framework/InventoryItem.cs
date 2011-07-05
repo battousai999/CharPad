@@ -34,6 +34,17 @@ namespace CharPad.Framework
         public bool IsStackable { get { return isStackable; } set { isStackable = value; Notify("IsStackable"); } }
         public int Count { get { return count; } set { count = value; Notify("Count"); } }
 
+        public IInventoryItem Clone()
+        {
+            InventoryItem item = new InventoryItem();
+
+            item.name = this.name;
+            item.isStackable = this.isStackable;
+            item.count = this.count;
+
+            return item;
+        }
+
         #region INotifyPropertyChanged Members
 
         private void Notify(string propertyName)
