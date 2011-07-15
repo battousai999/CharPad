@@ -28,8 +28,8 @@
             <Setter Property="Typography.Capitals" Value="SmallCaps" />
         </Style>
     </Window.Resources>
-    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-        <Grid Name="gridMain" Margin="5" HorizontalAlignment="Stretch" Grid.IsSharedSizeScope="True">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Padding="5">
+        <Grid Name="gridMain" HorizontalAlignment="Stretch" Grid.IsSharedSizeScope="True" Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
